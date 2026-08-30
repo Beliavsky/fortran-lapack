@@ -41664,7 +41664,7 @@ module la_lapack_z
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex matrix A.
 
-     real(dp) function la_zlange(norm,m,n,a,lda,work)
+     pure real(dp) function la_zlange(norm,m,n,a,lda,work)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -41672,13 +41672,14 @@ module la_lapack_z
            character,intent(in) :: norm
            integer(ilp),intent(in) :: lda,m,n
            ! Array Arguments
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
            complex(dp),intent(in) :: a(lda,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
            real(dp) :: scale,sum,value,temp
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -41705,17 +41706,18 @@ module la_lapack_z
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate(row_sums(m))
               do i = 1,m
-                 work(i) = zero
+                 row_sums(i) = zero
               end do
               do j = 1,n
                  do i = 1,m
-                    work(i) = work(i) + abs(a(i,j))
+                    row_sums(i) = row_sums(i) + abs(a(i,j))
                  end do
               end do
               value = zero
               do i = 1,m
-                 temp = work(i)
+                 temp = row_sums(i)
                  if (value < temp .or. la_disnan(temp)) value = temp
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -65688,7 +65690,7 @@ module la_lapack_z
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_zgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,iwork, &
+     pure subroutine la_zgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,iwork, &
                info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -74104,7 +74106,7 @@ module la_lapack_z
      !> The computed eigenvectors are normalized to have Euclidean norm
      !> equal to 1 and largest component real.
 
-     subroutine la_zgeev(jobvl,jobvr,n,a,lda,w,vl,ldvl,vr,ldvr,work,lwork,rwork, &
+     pure subroutine la_zgeev(jobvl,jobvr,n,a,lda,w,vl,ldvl,vr,ldvr,work,lwork,rwork, &
                info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --

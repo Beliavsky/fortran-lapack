@@ -1323,7 +1323,7 @@ module la_lapack
                module procedure la_cgeev
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgeev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork, &
+               pure subroutine dgeev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork, &
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1353,7 +1353,7 @@ module la_lapack
 #endif
                module procedure la_wgeev
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgeev(jobvl,jobvr,n,a,lda,w,vl,ldvl,vr,ldvr,work,lwork, &
+               pure subroutine zgeev(jobvl,jobvr,n,a,lda,w,vl,ldvl,vr,ldvr,work,lwork, &
                          rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1760,7 +1760,7 @@ module la_lapack
                module procedure la_cgels
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+               pure subroutine dgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -1919,7 +1919,7 @@ module la_lapack
                module procedure la_cgelss
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,info)
+               pure subroutine dgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -2015,7 +2015,7 @@ module la_lapack
                module procedure la_cgelsy
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,info &
+               pure subroutine dgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,info &
                          )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -2979,7 +2979,7 @@ module la_lapack
                module procedure la_cgesdd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork, &
+               pure subroutine dgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork, &
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3009,7 +3009,7 @@ module la_lapack
 #endif
                module procedure la_wgesdd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
+               pure subroutine zgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
                          iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -10191,13 +10191,13 @@ module la_lapack
                module procedure la_clange
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               real(dp) function dlange(norm,m,n,a,lda,work)
+               pure real(dp) function dlange(norm,m,n,a,lda,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
                     integer(ilp),intent(in) :: lda,m,n
                     real(dp),intent(in) :: a(lda,*)
-                    real(dp),intent(out) :: work(*)
+                    real(dp),intent(in) :: work(*)
                end function dlange
 #else
                module procedure la_dlange
@@ -10217,12 +10217,12 @@ module la_lapack
 #endif
                module procedure la_wlange
 #ifdef LA_EXTERNAL_LAPACK
-               real(dp) function zlange(norm,m,n,a,lda,work)
+               pure real(dp) function zlange(norm,m,n,a,lda,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm
                     integer(ilp),intent(in) :: lda,m,n
-                    real(dp),intent(out) :: work(*)
+                    real(dp),intent(in) :: work(*)
                     complex(dp),intent(in) :: a(lda,*)
                end function zlange
 #else
@@ -10682,13 +10682,13 @@ module la_lapack
                module procedure la_clansy
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               real(dp) function dlansy(norm,uplo,n,a,lda,work)
+               pure real(dp) function dlansy(norm,uplo,n,a,lda,work)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: norm,uplo
                     integer(ilp),intent(in) :: lda,n
                     real(dp),intent(in) :: a(lda,*)
-                    real(dp),intent(out) :: work(*)
+                    real(dp),intent(in) :: work(*)
                end function dlansy
 #else
                module procedure la_dlansy
@@ -21215,7 +21215,7 @@ module la_lapack
           !> real symmetric matrix A.
           interface syev
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dsyev(jobz,uplo,n,a,lda,w,work,lwork,info)
+               pure subroutine dsyev(jobz,uplo,n,a,lda,w,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,uplo

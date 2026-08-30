@@ -30019,7 +30019,7 @@ module la_lapack_d
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> real matrix A.
 
-     real(dp) function la_dlange(norm,m,n,a,lda,work)
+     pure real(dp) function la_dlange(norm,m,n,a,lda,work)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -30028,12 +30028,13 @@ module la_lapack_d
            integer(ilp),intent(in) :: lda,m,n
            ! Array Arguments
            real(dp),intent(in) :: a(lda,*)
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
            real(dp) :: scale,sum,value,temp
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -30060,17 +30061,18 @@ module la_lapack_d
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate(row_sums(m))
               do i = 1,m
-                 work(i) = zero
+                 row_sums(i) = zero
               end do
               do j = 1,n
                  do i = 1,m
-                    work(i) = work(i) + abs(a(i,j))
+                    row_sums(i) = row_sums(i) + abs(a(i,j))
                  end do
               end do
               value = zero
               do i = 1,m
-                 temp = work(i)
+                 temp = row_sums(i)
                  if (value < temp .or. la_disnan(temp)) value = temp
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -31234,7 +31236,7 @@ module la_lapack_d
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> real symmetric matrix A.
 
-     real(dp) function la_dlansy(norm,uplo,n,a,lda,work)
+     pure real(dp) function la_dlansy(norm,uplo,n,a,lda,work)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -31243,12 +31245,13 @@ module la_lapack_d
            integer(ilp),intent(in) :: lda,n
            ! Array Arguments
            real(dp),intent(in) :: a(lda,*)
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
            real(dp) :: absa,scale,sum,value
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,sqrt
            ! Executable Statements
@@ -31275,6 +31278,7 @@ module la_lapack_d
            else if ((la_lsame(norm,'I')) .or. (la_lsame(norm,'O')) .or. ( &
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
+              allocate(row_sums(n))
               value = zero
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
@@ -31282,24 +31286,24 @@ module la_lapack_d
                     do i = 1,j - 1
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(a(j,j))
+                    row_sums(j) = sum + abs(a(j,j))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_disnan(sum)) value = sum
                  end do
               else
                  do i = 1,n
-                    work(i) = zero
+                    row_sums(i) = zero
                  end do
                  do j = 1,n
-                    sum = work(j) + abs(a(j,j))
+                    sum = row_sums(j) + abs(a(j,j))
                     do i = j + 1,n
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_disnan(sum)) value = sum
                  end do
@@ -56216,7 +56220,7 @@ module la_lapack_d
      !> DSYEV: computes all eigenvalues and, optionally, eigenvectors of a
      !> real symmetric matrix A.
 
-     subroutine la_dsyev(jobz,uplo,n,a,lda,w,work,lwork,info)
+     pure subroutine la_dsyev(jobz,uplo,n,a,lda,w,work,lwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -60868,7 +60872,7 @@ module la_lapack_d
      !> each 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_dtrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+     pure subroutine la_dtrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
 
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -61820,7 +61824,7 @@ module la_lapack_d
      !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
      !> matrix X.
 
-     subroutine la_dgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+     pure subroutine la_dgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -65879,7 +65883,7 @@ module la_lapack_d
      !> has its diagonal elements equal and its off-diagonal elements of
      !> opposite sign.
 
-     subroutine la_dlaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
+     pure subroutine la_dlaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -67725,7 +67729,7 @@ module la_lapack_d
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_dtrexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
+     pure subroutine la_dtrexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -67930,7 +67934,7 @@ module la_lapack_d
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_dtrsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
+     pure subroutine la_dtrsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
                lwork,iwork,liwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -69606,7 +69610,7 @@ module la_lapack_d
      !> o The permutation of matrix B (the right hand side) is faster and
      !> more simple.
 
-     subroutine la_dgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,info)
+     pure subroutine la_dgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,info)
 
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -70558,7 +70562,7 @@ module la_lapack_d
      !> hoped that the final version of H has many zero subdiagonal
      !> entries.
 
-     subroutine la_dlaqr2(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
+     pure subroutine la_dlaqr2(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
                 sr,si,v,ldv,nh,t,ldt,nv,wv,ldwv,work,lwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -73623,7 +73627,7 @@ module la_lapack_d
      !> The computed eigenvectors are normalized to have Euclidean norm
      !> equal to 1 and largest component real.
 
-     subroutine la_dgeev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork, &
+     pure subroutine la_dgeev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork, &
                info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -74519,7 +74523,7 @@ module la_lapack_d
      !> singular values which are less than RCOND times the largest singular
      !> value.
 
-     subroutine la_dgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,info)
+     pure subroutine la_dgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,info)
 
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -74968,7 +74972,7 @@ module la_lapack_d
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_dgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork,info)
+     pure subroutine la_dgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork,info)
 
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -75793,7 +75797,6 @@ module la_lapack_d
                  end if
               else
                  ! n < mnthr
-                 print *, 'path 5t'
                  ! path 5t (n > m, but not much larger)
                  ! reduce to bidiagonal form without lq decomposition
                  ie = 1
@@ -79667,7 +79670,7 @@ module la_lapack_d
      !> of a matrix A which has been reduced to the Hessenberg form H
      !> by the orthogonal matrix Q:  A = Q*H*Q**T = (QZ)*T*(QZ)**T.
 
-     subroutine la_dhseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork,info)
+     pure subroutine la_dhseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork,info)
 
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -80270,7 +80273,7 @@ module la_lapack_d
      !> of a matrix A which has been reduced to the Hessenberg form H
      !> by the orthogonal matrix Q:  A = Q*H*Q**T = (QZ)*T*(QZ)**T.
 
-     subroutine la_dlaqr0(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz,work, &
+     pure subroutine la_dlaqr0(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz,work, &
                 lwork,info)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -80640,7 +80643,7 @@ module la_lapack_d
      !> hoped that the final version of H has many zero subdiagonal
      !> entries.
 
-     subroutine la_dlaqr3(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
+     pure subroutine la_dlaqr3(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
                 sr,si,v,ldv,nh,t,ldt,nv,wv,ldwv,work,lwork)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -80956,7 +80959,7 @@ module la_lapack_d
      !> of a matrix A which has been reduced to the Hessenberg form H
      !> by the orthogonal matrix Q:  A = Q*H*Q**T = (QZ)*T*(QZ)**T.
 
-     subroutine la_dlaqr4(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz,work, &
+     pure subroutine la_dlaqr4(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz,work, &
                 lwork,info)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
