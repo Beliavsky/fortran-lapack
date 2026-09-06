@@ -1,6 +1,7 @@
 ! Test eigendecomposition
 module test_linalg_eig
     use linear_algebra
+    use la_lapack, only: syev
 
     implicit none(type,external)
 
@@ -25,6 +26,8 @@ module test_linalg_eig
         if (error) return
         call test_eigh_real_d(error)
         if (error) return
+        call test_dsyev_from_pure(error)
+        if (error) return
         call test_eigh_real_q(error)
         if (error) return
                 
@@ -42,6 +45,26 @@ module test_linalg_eig
 1       format('Eigenproblem tests completed in ',f9.4,' milliseconds, result=',a)
 
     end subroutine test_eig
+
+    !> Verify that the double-precision SYEV interface is callable from pure code.
+    pure subroutine test_dsyev_from_pure(error)
+        logical,intent(out) :: error
+        real(dp) :: matrix(2,2),values(2),work_query(1)
+        real(dp),allocatable :: work(:)
+        integer :: info,lwork
+
+        matrix = reshape([2.0_dp,1.0_dp,1.0_dp,2.0_dp],[2,2])
+        call syev('V','U',2,matrix,2,values,work_query,-1,info)
+        if (info /= 0) then
+            error = .true.
+            return
+        end if
+        lwork = max(1,int(work_query(1)))
+        allocate(work(lwork))
+        matrix = reshape([2.0_dp,1.0_dp,1.0_dp,2.0_dp],[2,2])
+        call syev('V','U',2,matrix,2,values,work,lwork,info)
+        error = info /= 0 .or. maxval(abs(values - [1.0_dp,3.0_dp])) > 100.0_dp*epsilon(1.0_dp)
+    end subroutine test_dsyev_from_pure
 
     !> Simple real matrix eigenvalues
     subroutine test_eig_real_s(error)

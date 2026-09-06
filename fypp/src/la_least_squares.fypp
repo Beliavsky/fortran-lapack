@@ -50,7 +50,7 @@ module la_least_squares
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
      !> Workspace needed by ${rt}$ gesv
-     subroutine ${ri}$gesv_space(m,n,nrhs,lrwork,liwork,lcwork)
+     pure subroutine ${ri}$gesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp), intent(in) :: m,n,nrhs
          integer(ilp), intent(out) :: lrwork,liwork,lcwork
 

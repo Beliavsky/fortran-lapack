@@ -32681,7 +32681,7 @@ module la_lapack_s
      !> If the elements of x are all zero, then tau = 0 and H is taken to be
      !> the unit matrix.
 
-     subroutine la_slarfgp(n,alpha,x,incx,tau)
+     pure subroutine la_slarfgp(n,alpha,x,incx,tau)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -35601,7 +35601,7 @@ module la_lapack_s
      !> B11, B12, B21, and B22 are Q-by-Q bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_sorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+     pure subroutine la_sorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -36025,7 +36025,7 @@ module la_lapack_s
      !> R-by-R nonnegative diagonal matrices satisfying C^2 + S^2 = I, in
      !> which R = MIN(P,M-P,Q,M-Q).
 
-     recursive subroutine la_sorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
+     pure recursive subroutine la_sorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
      ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t, &
                work,lwork,iwork,info)
         ! -- lapack computational routine --
@@ -44538,7 +44538,7 @@ module la_lapack_s
      !> entries;
      !> 0 is a (m-n)-by-n zero matrix, if m > n.
 
-     subroutine la_sgeqr2p(m,n,a,lda,tau,work,info)
+     pure subroutine la_sgeqr2p(m,n,a,lda,tau,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -44696,7 +44696,7 @@ module la_lapack_s
      !> entries;
      !> 0 is a (M-N)-by-N zero matrix, if M > N.
 
-     subroutine la_sgeqrfp(m,n,a,lda,tau,work,lwork,info)
+     pure subroutine la_sgeqrfp(m,n,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -51687,7 +51687,7 @@ module la_lapack_s
      !> B11 and B12 are Q-by-Q bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_sorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_sorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -51790,7 +51790,7 @@ module la_lapack_s
      !> B11 and B12 are P-by-P bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_sorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_sorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -51903,7 +51903,7 @@ module la_lapack_s
      !> B11 and B12 are (M-P)-by-(M-P) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_sorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_sorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -52015,7 +52015,7 @@ module la_lapack_s
      !> B11 and B12 are (M-Q)-by-(M-Q) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_sorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_sorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                phantom,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -52157,7 +52157,7 @@ module la_lapack_s
      !> R = MIN(P,M-P,Q,M-Q). I1 is a K1-by-K1 identity matrix and I2 is a
      !> K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0).
 
-     subroutine la_sorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+     pure subroutine la_sorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,iwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --

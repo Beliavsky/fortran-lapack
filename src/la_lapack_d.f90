@@ -32772,7 +32772,7 @@ module la_lapack_d
      !> If the elements of x are all zero, then tau = 0 and H is taken to be
      !> the unit matrix.
 
-     subroutine la_dlarfgp(n,alpha,x,incx,tau)
+     pure subroutine la_dlarfgp(n,alpha,x,incx,tau)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -35692,7 +35692,7 @@ module la_lapack_d
      !> B11, B12, B21, and B22 are Q-by-Q bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_dorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+     pure subroutine la_dorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -36115,7 +36115,7 @@ module la_lapack_d
      !> R-by-R nonnegative diagonal matrices satisfying C^2 + S^2 = I, in
      !> which R = MIN(P,M-P,Q,M-Q).
 
-     recursive subroutine la_dorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
+     pure recursive subroutine la_dorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
      ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t, &
                work,lwork,iwork,info)
         ! -- lapack computational routine --
@@ -44626,7 +44626,7 @@ module la_lapack_d
      !> entries;
      !> 0 is a (m-n)-by-n zero matrix, if m > n.
 
-     subroutine la_dgeqr2p(m,n,a,lda,tau,work,info)
+     pure subroutine la_dgeqr2p(m,n,a,lda,tau,work,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -44784,7 +44784,7 @@ module la_lapack_d
      !> entries;
      !> 0 is a (M-N)-by-N zero matrix, if M > N.
 
-     subroutine la_dgeqrfp(m,n,a,lda,tau,work,lwork,info)
+     pure subroutine la_dgeqrfp(m,n,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -51847,7 +51847,7 @@ module la_lapack_d
      !> This subroutine is designed for the condition number estimation
      !> in routine DTRSNA.
 
-     subroutine la_dlaqtr(ltran,lreal,n,t,ldt,b,w,scale,x,work,info)
+     pure subroutine la_dlaqtr(ltran,lreal,n,t,ldt,b,w,scale,x,work,info)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -52854,7 +52854,7 @@ module la_lapack_d
      !> B11 and B12 are Q-by-Q bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_dorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_dorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -52957,7 +52957,7 @@ module la_lapack_d
      !> B11 and B12 are P-by-P bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_dorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_dorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -53070,7 +53070,7 @@ module la_lapack_d
      !> B11 and B12 are (M-P)-by-(M-P) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_dorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_dorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -53182,7 +53182,7 @@ module la_lapack_d
      !> B11 and B12 are (M-Q)-by-(M-Q) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_dorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_dorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                phantom,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -53324,7 +53324,7 @@ module la_lapack_d
      !> R = MIN(P,M-P,Q,M-Q). I1 is a K1-by-K1 identity matrix and I2 is a
      !> K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0).
 
-     subroutine la_dorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+     pure subroutine la_dorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,iwork,info)
         ! -- lapack computational routine (3.5.0_dp) --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -55390,7 +55390,7 @@ module la_lapack_d
      !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
      !> respectively.
 
-     subroutine la_dsgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,iter,info)
+     pure subroutine la_dsgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,iter,info)
 
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -56070,7 +56070,7 @@ module la_lapack_d
      !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
      !> respectively.
 
-     subroutine la_dsposv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,iter,info)
+     pure subroutine la_dsposv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,iter,info)
 
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -56329,7 +56329,7 @@ module la_lapack_d
      !> selected by specifying either a range of values or a range of indices
      !> for the desired eigenvalues.
 
-     subroutine la_dsyevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_dsyevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
                work,lwork,iwork,ifail,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -56577,7 +56577,7 @@ module la_lapack_d
      !> Here A and B are assumed to be symmetric and B is also
      !> positive definite.
 
-     subroutine la_dsygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
+     pure subroutine la_dsygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -56678,7 +56678,7 @@ module la_lapack_d
      !> Eigenvalues and eigenvectors can be selected by specifying either a
      !> range of values or a range of indices for the desired eigenvalues.
 
-     subroutine la_dsygvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
+     pure subroutine la_dsygvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
                 m,w,z,ldz,work,lwork,iwork,ifail,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -56884,7 +56884,7 @@ module la_lapack_d
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_dsysvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
+     pure subroutine la_dsysvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
                ferr,berr,work,lwork,iwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -67583,7 +67583,7 @@ module la_lapack_d
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_dposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
+     pure subroutine la_dposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
                rcond,ferr,berr,work,iwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -71618,7 +71618,7 @@ module la_lapack_d
      !> Because of large use of BLAS of level 3, DSYEVD needs N**2 more
      !> workspace than DSYEVX.
 
-     subroutine la_dsyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
+     pure subroutine la_dsyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -71752,7 +71752,7 @@ module la_lapack_d
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_dsygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork,liwork, &
+     pure subroutine la_dsygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork,liwork, &
                 info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -74213,7 +74213,7 @@ module la_lapack_d
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_dgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,iwork, &
+     pure subroutine la_dgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,iwork, &
                info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -75935,7 +75935,7 @@ module la_lapack_d
      !> U and V are the left and right singular vectors of A.
      !> Note that the routine returns V**T, not V.
 
-     subroutine la_dgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
+     pure subroutine la_dgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
 
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -84578,7 +84578,7 @@ module la_lapack_d
      !> which do not handle NaNs and infinities in the ieee standard default
      !> manner.
 
-     subroutine la_dsyevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_dsyevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
                isuppz,work,lwork,iwork,liwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --

@@ -11194,7 +11194,7 @@ module la_lapack_z
      !> If the elements of x are all zero and alpha is real, then tau = 0
      !> and H is taken to be the unit matrix.
 
-     subroutine la_zlarfgp( n, alpha, x, incx, tau )
+     pure subroutine la_zlarfgp( n, alpha, x, incx, tau )
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -29316,7 +29316,7 @@ module la_lapack_z
      !> B11, B12, B21, and B22 are Q-by-Q bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_zunbdb( trans, signs, m, p, q, x11, ldx11, x12, ldx12,x21, ldx21, x22, &
+     pure subroutine la_zunbdb( trans, signs, m, p, q, x11, ldx11, x12, ldx12,x21, ldx21, x22, &
                ldx22, theta, phi, taup1,taup2, tauq1, tauq2, work, lwork, info )
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -34534,7 +34534,7 @@ module la_lapack_z
      !> entries;
      !> 0 is a (m-n)-by-n zero matrix, if m > n.
 
-     subroutine la_zgeqr2p( m, n, a, lda, tau, work, info )
+     pure subroutine la_zgeqr2p( m, n, a, lda, tau, work, info )
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -34692,7 +34692,7 @@ module la_lapack_z
      !> entries;
      !> 0 is a (M-N)-by-N zero matrix, if M > N.
 
-     subroutine la_zgeqrfp( m, n, a, lda, tau, work, lwork, info )
+     pure subroutine la_zgeqrfp( m, n, a, lda, tau, work, lwork, info )
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -41764,7 +41764,7 @@ module la_lapack_z
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex matrix A.
 
-     real(dp) function la_zlange( norm, m, n, a, lda, work )
+     pure real(dp) function la_zlange( norm, m, n, a, lda, work )
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -51091,7 +51091,7 @@ module la_lapack_z
      !> M-by-N; and scale is an output scale factor, set <= 1 to avoid
      !> overflow in X.
 
-     subroutine la_ztrsyl( trana, tranb, isgn, m, n, a, lda, b, ldb, c,ldc, scale, info )
+     pure subroutine la_ztrsyl( trana, tranb, isgn, m, n, a, lda, b, ldb, c,ldc, scale, info )
                
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -51422,7 +51422,7 @@ module la_lapack_z
      !> R-by-R nonnegative diagonal matrices satisfying C^2 + S^2 = I, in
      !> which R = MIN(P,M-P,Q,M-Q).
 
-     recursive subroutine la_zuncsd( jobu1, jobu2, jobv1t, jobv2t, trans,signs, m, p, q, x11, &
+     pure recursive subroutine la_zuncsd( jobu1, jobu2, jobv1t, jobv2t, trans,signs, m, p, q, x11, &
      ldx11, x12,ldx12, x21, ldx21, x22, ldx22, theta,u1, ldu1, u2, ldu2, v1t, ldv1t, v2t,ldv2t, &
                work, lwork, rwork, lrwork,iwork, info )
         ! -- lapack computational routine --
@@ -62760,7 +62760,7 @@ module la_lapack_z
      !> Optionally the routine computes the reciprocal condition numbers of
      !> the cluster of eigenvalues and/or the invariant subspace.
 
-     subroutine la_ztrsen( job, compq, select, n, t, ldt, q, ldq, w, m, s,sep, work, lwork, &
+     pure subroutine la_ztrsen( job, compq, select, n, t, ldt, q, ldq, w, m, s,sep, work, lwork, &
                info )
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -62905,7 +62905,7 @@ module la_lapack_z
      !> B11 and B12 are Q-by-Q bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_zunbdb1( m, p, q, x11, ldx11, x21, ldx21, theta, phi,taup1, taup2, tauq1, &
+     pure subroutine la_zunbdb1( m, p, q, x11, ldx11, x21, ldx21, theta, phi,taup1, taup2, tauq1, &
                work, lwork, info )
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -63010,7 +63010,7 @@ module la_lapack_z
      !> B11 and B12 are P-by-P bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_zunbdb2( m, p, q, x11, ldx11, x21, ldx21, theta, phi,taup1, taup2, tauq1, &
+     pure subroutine la_zunbdb2( m, p, q, x11, ldx11, x21, ldx21, theta, phi,taup1, taup2, tauq1, &
                work, lwork, info )
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -63125,7 +63125,7 @@ module la_lapack_z
      !> B11 and B12 are (M-P)-by-(M-P) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_zunbdb3( m, p, q, x11, ldx11, x21, ldx21, theta, phi,taup1, taup2, tauq1, &
+     pure subroutine la_zunbdb3( m, p, q, x11, ldx11, x21, ldx21, theta, phi,taup1, taup2, tauq1, &
                work, lwork, info )
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -63239,7 +63239,7 @@ module la_lapack_z
      !> B11 and B12 are (M-Q)-by-(M-Q) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_zunbdb4( m, p, q, x11, ldx11, x21, ldx21, theta, phi,taup1, taup2, tauq1, &
+     pure subroutine la_zunbdb4( m, p, q, x11, ldx11, x21, ldx21, theta, phi,taup1, taup2, tauq1, &
                phantom, work, lwork,info )
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -63388,7 +63388,7 @@ module la_lapack_z
      !> R = MIN(P,M-P,Q,M-Q). I1 is a K1-by-K1 identity matrix and I2 is a
      !> K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0).
 
-     subroutine la_zuncsd2by1( jobu1, jobu2, jobv1t, m, p, q, x11, ldx11,x21, ldx21, theta, &
+     pure subroutine la_zuncsd2by1( jobu1, jobu2, jobv1t, m, p, q, x11, ldx11,x21, ldx21, theta, &
                u1, ldu1, u2, ldu2, v1t,ldv1t, work, lwork, rwork, lrwork, iwork,info )
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -64245,7 +64245,7 @@ module la_lapack_z
      !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
      !> respectively.
 
-     subroutine la_zcgesv( n, nrhs, a, lda, ipiv, b, ldb, x, ldx, work,swork, rwork, iter, &
+     pure subroutine la_zcgesv( n, nrhs, a, lda, ipiv, b, ldb, x, ldx, work,swork, rwork, iter, &
                info )
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -64554,7 +64554,7 @@ module la_lapack_z
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_zgelsd( m, n, nrhs, a, lda, b, ldb, s, rcond, rank,work, lwork, rwork, &
+     pure subroutine la_zgelsd( m, n, nrhs, a, lda, b, ldb, s, rcond, rank,work, lwork, rwork, &
                iwork, info )
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -64879,7 +64879,7 @@ module la_lapack_z
      !> singular values which are less than RCOND times the largest singular
      !> value.
 
-     subroutine la_zgelss( m, n, nrhs, a, lda, b, ldb, s, rcond, rank,work, lwork, rwork, &
+     pure subroutine la_zgelss( m, n, nrhs, a, lda, b, ldb, s, rcond, rank,work, lwork, rwork, &
                info )
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -65876,7 +65876,7 @@ module la_lapack_z
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_zgesdd( jobz, m, n, a, lda, s, u, ldu, vt, ldvt,work, lwork, rwork, iwork, &
+     pure subroutine la_zgesdd( jobz, m, n, a, lda, s, u, ldu, vt, ldvt,work, lwork, rwork, iwork, &
                info )
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -67413,7 +67413,7 @@ module la_lapack_z
      !> U and V are the left and right singular vectors of A.
      !> Note that the routine returns V**H, not V.
 
-     subroutine la_zgesvd( jobu, jobvt, m, n, a, lda, s, u, ldu,vt, ldvt, work, lwork, rwork, &
+     pure subroutine la_zgesvd( jobu, jobvt, m, n, a, lda, s, u, ldu,vt, ldvt, work, lwork, rwork, &
                info )
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -74305,7 +74305,7 @@ module la_lapack_z
      !> The computed eigenvectors are normalized to have Euclidean norm
      !> equal to 1 and largest component real.
 
-     subroutine la_zgeev( jobvl, jobvr, n, a, lda, w, vl, ldvl, vr, ldvr,work, lwork, rwork, &
+     pure subroutine la_zgeev( jobvl, jobvr, n, a, lda, w, vl, ldvl, vr, ldvr,work, lwork, rwork, &
                info )
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -74569,7 +74569,7 @@ module la_lapack_z
      !> explanation of balancing, see section 4.10.2_dp of the LAPACK
      !> Users' Guide.
 
-     subroutine la_zgeevx( balanc, jobvl, jobvr, sense, n, a, lda, w, vl,ldvl, vr, ldvr, ilo, &
+     pure subroutine la_zgeevx( balanc, jobvl, jobvr, sense, n, a, lda, w, vl,ldvl, vr, ldvr, ilo, &
                ihi, scale, abnrm, rconde,rcondv, work, lwork, rwork, info )
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --

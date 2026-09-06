@@ -54,7 +54,7 @@ module la_least_squares
      contains
 
      !> Workspace needed by real(sp) gesv
-     subroutine sgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
+     pure subroutine sgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
 
@@ -86,7 +86,7 @@ module la_least_squares
      end subroutine sgesv_space
 
      !> Workspace needed by real(dp) gesv
-     subroutine dgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
+     pure subroutine dgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
 
@@ -118,7 +118,7 @@ module la_least_squares
      end subroutine dgesv_space
 
      !> Workspace needed by real(qp) gesv
-     subroutine qgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
+     pure subroutine qgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
 
@@ -150,7 +150,7 @@ module la_least_squares
      end subroutine qgesv_space
 
      !> Workspace needed by complex(sp) gesv
-     subroutine cgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
+     pure subroutine cgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
 
@@ -182,7 +182,7 @@ module la_least_squares
      end subroutine cgesv_space
 
      !> Workspace needed by complex(dp) gesv
-     subroutine zgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
+     pure subroutine zgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
 
@@ -214,7 +214,7 @@ module la_least_squares
      end subroutine zgesv_space
 
      !> Workspace needed by complex(qp) gesv
-     subroutine wgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
+     pure subroutine wgesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp),intent(in) :: m,n,nrhs
          integer(ilp),intent(out) :: lrwork,liwork,lcwork
 

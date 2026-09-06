@@ -1844,7 +1844,7 @@ module la_lapack
                module procedure la_cgelsd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,iwork, &
+               pure subroutine dgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,iwork, &
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1874,7 +1874,7 @@ module la_lapack
 #endif
                module procedure la_wgelsd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
+               pure subroutine zgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
                          iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1949,7 +1949,7 @@ module la_lapack
 #endif
                module procedure la_wgelss
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
+               pure subroutine zgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -2481,7 +2481,7 @@ module la_lapack
           !> 0 is a (m-n)-by-n zero matrix, if m > n.
           interface geqr2p
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgeqr2p(m,n,a,lda,tau,work,info)
+               pure subroutine cgeqr2p(m,n,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2493,7 +2493,7 @@ module la_lapack
                module procedure la_cgeqr2p
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgeqr2p(m,n,a,lda,tau,work,info)
+               pure subroutine dgeqr2p(m,n,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2506,7 +2506,7 @@ module la_lapack
 #endif
                module procedure la_qgeqr2p
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgeqr2p(m,n,a,lda,tau,work,info)
+               pure subroutine sgeqr2p(m,n,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2519,7 +2519,7 @@ module la_lapack
 #endif
                module procedure la_wgeqr2p
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgeqr2p(m,n,a,lda,tau,work,info)
+               pure subroutine zgeqr2p(m,n,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2602,7 +2602,7 @@ module la_lapack
           !> 0 is a (M-N)-by-N zero matrix, if M > N.
           interface geqrfp
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgeqrfp(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine cgeqrfp(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2614,7 +2614,7 @@ module la_lapack
                module procedure la_cgeqrfp
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgeqrfp(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine dgeqrfp(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2627,7 +2627,7 @@ module la_lapack
 #endif
                module procedure la_qgeqrfp
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgeqrfp(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine sgeqrfp(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -2640,7 +2640,7 @@ module la_lapack
 #endif
                module procedure la_wgeqrfp
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgeqrfp(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine zgeqrfp(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3111,7 +3111,7 @@ module la_lapack
                module procedure la_cgesvd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork, &
+               pure subroutine dgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork, &
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3141,7 +3141,7 @@ module la_lapack
 #endif
                module procedure la_wgesvd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork, &
+               pure subroutine zgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork, &
                          rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -11944,7 +11944,7 @@ module la_lapack
           !> in routine DTRSNA.
           interface laqtr
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dlaqtr(ltran,lreal,n,t,ldt,b,w,scale,x,work,info)
+               pure subroutine dlaqtr(ltran,lreal,n,t,ldt,b,w,scale,x,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: lreal,ltran
@@ -12620,7 +12620,7 @@ module la_lapack
           !> and H is taken to be the unit matrix.
           interface larfgp
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine clarfgp(n,alpha,x,incx,tau)
+               pure subroutine clarfgp(n,alpha,x,incx,tau)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
@@ -12631,7 +12631,7 @@ module la_lapack
                module procedure la_clarfgp
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dlarfgp(n,alpha,x,incx,tau)
+               pure subroutine dlarfgp(n,alpha,x,incx,tau)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
@@ -12643,7 +12643,7 @@ module la_lapack
 #endif
                module procedure la_qlarfgp
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine slarfgp(n,alpha,x,incx,tau)
+               pure subroutine slarfgp(n,alpha,x,incx,tau)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
@@ -12655,7 +12655,7 @@ module la_lapack
 #endif
                module procedure la_wlarfgp
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zlarfgp(n,alpha,x,incx,tau)
+               pure subroutine zlarfgp(n,alpha,x,incx,tau)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
@@ -15756,7 +15756,7 @@ module la_lapack
           !> implicitly by angles THETA, PHI.
           interface orbdb
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+               pure subroutine dorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                          ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -15773,7 +15773,7 @@ module la_lapack
 #endif
                module procedure la_qorbdb
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+               pure subroutine sorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                          ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -15807,7 +15807,7 @@ module la_lapack
           !> angles THETA, PHI.
           interface orbdb1
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine dorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -15822,7 +15822,7 @@ module la_lapack
 #endif
                module procedure la_qorbdb1
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine sorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -15854,7 +15854,7 @@ module la_lapack
           !> angles THETA, PHI.
           interface orbdb2
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine dorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -15869,7 +15869,7 @@ module la_lapack
 #endif
                module procedure la_qorbdb2
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine sorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -15901,7 +15901,7 @@ module la_lapack
           !> implicitly by angles THETA, PHI.
           interface orbdb3
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine dorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -15916,7 +15916,7 @@ module la_lapack
 #endif
                module procedure la_qorbdb3
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine sorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -15948,7 +15948,7 @@ module la_lapack
           !> implicitly by angles THETA, PHI.
           interface orbdb4
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine dorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,phantom,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -15963,7 +15963,7 @@ module la_lapack
 #endif
                module procedure la_qorbdb4
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine sorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,phantom,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -16077,7 +16077,7 @@ module la_lapack
           !> which R = MIN(P,M-P,Q,M-Q).
           interface orcsd
 #ifdef LA_EXTERNAL_LAPACK
-               recursive subroutine dorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
+               pure recursive subroutine dorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
                x11,ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t, &
                          ldv1t,v2t,ldv2t,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
@@ -16096,7 +16096,7 @@ module la_lapack
 #endif
                module procedure la_qorcsd
 #ifdef LA_EXTERNAL_LAPACK
-               recursive subroutine sorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
+               pure recursive subroutine sorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
                x11,ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t, &
                          ldv1t,v2t,ldv2t,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
@@ -16132,7 +16132,7 @@ module la_lapack
           !> K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0).
           interface orcsd2by1
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+               pure subroutine dorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                           u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -16148,7 +16148,7 @@ module la_lapack
 #endif
                module procedure la_qorcsd2by1
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+               pure subroutine sorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                           u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -21256,7 +21256,7 @@ module la_lapack
           !> workspace than DSYEVX.
           interface syevd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dsyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
+               pure subroutine dsyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -21338,7 +21338,7 @@ module la_lapack
           !> manner.
           interface syevr
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dsyevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z, &
+               pure subroutine dsyevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z, &
                          ldz,isuppz,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -21414,7 +21414,7 @@ module la_lapack
           !> positive definite.
           interface sygv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dsygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
+               pure subroutine dsygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -21457,7 +21457,7 @@ module la_lapack
           !> without guard digits, but we know of none.
           interface sygvd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dsygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork, &
+               pure subroutine dsygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork, &
                          liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25094,7 +25094,7 @@ module la_lapack
 #endif
                module procedure la_wtrsen
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ztrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
+               pure subroutine ztrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
                           info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25237,7 +25237,7 @@ module la_lapack
 #endif
                module procedure la_wtrsyl
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ztrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+               pure subroutine ztrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25565,7 +25565,7 @@ module la_lapack
           !> implicitly by angles THETA, PHI.
           interface unbdb
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cunbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+               pure subroutine cunbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                          ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25583,7 +25583,7 @@ module la_lapack
 #endif
                module procedure la_wunbdb
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zunbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+               pure subroutine zunbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                          ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25618,7 +25618,7 @@ module la_lapack
           !> angles THETA, PHI.
           interface unbdb1
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cunbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine cunbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25633,7 +25633,7 @@ module la_lapack
 #endif
                module procedure la_wunbdb1
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zunbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine zunbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25665,7 +25665,7 @@ module la_lapack
           !> angles THETA, PHI.
           interface unbdb2
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cunbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine cunbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25680,7 +25680,7 @@ module la_lapack
 #endif
                module procedure la_wunbdb2
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zunbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine zunbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25712,7 +25712,7 @@ module la_lapack
           !> implicitly by angles THETA, PHI.
           interface unbdb3
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cunbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine cunbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25727,7 +25727,7 @@ module la_lapack
 #endif
                module procedure la_wunbdb3
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zunbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine zunbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25759,7 +25759,7 @@ module la_lapack
           !> implicitly by angles THETA, PHI.
           interface unbdb4
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cunbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine cunbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,phantom,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25775,7 +25775,7 @@ module la_lapack
 #endif
                module procedure la_wunbdb4
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zunbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine zunbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,phantom,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25890,7 +25890,7 @@ module la_lapack
           !> which R = MIN(P,M-P,Q,M-Q).
           interface uncsd
 #ifdef LA_EXTERNAL_LAPACK
-               recursive subroutine cuncsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
+               pure recursive subroutine cuncsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
                x11,ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t, &
                          ldv1t,v2t,ldv2t,work,lwork,rwork,lrwork,iwork,info)
                     import sp,dp,qp,ilp,lk
@@ -25910,7 +25910,7 @@ module la_lapack
 #endif
                module procedure la_wuncsd
 #ifdef LA_EXTERNAL_LAPACK
-               recursive subroutine zuncsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
+               pure recursive subroutine zuncsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
                x11,ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t, &
                          ldv1t,v2t,ldv2t,work,lwork,rwork,lrwork,iwork,info)
                     import sp,dp,qp,ilp,lk
@@ -25947,7 +25947,7 @@ module la_lapack
           !> K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0).
           interface uncsd2by1
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cuncsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+               pure subroutine cuncsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                           u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,rwork,lrwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25964,7 +25964,7 @@ module la_lapack
 #endif
                module procedure la_wuncsd2by1
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zuncsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+               pure subroutine zuncsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                           u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,rwork,lrwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
