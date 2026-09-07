@@ -47,7 +47,3 @@ revert_fprettify_labels("../src","stdlib_linalg_inverse.f90")
 revert_fprettify_labels("../src","stdlib_linalg_eye.f90")
 revert_fprettify_labels("../src","stdlib_linalg_least_squares.f90")
 revert_fprettify_labels("../src","stdlib_linalg_determinant.f90")
-
-
-
-

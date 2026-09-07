@@ -1,4 +1,3 @@
-
 import re
 import copy
 from platform import os
@@ -104,12 +103,3 @@ refactor_interfaces('stdlib_linalg_lapack_q.fypp',False)
 refactor_interfaces('stdlib_linalg_lapack_c.fypp',False)
 refactor_interfaces('stdlib_linalg_lapack_z.fypp',False)
 refactor_interfaces('stdlib_linalg_lapack_w.fypp',False)            
-            
-            
-    
-    
-    
-
-
-
-    

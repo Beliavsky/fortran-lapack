@@ -74,8 +74,3 @@ def parse_interfaces(file_name):
 
 
 parse_interfaces('lapack_interface_candidates.txt')
-
-
-
-
-
