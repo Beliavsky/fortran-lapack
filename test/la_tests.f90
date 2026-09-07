@@ -1,19 +1,28 @@
 program la_tests
-    use test_linalg_aux
-    use test_linalg_eye
-    use test_linalg_solve
-    use test_linalg_inverse
-    use test_linalg_least_squares
-    use test_linalg_determinant
-    use test_linalg_svd
-    use test_linalg_eig
-    use test_linalg_qr
-    use test_linalg_norms
-    use test_linalg_schur
-    use test_linalg_pseudoinverse
+    use test_la_aux
+    use test_la_eye
+    use test_la_solve
+    use test_la_inverse
+    use test_la_least_squares
+    use test_la_determinant
+    use test_la_svd
+    use test_la_eigs
+    use test_la_qr
+    use test_la_norms
+    use test_la_schur
+    use test_la_pinv
+    use test_la_cholesky
     implicit none(type, external)
 
+    integer :: i,seed_size
+    integer, allocatable :: seed(:)
     logical :: error
+
+    !> Fixed seed: the suite must draw the same random matrices on every run
+    call random_seed(size=seed_size)
+    allocate (seed(seed_size))
+    seed = [(1000 + 7*i,i=1,seed_size)]
+    call random_seed(put=seed)
 
     call test_formats(error)
     if (error) error stop 'test_formats'
@@ -47,6 +56,9 @@ program la_tests
 
     call test_pseudoinverse_matrix(error)
     if (error) error stop 'test_pseudoinverse'
+
+    call test_cholesky_factorization(error)
+    if (error) error stop 'test_cholesky'
     
     !> All tests passed
     stop 0

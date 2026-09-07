@@ -50,16 +50,8 @@ module la_schur
     !!
     interface schur
       #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure la_${ri}$_schur
-        module procedure la_real_eig_${ri}$_schur
-      #:endfor
-    end interface schur
-
-
-    interface schur
-      #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure la_${ri}$_schur
-        module procedure la_real_eig_${ri}$_schur
+      module procedure la_${ri}$_schur
+      module procedure la_real_eig_${ri}$_schur
       #:endfor
     end interface schur
 
@@ -76,12 +68,11 @@ module la_schur
     !!       of the same size, minimizing dynamic memory allocation overhead.
     !!
     interface schur_space
-
-    interface schur_space
-     #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure get_schur_${ri}$_workspace
-     #:endfor
-    end interface schur_space
+      #:for rk,rt,ri in ALL_KINDS_TYPES
+      module procedure get_schur_${ri}$_workspace
+      #:endfor
+    end interface schur_space    
+        
 
     contains
 
@@ -143,7 +134,11 @@ module la_schur
     
     
     #:for rk,rt,ri in ALL_KINDS_TYPES
+    #:if ri in ["d", "z"]
+    pure subroutine get_schur_${ri}$_workspace(a,lwork,err)
+    #:else
     subroutine get_schur_${ri}$_workspace(a,lwork,err)
+    #:endif
         !> Input matrix a[m,m]
         ${rt}$, intent(in), target :: a(:,:)
         !> Minimum workspace size for the decomposition operation
@@ -154,7 +149,11 @@ module la_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
+        #:if ri in ["d", "z"]
+        ${rt}$, allocatable :: amat(:,:)
+        #:else
         ${rt}$, pointer :: amat(:,:)
+        #:endif
         real(${rk}$) :: rwork_dummy(1)
         ${rt}$ :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(la_state) :: err0
@@ -165,7 +164,11 @@ module la_schur
         n = size(a,2,kind=ilp)         
         
         !> Create a dummy intent(inout) argument
+        #:if ri in ["d", "z"]
+        allocate(amat,source=a)
+        #:else
         amat => a
+        #:endif
         
         !> Select dummy task
         jobvs = gees_vectors(.true.)
@@ -190,7 +193,11 @@ module la_schur
     end subroutine get_schur_${ri}$_workspace    
     
     ! Schur decomposition subroutine
+    #:if ri in ["d", "z"]
+    pure subroutine la_${ri}$_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    #:else
     subroutine la_${ri}$_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    #:endif
         !> Input matrix a[m,m]
         ${rt}$, intent(inout), target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -372,7 +379,11 @@ module la_schur
     end subroutine la_${ri}$_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
+    #:if ri in ["d", "z"]
+    pure subroutine la_real_eig_${ri}$_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    #:else
     subroutine la_real_eig_${ri}$_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    #:endif
         !> Input matrix a[m,m]
         ${rt}$, intent(inout), target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T

@@ -1,7 +1,7 @@
 ! Test eigendecomposition
-module test_linalg_eig
+module test_la_eigs
     use linear_algebra
-    use la_lapack, only: syev
+    use la_lapack,only:syev
 
     implicit none(type,external)
 
@@ -53,15 +53,15 @@ module test_linalg_eig
         real(dp),allocatable :: work(:)
         integer :: info,lwork
 
-        matrix = reshape([2.0_dp,1.0_dp,1.0_dp,2.0_dp],[2,2])
+        matrix = reshape([2.0_dp,1.0_dp,1.0_dp,2.0_dp], [2,2])
         call syev('V','U',2,matrix,2,values,work_query,-1,info)
         if (info /= 0) then
             error = .true.
             return
         end if
         lwork = max(1,int(work_query(1)))
-        allocate(work(lwork))
-        matrix = reshape([2.0_dp,1.0_dp,1.0_dp,2.0_dp],[2,2])
+        allocate (work(lwork))
+        matrix = reshape([2.0_dp,1.0_dp,1.0_dp,2.0_dp], [2,2])
         call syev('V','U',2,matrix,2,values,work,lwork,info)
         error = info /= 0 .or. maxval(abs(values - [1.0_dp,3.0_dp])) > 100.0_dp*epsilon(1.0_dp)
     end subroutine test_dsyev_from_pure
@@ -434,5 +434,5 @@ module test_linalg_eig
         
     end subroutine test_eig_complex_w
 
-end module test_linalg_eig
+end module test_la_eigs
 

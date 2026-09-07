@@ -1,0 +1,123 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GCC_VERSION: '15'
+  FPM_VERSION: 'v0.13.0'
+
+jobs:
+  build-test:
+    name: ${{ matrix.os }} / ${{ matrix.profile }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        profile: [debug, release]
+        exclude:
+          # The optimized build of the LAPACK sources exceeds the macOS runner
+          # budget; ubuntu covers the optimized path.
+          - os: macos-latest
+            profile: release
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install the gfortran 12 runtime the fpm binary links against
+        if: runner.os == 'macOS'
+        run: brew install gcc@12
+
+      - name: Set up gfortran
+        uses: fortran-lang/setup-fortran@v1
+        with:
+          compiler: gcc
+          version: ${{ env.GCC_VERSION }}
+
+      - name: Set up fpm
+        uses: fortran-lang/setup-fpm@v10
+        with:
+          fpm-version: ${{ env.FPM_VERSION }}
+
+      - name: Build
+        run: fpm build --profile ${{ matrix.profile }}
+
+      - name: Test
+        run: fpm test --profile ${{ matrix.profile }}
+
+  external-lapack:
+    name: external LAPACK and BLAS
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    env:
+      EXTERNAL_FLAGS: -DLA_EXTERNAL_LAPACK -DLA_EXTERNAL_BLAS
+      # fpm places link flags ahead of the objects, so the default --as-needed
+      # would drop both libraries before anything references them.
+      EXTERNAL_LINK_FLAGS: -Wl,--no-as-needed -llapack -lblas
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up gfortran
+        uses: fortran-lang/setup-fortran@v1
+        with:
+          compiler: gcc
+          version: ${{ env.GCC_VERSION }}
+
+      - name: Set up fpm
+        uses: fortran-lang/setup-fpm@v10
+        with:
+          fpm-version: ${{ env.FPM_VERSION }}
+
+      - name: Install reference LAPACK and BLAS
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y liblapack-dev libblas-dev
+
+      - name: Build against the external libraries
+        run: >-
+          fpm build --profile debug
+          --flag "${{ env.EXTERNAL_FLAGS }}"
+          --link-flag "${{ env.EXTERNAL_LINK_FLAGS }}"
+
+      - name: Test against the external libraries
+        run: >-
+          fpm test --profile debug
+          --flag "${{ env.EXTERNAL_FLAGS }}"
+          --link-flag "${{ env.EXTERNAL_LINK_FLAGS }}"
+
+  generated-sources:
+    name: generated sources
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install the generator toolchain
+        run: pip install fypp==3.2 fprettify==0.3.7
+
+      - name: Regenerate the committed sources and compare
+        run: python3 scripts/fypp_deploy.py --check
+
+      - name: Show the drift
+        if: failure()
+        run: cat build/fypp_deploy_check.diff

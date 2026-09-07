@@ -9,7 +9,6 @@ module la_pseudoinverse
      implicit none(type,external)
      private
 
-
      !> @brief Compute the pseudo-inverse of a matrix.
      !!
      !! This function computes the Moore-Penrose pseudo-inverse of a real or complex matrix \f$ A \f$.
@@ -17,19 +16,19 @@ module la_pseudoinverse
      !!
      !! \f$ A^+ = V \Sigma^+ U^T \f$
      !!
-     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the 
+     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the
      !! pseudo-inverse of the singular values.
      !!
      !! @param[in] A The input matrix of size \f$ [m, n] \f$.
-     !! @param[in] rtol (Optional) Relative tolerance for singular value truncation. If not provided, 
+     !! @param[in] rtol (Optional) Relative tolerance for singular value truncation. If not provided,
      !!                 a default value is used.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided, 
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
      !!                 the function will stop execution.
      !!
      !! @return The pseudo-inverse matrix \f$ A^+ \f$ of size \f$ [n, m] \f$.
      !!
      !! @note This function relies on LAPACK's SVD routines ([GESVD](@ref la_lapack::gesvd) or  [GESDD](@ref la_lapack::gesdd)).
-     !! @warning If `rtol` is too large, important singular values may be discarded, 
+     !! @warning If `rtol` is too large, important singular values may be discarded,
      !!          leading to inaccurate results.
      !!
      public :: pinv
@@ -42,13 +41,13 @@ module la_pseudoinverse
      !!
      !! \f$ A^+ = V \Sigma^+ U^T \f$
      !!
-     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the 
+     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the
      !! pseudo-inverse of the singular values.
      !!
      !! @param[in,out] A The input matrix of size \f$ [m, n] \f$. Its contents may be modified.
      !! @param[out] pinva The output pseudo-inverse matrix of size \f$ [n, m] \f$.
      !! @param[in] rtol (Optional) Relative tolerance for singular value truncation.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided, 
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
      !!                 the function will stop execution.
      !!
      !! @note This subroutine is useful when the output matrix `pinva` is already allocated and avoids
@@ -64,7 +63,7 @@ module la_pseudoinverse
      !!
      !! \f$ A^+ = V \Sigma^+ U^T \f$
      !!
-     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the 
+     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the
      !! pseudo-inverse of the singular values.
      !!
      !! @param[in] A The input matrix of size \f$ [m, n] \f$.
@@ -84,19 +83,19 @@ module la_pseudoinverse
      !!
      !! \f$ A^+ = V \Sigma^+ U^T \f$
      !!
-     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the 
+     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the
      !! pseudo-inverse of the singular values.
      !!
      !! @param[in] A The input matrix of size \f$ [m, n] \f$.
-     !! @param[in] rtol (Optional) Relative tolerance for singular value truncation. If not provided, 
+     !! @param[in] rtol (Optional) Relative tolerance for singular value truncation. If not provided,
      !!                 a default value is used.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided, 
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
      !!                 the function will stop execution.
      !!
      !! @return The pseudo-inverse matrix \f$ A^+ \f$ of size \f$ [n, m] \f$.
      !!
      !! @note This function relies on LAPACK's SVD routines (`*GESVD` or `*GESDD`).
-     !! @warning If `rtol` is too large, important singular values may be discarded, 
+     !! @warning If `rtol` is too large, important singular values may be discarded,
      !!          leading to inaccurate results.
      !!
      interface pinv
@@ -116,13 +115,13 @@ module la_pseudoinverse
      !!
      !! \f$ A^+ = V \Sigma^+ U^T \f$
      !!
-     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the 
+     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the
      !! pseudo-inverse of the singular values.
      !!
      !! @param[in,out] A The input matrix of size \f$ [m, n] \f$. Its contents may be modified.
      !! @param[out] pinva The output pseudo-inverse matrix of size \f$ [n, m] \f$.
      !! @param[in] rtol (Optional) Relative tolerance for singular value truncation.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided, 
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
      !!                 the function will stop execution.
      !!
      !! @note This subroutine is useful when the output matrix `pinva` is already allocated and avoids
@@ -145,7 +144,7 @@ module la_pseudoinverse
      !!
      !! \f$ A^+ = V \Sigma^+ U^T \f$
      !!
-     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the 
+     !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the
      !! pseudo-inverse of the singular values.
      !!
      !! @param[in] A The input matrix of size \f$ [m, n] \f$.
@@ -269,7 +268,7 @@ module la_pseudoinverse
      end function la_pinv_s_operator
 
      ! Compute the in-place pseudo-inverse of matrix a
-     pure subroutine la_pseudoinvert_d(a,pinva,rtol,err)
+     subroutine la_pseudoinvert_d(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          real(dp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -353,16 +352,17 @@ module la_pseudoinverse
      end function la_pseudoinverse_d
 
      ! Inverse matrix operator
-     pure function la_pinv_d_operator(a) result(pinva)
+     function la_pinv_d_operator(a) result(pinva)
          !> Input matrix a[m,n]
          real(dp),intent(in),target :: a(:,:)
          !> Result matrix
          real(dp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         real(dp),allocatable :: acopy(:,:)
+         ! Use pointer to circumvent svd intent(inout) restriction
+         real(dp),pointer :: ap(:,:)
+         ap => a
 
-         allocate (acopy,source=a)
-         call la_pseudoinvert_d(acopy,pinva)
+         call la_pseudoinvert_d(ap,pinva)
 
      end function la_pinv_d_operator
 
@@ -565,7 +565,7 @@ module la_pseudoinverse
      end function la_pinv_c_operator
 
      ! Compute the in-place pseudo-inverse of matrix a
-     pure subroutine la_pseudoinvert_z(a,pinva,rtol,err)
+     subroutine la_pseudoinvert_z(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          complex(dp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -649,16 +649,17 @@ module la_pseudoinverse
      end function la_pseudoinverse_z
 
      ! Inverse matrix operator
-     pure function la_pinv_z_operator(a) result(pinva)
+     function la_pinv_z_operator(a) result(pinva)
          !> Input matrix a[m,n]
          complex(dp),intent(in),target :: a(:,:)
          !> Result matrix
          complex(dp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         complex(dp),allocatable :: acopy(:,:)
+         ! Use pointer to circumvent svd intent(inout) restriction
+         complex(dp),pointer :: ap(:,:)
+         ap => a
 
-         allocate (acopy,source=a)
-         call la_pseudoinvert_z(acopy,pinva)
+         call la_pseudoinvert_z(ap,pinva)
 
      end function la_pinv_z_operator
 

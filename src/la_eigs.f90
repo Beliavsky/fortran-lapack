@@ -163,7 +163,7 @@ module la_eig
      !! the eigenvectors corresponding to those eigenvalues. The routine is designed to handle both real and complex matrices.
      !!
      !!### Description
-     !! Given a real symmetric or complex Hermitian matrix \f$ A \f$, this routine computes its eigenvalues \f$ \lambda \f$ 
+     !! Given a real symmetric or complex Hermitian matrix \f$ A \f$, this routine computes its eigenvalues \f$ \lambda \f$
      !! and, optionally, the right or left eigenvectors:
      !!
      !! \f[
@@ -205,7 +205,7 @@ module la_eig
      !! - If the matrix is Hermitian, the result will be complex eigenvectors even if the input matrix is real.
      !! - This method is based on LAPACK's [SYEVD](@ref la_lapack::syevd) for real symmetric matrices and
      !!       [HEEVD](@ref la_lapack::heevd) for complex Hermitian matrices.
-     !! - The matrix \f$ A \f$ can be overwritten in-place to improve performance but its original data will be lost.     
+     !! - The matrix \f$ A \f$ can be overwritten in-place to improve performance but its original data will be lost.
      interface eigh
         module procedure la_eigh_s
         module procedure la_eigh_d
@@ -214,13 +214,12 @@ module la_eig
         module procedure la_eigh_z
         module procedure la_eigh_w
      end interface eigh
-     
 
      !> Eigenvalues of a real symmetric or complex Hermitian matrix.
      !!
      !!### Summary
      !! Compute the eigenvalues of a real symmetric or complex Hermitian matrix \f$ A \f$.
-     !! The function returns the eigenvalues in an array. 
+     !! The function returns the eigenvalues in an array.
      !! The user can specify whether to use the upper or lower half of the matrix for computation.
      !!
      !!### Description
@@ -255,7 +254,7 @@ module la_eig
      !!
      !!### Notes
      !! - The computed eigenvalues are returned as real values for real matrices, and complex values for complex matrices.
-     !! - This routine is based on LAPACK's [SYEV](@ref la_lapack::syev) and [HEEV](@ref la_lapack::heev) routines.     
+     !! - This routine is based on LAPACK's [SYEV](@ref la_lapack::syev) and [HEEV](@ref la_lapack::heev) routines.
      interface eigvalsh
         module procedure la_eigvalsh_s
         module procedure la_eigvalsh_noerr_s
@@ -1036,7 +1035,7 @@ module la_eig
 
      end function la_eigvals_standard_d
 
-     pure function la_eigvals_noerr_standard_d(a) result(lambda)
+     function la_eigvals_noerr_standard_d(a) result(lambda)
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
          real(dp),intent(in),dimension(:,:),target :: a
@@ -1044,11 +1043,11 @@ module la_eig
          complex(dp),allocatable :: lambda(:)
 
          !> Create
-         real(dp),allocatable,dimension(:,:) :: amat
+         real(dp),pointer,dimension(:,:) :: amat
          integer(ilp) :: m,n,k
 
          !> Create an internal pointer so the intent of A won't affect the next call
-         allocate (amat,source=a)
+         amat => a
          
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -1062,7 +1061,7 @@ module la_eig
 
      end function la_eigvals_noerr_standard_d
 
-     pure subroutine la_eig_standard_d(a,lambda,right,left, &
+     subroutine la_eig_standard_d(a,lambda,right,left, &
                                                        overwrite_a,err)
      !! Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !! and optionally right or left eigenvectors.
@@ -1478,7 +1477,7 @@ module la_eig
      end function la_eigvalsh_d
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     pure function la_eigvalsh_noerr_d(a,upper_a) result(lambda)
+     function la_eigvalsh_noerr_d(a,upper_a) result(lambda)
          !> Input matrix A[m,n]
          real(dp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -1486,11 +1485,11 @@ module la_eig
          !> Array of singular values
          real(dp),allocatable :: lambda(:)
 
-         real(dp),allocatable :: amat(:,:)
+         real(dp),pointer :: amat(:,:)
          integer(ilp) :: m,n,k
 
          !> Create an internal pointer so the intent of A won't affect the next call
-         allocate (amat,source=a)
+         amat => a
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -1506,7 +1505,7 @@ module la_eig
 
      !> Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array `lambda`
      !> of eigenvalues, and optionally right or left eigenvectors.
-     pure subroutine la_eigh_d(a,lambda,vectors,upper_a,overwrite_a,err)
+     subroutine la_eigh_d(a,lambda,vectors,upper_a,overwrite_a,err)
          !> Input matrix A[m,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -2845,7 +2844,7 @@ module la_eig
 
      end function la_eigvals_standard_z
 
-     pure function la_eigvals_noerr_standard_z(a) result(lambda)
+     function la_eigvals_noerr_standard_z(a) result(lambda)
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
          complex(dp),intent(in),dimension(:,:),target :: a
@@ -2853,11 +2852,11 @@ module la_eig
          complex(dp),allocatable :: lambda(:)
 
          !> Create
-         complex(dp),allocatable,dimension(:,:) :: amat
+         complex(dp),pointer,dimension(:,:) :: amat
          integer(ilp) :: m,n,k
 
          !> Create an internal pointer so the intent of A won't affect the next call
-         allocate (amat,source=a)
+         amat => a
          
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -2871,7 +2870,7 @@ module la_eig
 
      end function la_eigvals_noerr_standard_z
 
-     pure subroutine la_eig_standard_z(a,lambda,right,left, &
+     subroutine la_eig_standard_z(a,lambda,right,left, &
                                                        overwrite_a,err)
      !! Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !! and optionally right or left eigenvectors.

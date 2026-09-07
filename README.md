@@ -310,6 +310,95 @@ For a full-rank matrix, returns an array value that represents the solution to t
 - Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrix and rhs vectors have invalid/incompatible sizes.
 - If `err` is not present, exceptions trigger an `error stop`.
 
+## [solve_lu](@ref la_solve::solve_lu) - Solve a linear system into a pre-allocated array.
+
+### Syntax
+
+`call solve_lu(a, b, x [, pivot] [, overwrite_a] [, err])`
+
+### Description
+
+Solve linear systems - one (`b(:)`) or many (`b(:,:)`) - writing the result into the caller's array `x` instead of returning a new one. Storage for the pivot indices may be supplied as well: when `x` and `pivot` are both provided and `overwrite_a=.true.`, the call performs no internal allocation, which makes it suited to a loop over many systems of the same size. The routine is `pure`.
+
+### Arguments
+
+- `a`: A `real` or `complex` coefficient matrix of size \f$ [n,n] \f$. If `overwrite_a=.true.`, it is destroyed by the call.
+- `b`: A rank-1 (one system) or rank-2 (many systems) array of the same kind as `a`, containing the right-hand-side vector(s).
+- `x`: An array of the same shape and kind as `b`. On output it holds the solution.
+- `pivot` (optional): An `integer(ilp)` array of size `n` that receives the diagonal pivot indices of the LU factorization.
+- `overwrite_a` (optional, default = `.false.`): If `.true.`, input matrix `a` will be used as temporary storage and overwritten, to avoid internal data allocation.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable.
+
+### Errors
+
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the matrix is singular to working precision.
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a`, `b`, `x` or `pivot` have invalid/incompatible sizes.
+- If `err` is not present, exceptions trigger an `error stop`.
+
+### Notes
+
+- This subroutine is based on LAPACK's LU decomposition solvers [GESV](@ref la_lapack::gesv).
+- [solve](@ref la_solve::solve) is the function form; it allocates and returns the solution instead of writing into `x`.
+
+## [solve_chol](@ref la_solve::solve_chol) - Solve a Hermitian positive definite system.
+
+### Syntax
+
+`call solve_chol(a, b, x [, lower] [, overwrite_a] [, err])`
+
+### Description
+
+Factorize a `real` symmetric or `complex` Hermitian positive definite matrix and solve \f$ A x = b \f$ in one call, for one (`b(:)`) or many (`b(:,:)`) right-hand sides. Only the triangle `lower` selects is read. The result is written into the caller's array `x`. The routine is `pure`.
+
+### Arguments
+
+- `a`: A `real` symmetric or `complex` Hermitian positive definite matrix of size \f$ [n,n] \f$. If `overwrite_a=.true.`, it is overwritten with its Cholesky factor.
+- `b`: A rank-1 (one system) or rank-2 (many systems) array of the same kind as `a`, containing the right-hand-side vector(s).
+- `x`: An array of the same shape and kind as `b`. On output it holds the solution.
+- `lower` (optional, default = `.true.`): If `.true.`, the lower triangle of `a` is read and the factorization is \f$ A = L L^H \f$; otherwise the upper triangle is read and the factorization is \f$ A = U^H U \f$.
+- `overwrite_a` (optional, default = `.false.`): If `.true.`, input matrix `a` will be used as temporary storage and overwritten, to avoid internal data allocation.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable.
+
+### Errors
+
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if `a` is not positive definite.
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a`, `b` or `x` have invalid/incompatible sizes.
+- If `err` is not present, exceptions trigger an `error stop`.
+
+### Notes
+
+- This subroutine is based on LAPACK's [POSV](@ref la_lapack::posv) drivers.
+- To reuse a factorization across several right-hand sides, call [cholesky](@ref la_cholesky::cholesky) once and then [solve_lower_chol](@ref la_solve::solve_lower_chol) or [solve_upper_chol](@ref la_solve::solve_upper_chol).
+
+## [solve_lower_chol](@ref la_solve::solve_lower_chol), [solve_upper_chol](@ref la_solve::solve_upper_chol) - Solve from a Cholesky factor.
+
+### Syntax
+
+`call solve_lower_chol(l, b, x [, err])`
+
+`call solve_upper_chol(u, b, x [, err])`
+
+### Description
+
+Solve \f$ A x = b \f$ for one or many right-hand sides from a Cholesky factor computed earlier, without factorizing again. Each call costs two triangular solves. Both routines are `pure`.
+
+### Arguments
+
+- `l` / `u`: The lower or upper Cholesky factor of size \f$ [n,n] \f$, as returned by [cholesky](@ref la_cholesky::cholesky) with `lower=.true.` or `lower=.false.`.
+- `b`: A rank-1 (one system) or rank-2 (many systems) array of the same kind as the factor, containing the right-hand-side vector(s).
+- `x`: An array of the same shape and kind as `b`. On output it holds the solution.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the factor, `b` or `x` have invalid/incompatible sizes.
+- If `err` is not present, exceptions trigger an `error stop`.
+
+### Notes
+
+- Both routines are based on LAPACK's [POTRS](@ref la_lapack::potrs) routines.
+- The factor is taken as given: a matrix that is not a Cholesky factor produces a wrong answer, not an error.
+
 ## [lstsq](@ref la_least_squares::lstsq) - Compute a least squares solution to a system of linear equations.
 
 ### Syntax
@@ -346,6 +435,243 @@ Returns the solution array \f$ x \f$ with size \f$ n \f$ (for a single right-han
 - This function relies on LAPACK's least-squares solvers, such as [GELSS](@ref la_lapack::gelss).
 - If `overwrite_a` is enabled, the original contents of `a` and `b` may be lost.
 
+## [lstsq_space](@ref la_least_squares::lstsq_space) - Workspace size for least squares operations.
+
+### Syntax
+
+`call lstsq_space(a, b, lrwork, liwork)` for real data
+`call lstsq_space(a, b, lrwork, liwork, lcwork)` for complex data
+
+### Description
+
+This subroutine returns the sizes of the working arrays that [`solve_lstsq`](@ref la_least_squares::solve_lstsq) needs for a problem of the shape of `a` and `b`, so that a repeated solve of problems of the same size performs no internal allocation.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. Only its shape is read.
+- `b`: A right-hand-side vector of size \f$m\f$ or matrix of size \f$ [m,nrhs] \f$. Only its shape is read.
+- `lrwork`: An `integer` returning the size of the real working array.
+- `liwork`: An `integer` returning the size of the integer working array.
+- `lcwork`: An `integer` returning the size of the complex working array. Complex data only.
+
+### Return value
+
+The three (two, for real data) workspace sizes are returned in the output arguments.
+
+### Errors
+
+- This subroutine is `pure` and cannot fail: it reads the shapes of its inputs and nothing else.
+
+### Notes
+
+- The sizes are those of LAPACK's [GELSD](@ref la_lapack::gelsd), with 25% headroom.
+
+
+## [solve_lstsq](@ref la_least_squares::solve_lstsq) - Least squares solution into a pre-allocated array.
+
+### Syntax
+
+`call solve_lstsq(a, b, x [, real_storage] [, int_storage] [, cmpl_storage] [, cond] [, singvals] [, overwrite_a] [, rank] [, err])`
+
+### Description
+
+This subroutine computes the least-squares solution of \f$ A \cdot x = b \f$ and writes it into the caller's array. Given the optional working arrays, it allocates nothing, so a repeated solve of problems of the same size runs without any memory traffic.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(inout)` argument, and is destroyed if `overwrite_a` is true.
+- `b`: The right-hand-side vector of size \f$m\f$ or matrix of size \f$ [m,nrhs] \f$. It is an `intent(in)` argument.
+- `x`: The solution vector of size \f$ \ge n \f$ or matrix of size \f$ [\ge n,nrhs] \f$. It is an `intent(inout)` contiguous argument.
+- `real_storage` (optional): A real working array of size at least the `lrwork` returned by [`lstsq_space`](@ref la_least_squares::lstsq_space).
+- `int_storage` (optional): An integer working array of size at least `liwork`.
+- `cmpl_storage` (optional): A complex working array of size at least `lcwork`. Complex data only.
+- `cond` (optional): The cutoff for rank evaluation: singular values \f$ s_i \le \text{cond} \cdot \max(s) \f$ are treated as zero.
+- `singvals` (optional): A real array of size at least \f$ \min(m,n) \f$ returning the singular values in decreasing order.
+- `overwrite_a` (optional): If true, `a` may be overwritten and destroyed. Default is false.
+- `rank` (optional): An `integer` returning the rank of `a`.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the subroutine will stop execution.
+
+### Return value
+
+The solution is written into `x`.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrix and right-hand-side sizes are inconsistent, if `x` is too small, or if a working array is too small.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the singular value decomposition did not converge.
+- If `err` is not provided, the subroutine will stop execution on errors.
+
+### Notes
+
+- [`lstsq`](@ref la_least_squares::lstsq) is this subroutine with the solution allocated for the caller.
+
+
+## [weighted_lstsq](@ref la_least_squares::weighted_lstsq) - Weighted least squares solution (function).
+
+### Syntax
+
+`x = weighted_lstsq(w, a, b [, cond] [, overwrite_a] [, rank] [, err])`
+
+### Description
+
+This function minimizes \f$ \|D (b - A \cdot x)\| \f$ with \f$ D = \mathrm{diag}(\sqrt{w}) \f$: the \f$i\f$-th equation carries the weight \f$ w_i \f$. Both sides are scaled and the resulting ordinary least-squares problem is solved with [GELSD](@ref la_lapack::gelsd).
+
+### Arguments
+
+- `w`: A `real` vector of size \f$m\f$. The weights are always real and must all be positive.
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(inout)` argument, and is destroyed if `overwrite_a` is true.
+- `b`: The right-hand-side vector of size \f$m\f$. It is an `intent(in)` argument.
+- `cond` (optional): The cutoff for rank evaluation.
+- `overwrite_a` (optional): If true, `a` may be overwritten and destroyed. Default is false.
+- `rank` (optional): An `integer` returning the rank of `a`.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the function will stop execution.
+
+### Return value
+
+The function returns the solution vector of size \f$n\f$.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrix is empty, if `w` or `b` does not have one entry per row of `a`, or if any weight is not positive.
+- If `err` is not provided, the function will stop execution on errors.
+
+### Notes
+
+- With uniform weights the result is that of [`lstsq`](@ref la_least_squares::lstsq).
+
+
+## [solve_weighted_lstsq](@ref la_least_squares::solve_weighted_lstsq) - Weighted least squares solution into a pre-allocated array.
+
+### Syntax
+
+`call solve_weighted_lstsq(w, a, b, x [, cond] [, overwrite_a] [, rank] [, err])`
+
+### Description
+
+This subroutine is the subroutine form of [`weighted_lstsq`](@ref la_least_squares::weighted_lstsq): it writes the solution into the caller's array instead of allocating it.
+
+### Arguments
+
+- `w`: A `real` vector of size \f$m\f$ of positive weights.
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(inout)` argument, and is destroyed if `overwrite_a` is true.
+- `b`: The right-hand-side vector of size \f$m\f$. It is an `intent(in)` argument.
+- `x`: The solution vector of size \f$n\f$. It is an `intent(inout)` contiguous argument.
+- `cond` (optional): The cutoff for rank evaluation.
+- `overwrite_a` (optional): If true, `a` may be overwritten and destroyed. Default is false.
+- `rank` (optional): An `integer` returning the rank of `a`.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the subroutine will stop execution.
+
+### Return value
+
+The solution is written into `x`.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrix is empty, if `w` or `b` does not have one entry per row of `a`, or if any weight is not positive.
+- If `err` is not provided, the subroutine will stop execution on errors.
+
+### Notes
+
+- The weights are applied to a copy of `a` unless `overwrite_a` is set, so `a` is unchanged by default.
+
+
+## [constrained_lstsq](@ref la_least_squares::constrained_lstsq) - Equality-constrained least squares solution (function).
+
+### Syntax
+
+`x = constrained_lstsq(a, b, c, d [, overwrite_matrices] [, err])`
+
+### Description
+
+This function minimizes \f$ \|b - A \cdot x\| \f$ subject to \f$ C \cdot x = d \f$, with \f$ A \f$ of size \f$ [m,n] \f$ and \f$ C \f$ of size \f$ [p,n] \f$. The problem has a unique solution when \f$ p \le n \le m+p \f$, \f$ \mathrm{rank}(C) = p \f$ and the stacked matrix has rank \f$ n \f$.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$, the least-squares cost. It is an `intent(inout)` argument, and is destroyed if `overwrite_matrices` is true.
+- `b`: The least-squares right-hand-side vector of size \f$m\f$. It is an `intent(inout)` argument.
+- `c`: The constraint matrix of size \f$ [p,n] \f$. It is an `intent(inout)` argument.
+- `d`: The constraint right-hand-side vector of size \f$p\f$. It is an `intent(inout)` argument.
+- `overwrite_matrices` (optional): If true, `a`, `b`, `c` and `d` may be overwritten and destroyed. Default is false.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the function will stop execution.
+
+### Return value
+
+The function returns the solution vector of size \f$n\f$.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if any matrix is empty or if the four shapes are inconsistent.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if `c` is rank deficient or if the stacked matrix is.
+- If `err` is not provided, the function will stop execution on errors.
+
+### Notes
+
+- This function uses LAPACK's [GGLSE](@ref la_lapack::gglse) driver.
+
+
+## [solve_constrained_lstsq](@ref la_least_squares::solve_constrained_lstsq) - Equality-constrained least squares solution into a pre-allocated array.
+
+### Syntax
+
+`call solve_constrained_lstsq(a, b, c, d, x [, storage] [, overwrite_matrices] [, err])`
+
+### Description
+
+This subroutine is the subroutine form of [`constrained_lstsq`](@ref la_least_squares::constrained_lstsq): it writes the solution into the caller's array and can reuse a caller-provided workspace.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$, the least-squares cost. It is an `intent(inout)` argument.
+- `b`: The least-squares right-hand-side vector of size \f$m\f$. It is an `intent(inout)` argument.
+- `c`: The constraint matrix of size \f$ [p,n] \f$. It is an `intent(inout)` argument.
+- `d`: The constraint right-hand-side vector of size \f$p\f$. It is an `intent(inout)` argument.
+- `x`: The solution vector of size \f$n\f$. It is an `intent(out)` argument.
+- `storage` (optional): A working array of size at least the `lwork` returned by [`constrained_lstsq_space`](@ref la_least_squares::constrained_lstsq_space).
+- `overwrite_matrices` (optional): If true, `a`, `b`, `c` and `d` may be overwritten and destroyed. Default is false.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the subroutine will stop execution.
+
+### Return value
+
+The solution is written into `x`.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the shapes are inconsistent or if `storage` is too small.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if `c` is rank deficient or if the stacked matrix is.
+- If `err` is not provided, the subroutine will stop execution on errors.
+
+### Notes
+
+- Without `overwrite_matrices`, all four inputs are copied, so none of them is changed.
+
+
+## [constrained_lstsq_space](@ref la_least_squares::constrained_lstsq_space) - Workspace size for the constrained least squares solver.
+
+### Syntax
+
+`call constrained_lstsq_space(a, c, lwork [, err])`
+
+### Description
+
+This subroutine asks LAPACK for the optimal size of the workspace array that [`solve_constrained_lstsq`](@ref la_least_squares::solve_constrained_lstsq) needs for a problem of the shape of `a` and `c`.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. Only its shape is read.
+- `c`: The constraint matrix of size \f$ [p,n] \f$. Only its shape is read.
+- `lwork`: An `integer` returning the size of the workspace array.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the subroutine will stop execution.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if LAPACK rejects the problem dimensions.
+- If `err` is not provided, the subroutine will stop execution on errors.
+
+### Notes
+
+- The size returned is the optimal one, not the minimum one.
+
+
 ## [det](@ref la_determinant::det) - Determinant of a scalar or rectangular matrix.
 
 ### Syntax
@@ -377,6 +703,35 @@ The function returns a `real` scalar value representing the determinant of the i
 - If `overwrite_a` is enabled, the input matrix `a` will be destroyed during the computation process.
 
 
+
+## [operator(.det.)](@ref la_determinant::operator(.det.)) - Determinant of a square matrix.
+
+### Syntax
+
+```fortran
+d = .det. A
+```
+
+### Description
+
+This operator computes the determinant of a square real or complex matrix \f$ A \f$ from its LU factorization, in the same way as [det](@ref la_determinant::det). It is `pure`, so it can be used inside `pure` procedures and `do concurrent` blocks; it takes no `overwrite_a` flag and never modifies its operand, which is copied internally.
+
+### Arguments
+
+- `A`: A `real` or `complex` square matrix of size \f$ [n,n] \f$.
+
+### Return value
+
+A scalar of the same type and kind as `A`, holding its determinant.
+
+### Errors
+
+- Unlike [det](@ref la_determinant::det), this operator **does not provide explicit error handling**: it has no `err` argument, so a non-square or singular matrix triggers an `error stop`.
+
+### Notes
+
+- The determinant is computed through the LAPACK [getrf](@ref la_lapack::getrf) backend.
+- If error handling is required, use [det](@ref la_determinant::det) with its `err` argument instead.
 
 ## [inv](@ref la_inverse::inv) - Inverse of a square matrix.
 
@@ -416,15 +771,17 @@ The computation is performed using LU decomposition.
 - This function computes the inverse using LAPACK's LU decomposition routine [GETRF](@ref la_lapack::getrf) followed by [GETRI](@ref la_lapack::getri).
 - The inverse should be used with caution in numerical computations. For solving linear systems, using [solve](@ref la_solve::solve) is usually more stable and efficient than explicitly computing the inverse.
 
-## [invert](@ref la_inverse::invert) - In-place matrix inversion
+## [invert](@ref la_inverse::invert) - Matrix inversion (subroutine).
 
 ### Syntax
 
-`call invert(a [, err])`
+`call invert(a [, pivot] [, err])`
+
+`call invert(a, inva [, pivot] [, err])`
 
 ### Description
 
-This subroutine computes the inverse \\( A^{-1} \\) of a real or complex square matrix \\( A \\) **in-place**, modifying `a` directly. It uses the LU decomposition method via LAPACK's [GETRF](@ref la_lapack::getrf) and [GETRI](@ref la_lapack::getri) routines.
+This subroutine computes the inverse \\( A^{-1} \\) of a real or complex square matrix \\( A \\). The first form works **in-place**, modifying `a` directly; the second writes the inverse into a second matrix `inva` of the same shape and leaves `a` untouched. Both use the LU decomposition method via LAPACK's [GETRF](@ref la_lapack::getrf) and [GETRI](@ref la_lapack::getri) routines.
 
 Given a square matrix \\( A \\), the LU decomposition factorizes it as:
 
@@ -441,18 +798,20 @@ The inverse is then obtained by solving \\( A X = I \\) using the LU factors.
 
 ### Arguments
 
-- `a`: A `real` or `complex` square matrix of size \\( [n,n] \\). On output, it is replaced with its inverse \\( A^{-1} \\).
+- `a`: A `real` or `complex` square matrix of size \\( [n,n] \\). In the in-place form it is replaced with its inverse \\( A^{-1} \\) on output; in the split form it is read only.
+- `inva` (split form only): A matrix of the same shape and kind as `a`, which receives the inverse \\( A^{-1} \\).
+- `pivot` (optional): An `integer(ilp)` array of size at least `n` that receives the diagonal pivot indices of the LU factorization. Supplying it avoids the internal allocation of the pivot array.
 - `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that returns the error state. If not provided, the function will stop execution on error.
 
 ### Errors
 
 - Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the matrix is singular.
-- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a` has invalid size.
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a` has invalid size, if `inva` does not match the shape of `a`, or if `pivot` is shorter than `n`.
 - If `err` is not provided, exceptions will trigger an `error stop`.
 
 ### Notes
 
-- This subroutine modifies `a` in-place. If the original matrix needs to be preserved, use [inv](@ref la_inverse::inv) instead.
+- The in-place form modifies `a`. If the original matrix needs to be preserved, use the split form or [inv](@ref la_inverse::inv) instead.
 - The determinant of `a` can be computed before inversion using [det](@ref la_determinant::det) to check for singularity.
 - The computational complexity is \\( O(n^3) \\), making it expensive for large matrices.
 - It is recommended to use matrix factorizations (e.g., LU or QR) for solving linear systems instead of computing the inverse explicitly, as it is numerically more stable and efficient.
@@ -686,11 +1045,15 @@ where:
 
 `d = diag(n, source [, err])` for scalar input
 `d = diag(source(:) [, err])` for array input
+`d = diag(source(:), k)` for array input placed on the `k`-th diagonal
+`v = diag(a(:,:) [, k])` to extract a diagonal of a matrix
 
 ### Description
 
 This function generates a square diagonal matrix where the diagonal elements are populated either by a scalar value or an array of values. The size of the matrix is determined by the input parameter \f$n\f$ or the size of the input array. 
 If a scalar is provided, the diagonal elements are all set to the same value. If an array is provided, its length determines the size of the matrix, and its elements are placed along the diagonal.
+Given the offset `k`, the array is placed on the `k`-th superdiagonal (\f$k>0\f$) or subdiagonal (\f$k<0\f$) instead, and the matrix grows to \f$(n+|k|) \times (n+|k|)\f$.
+Given a matrix instead of a vector, the function extracts the requested diagonal and returns it as a vector.
 
 ### Arguments
 
@@ -698,11 +1061,14 @@ If a scalar is provided, the diagonal elements are all set to the same value. If
 - `source`: 
   - If a scalar, this value is used to populate all the diagonal elements of the matrix.
   - If an array, the elements of the array are used to populate the diagonal of the matrix. The size of the array determines the matrix size.
+- `a`: A matrix whose `k`-th diagonal is returned as a vector.
+- `k` (optional): The index of the diagonal: 0 is the main diagonal, \f$k>0\f$ the `k`-th superdiagonal, \f$k<0\f$ the `k`-th subdiagonal.
 - `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the function will stop execution.
 
 ### Return value
 
-The function returns a matrix of size \f$n \times n\f$, where the diagonal elements are either all equal to the scalar `source` or populated by the values from the input array.
+The function returns a matrix of size \f$n \times n\f$, where the diagonal elements are either all equal to the scalar `source` or populated by the values from the input array. With the offset `k`, the matrix is of size \f$(n+|k|) \times (n+|k|)\f$.
+Given a matrix, the function returns the requested diagonal as a vector; the vector has size zero when the requested diagonal lies outside the matrix.
 
 ### Errors
 
@@ -746,6 +1112,339 @@ The function returns a matrix of size \f$m \times n\f$ (or \f$m \times m\f$ if \
 - The identity matrix is constructed with the specified data type, which defaults to `real(real64)` if no type is specified.
 - The `mold` scalar is used to provide a function return type. 
 - If the `err` parameter is provided, the error state of the function will be returned.
+
+## [trace](@ref la_eye::trace) - Trace of a matrix.
+
+### Syntax
+
+`t = trace(a)`
+
+### Description
+
+This function returns the sum of the main diagonal elements of a matrix. The matrix does not need to be square: for a \f$ m \times n \f$ matrix, the first \f$ \min(m,n) \f$ diagonal elements are summed.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns a scalar of the same type and kind as `a`, equal to \f$ \sum_i a_{ii} \f$.
+
+### Errors
+
+- This function is `pure` and cannot fail: an empty matrix returns zero.
+
+### Notes
+
+- `trace(a)` is equivalent to `sum(diag(a))`, computed without building the intermediate vector.
+
+
+## [outer_product](@ref la_eye::outer_product) - Outer product of two vectors.
+
+### Syntax
+
+`c = outer_product(u, v)`
+
+### Description
+
+This function returns the outer product \f$ u \otimes v \f$ of two vectors, the matrix whose \f$(i,j)\f$ element is \f$ u_i v_j \f$.
+
+### Arguments
+
+- `u`: A `real` or `complex` vector of size \f$m\f$. It is an `intent(in)` argument.
+- `v`: A vector of the same type and kind as `u`, of size \f$n\f$. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns the \f$ m \times n \f$ matrix \f$ u \otimes v \f$, of the same type and kind as the inputs.
+
+### Errors
+
+- This function is `pure` and cannot fail: the two vectors may have any lengths.
+
+### Notes
+
+- No conjugation is applied to `v`. For the Hermitian outer product, pass `conjg(v)`.
+
+
+## [cross_product](@ref la_eye::cross_product) - Cross product of two 3-dimensional vectors.
+
+### Syntax
+
+`c = cross_product(a, b)`
+
+### Description
+
+This function returns the cross product \f$ a \times b \f$ of two vectors of size 3, the vector orthogonal to both inputs.
+
+### Arguments
+
+- `a`: A `real` or `complex` vector of size 3. It is an `intent(in)` argument.
+- `b`: A vector of size 3, of the same type and kind as `a`. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns a vector of size 3, of the same type and kind as the inputs.
+
+### Errors
+
+- This function is `pure` and cannot fail: both arguments are declared of fixed size 3, so a wrong length is a compile-time error.
+
+### Notes
+
+- The result is computed from the usual determinant expansion, without any normalization.
+
+
+## [kronecker_product](@ref la_eye::kronecker_product) - Kronecker product of two matrices.
+
+### Syntax
+
+`c = kronecker_product(a, b)`
+
+### Description
+
+This function returns the Kronecker product \f$ A \otimes B \f$: given \f$ A \f$ of size \f$ m_1 \times n_1 \f$ and \f$ B \f$ of size \f$ m_2 \times n_2 \f$, the result is the \f$ (m_1 m_2) \times (n_1 n_2) \f$ block matrix whose \f$(i,j)\f$ block is \f$ A_{ij} B \f$.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m_1,n_1] \f$. It is an `intent(in)` argument.
+- `b`: A matrix of size \f$ [m_2,n_2] \f$, of the same type and kind as `a`. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns the \f$ (m_1 m_2) \times (n_1 n_2) \f$ Kronecker product matrix, of the same type and kind as the inputs.
+
+### Errors
+
+- This function is `pure` and cannot fail: the two matrices may have any shapes.
+
+### Notes
+
+- The block ordering is the usual one, so `kronecker_product(a, b)` and `kronecker_product(b, a)` differ by a permutation of rows and columns.
+
+
+## [hermitian](@ref la_eye::hermitian) - Hermitian transpose of a matrix.
+
+### Syntax
+
+`ah = hermitian(a)`
+
+### Description
+
+This function returns the Hermitian transpose of a matrix: `conjg(transpose(a))` for a `complex` matrix, `transpose(a)` for a `real` one.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns the \f$ n \times m \f$ matrix \f$ a^H \f$, of the same type and kind as `a`.
+
+### Errors
+
+- This function is `pure` and cannot fail.
+
+### Notes
+
+- The matrix does not need to be square.
+
+
+## [is_square](@ref la_matrix_property_checks::is_square) - Check whether a matrix is square.
+
+### Syntax
+
+`l = is_square(a)`
+
+### Description
+
+This function returns `.true.` if the input matrix has as many rows as columns.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns a `logical` flag, `.true.` if \f$ m = n \f$.
+
+### Errors
+
+- This function is `pure` and cannot fail.
+
+### Notes
+
+- A zero-sized matrix with equal extents is square.
+
+
+## [is_diagonal](@ref la_matrix_property_checks::is_diagonal) - Check whether a matrix is diagonal.
+
+### Syntax
+
+`l = is_diagonal(a)`
+
+### Description
+
+This function returns `.true.` if every entry of the input matrix outside the main diagonal is exactly zero. The matrix does not need to be square.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns a `logical` flag, `.true.` if \f$ a_{ij} = 0 \f$ for all \f$ i \neq j \f$.
+
+### Errors
+
+- This function is `pure` and cannot fail.
+
+### Notes
+
+- The comparison is exact; entries that are only small are not treated as zero.
+
+
+## [is_symmetric](@ref la_matrix_property_checks::is_symmetric) - Check whether a matrix is symmetric.
+
+### Syntax
+
+`l = is_symmetric(a)`
+
+### Description
+
+This function returns `.true.` if the input matrix equals its own transpose.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns a `logical` flag, `.true.` if \f$ a = a^T \f$. A non-square matrix returns `.false.`.
+
+### Errors
+
+- This function is `pure` and cannot fail.
+
+### Notes
+
+- For a `complex` matrix this is the transpose without conjugation. Use [`is_hermitian`](@ref la_matrix_property_checks::is_hermitian) for the conjugate test.
+
+
+## [is_skew_symmetric](@ref la_matrix_property_checks::is_skew_symmetric) - Check whether a matrix is skew-symmetric.
+
+### Syntax
+
+`l = is_skew_symmetric(a)`
+
+### Description
+
+This function returns `.true.` if the input matrix equals the negative of its own transpose.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns a `logical` flag, `.true.` if \f$ a = -a^T \f$. A non-square matrix returns `.false.`.
+
+### Errors
+
+- This function is `pure` and cannot fail.
+
+### Notes
+
+- The main diagonal of a skew-symmetric matrix is zero, and the test covers it.
+
+
+## [is_hermitian](@ref la_matrix_property_checks::is_hermitian) - Check whether a matrix is Hermitian.
+
+### Syntax
+
+`l = is_hermitian(a)`
+
+### Description
+
+This function returns `.true.` if the input matrix equals its own conjugate transpose.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+
+### Return value
+
+The function returns a `logical` flag, `.true.` if \f$ a = a^H \f$. A non-square matrix returns `.false.`.
+
+### Errors
+
+- This function is `pure` and cannot fail.
+
+### Notes
+
+- For a `real` matrix this is the same test as [`is_symmetric`](@ref la_matrix_property_checks::is_symmetric).
+
+
+## [is_triangular](@ref la_matrix_property_checks::is_triangular) - Check whether a matrix is triangular.
+
+### Syntax
+
+`l = is_triangular(a, uplo [, err])`
+
+### Description
+
+This function returns `.true.` if every entry of the input matrix below (`uplo = 'U'`) or above (`uplo = 'L'`) the main diagonal is exactly zero. The matrix does not need to be square.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+- `uplo`: A `character` flag selecting the triangle to test, `'U'` for upper or `'L'` for lower. It is an `intent(in)` argument.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the function will stop execution.
+
+### Return value
+
+The function returns a `logical` flag, `.true.` if `a` is triangular of the requested type.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `uplo` is neither `'U'` nor `'L'`, and returns `.false.`.
+- If `err` is not provided, the function will stop execution on errors.
+
+### Notes
+
+- The form without `err` is `pure`.
+
+
+## [is_hessenberg](@ref la_matrix_property_checks::is_hessenberg) - Check whether a matrix is Hessenberg.
+
+### Syntax
+
+`l = is_hessenberg(a, uplo [, err])`
+
+### Description
+
+This function returns `.true.` if every entry of the input matrix more than one row below (`uplo = 'U'`) or more than one row above (`uplo = 'L'`) the main diagonal is exactly zero. The matrix does not need to be square.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(in)` argument.
+- `uplo`: A `character` flag selecting the Hessenberg form to test, `'U'` for upper or `'L'` for lower. It is an `intent(in)` argument.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the function will stop execution.
+
+### Return value
+
+The function returns a `logical` flag, `.true.` if `a` is Hessenberg of the requested type.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `uplo` is neither `'U'` nor `'L'`, and returns `.false.`.
+- If `err` is not provided, the function will stop execution on errors.
+
+### Notes
+
+- Every triangular matrix is Hessenberg of the same type, and so is every diagonal matrix.
+
 
 ## [qr](@ref la_qr::qr) - QR factorization of a matrix.
 
@@ -913,14 +1612,13 @@ The following refactorings are applied:
 - all `pure` procedures where possible
 - `intent` added to all procedure arguments
 - Removed `DO 10 .... 10 CONTINUE`, replaced with `do..end do` loops or labelled `loop_10: do ... cycle loop_10 ... end do loop_10` in case control statements are present
-- BLAS modularized into a single-file module
-- LAPACK modularized into a single-file module
+- BLAS split into ten kind-templated topic modules, LAPACK into 47, each holding every precision of the routines of one topic
 - All procedures prefixed (with `stdlib_`, currently).
 - F77-style `parameter`s removed, and numeric constants moved to the top of each module.
 - Ambiguity in single vs. double precision constants (`0.0`, `0.d0`, `(1.0,0.0)`) removed
 - preprocessor-based OpenMP directives retained.
 
-The single-source module structure hopefully allows for cross-procedural inlining which is otherwise impossible without link-time optimization.
+Grouping every precision of a topic in one module hopefully allows for cross-procedural inlining which is otherwise impossible without link-time optimization.
 
 # Building
 An automated build is currently available via the [Fortran Package Manager](https://fpm.fortran-lang.org).
@@ -972,6 +1670,25 @@ interface axpy
 #endif
 end interface
 ```
+
+# Regenerating sources
+
+The Fortran under `src/` and `test/` is generated from the kind-templated [fypp](https://fypp.readthedocs.io) sources
+under `fypp/src/` and `fypp/test/`, with the shared kind algebra in `include/`. The generated files are committed, so
+building or installing the package never needs fypp. After editing a template, regenerate with
+
+```bash
+python3 scripts/fypp_deploy.py           # rewrite src/ and test/ from the templates
+python3 scripts/fypp_deploy.py --check   # verify the committed tree matches the templates
+```
+
+`--check` is what continuous integration runs; it prints the templates it does not own yet and the reason for each.
+`la_blas` and `la_lapack` are umbrella modules that re-export 57 topic modules, ten for BLAS and 47 for LAPACK; the
+generic interfaces they publish are data tables under `include/`, regenerated with `python3 scripts/templatize.py
+--blas-interfaces` and `python3 scripts/templatize.py --lapack-interfaces`.
+Two further scripts support that layout:
+`scripts/templatize.py` converts per-kind Fortran into one template per topic, driven by `scripts/la_modules.tsv`,
+and `scripts/check_generated.py` compares the regenerated tree against a git reference routine by routine.
 
 # Licensing
 

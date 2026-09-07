@@ -1,23 +1,10 @@
 ! Test inverse matrix
-module test_linalg_pseudoinverse
+module test_la_pinv
     use linear_algebra
 
     implicit none(type,external)
 
     contains
-
-    !> Initialize reproducible pseudoinverse test data.
-    subroutine initialize_random_seed()
-        integer :: i,n
-        integer,allocatable :: seed(:)
-
-        call random_seed(size=n)
-        allocate (seed(n))
-        do i = 1,n
-            seed(i) = 104729 + 37*i
-        end do
-        call random_seed(put=seed)
-    end subroutine initialize_random_seed
 
     !> Matrix inversion tests
     subroutine test_pseudoinverse_matrix(error)
@@ -25,7 +12,6 @@ module test_linalg_pseudoinverse
 
         real :: t0,t1
 
-        call initialize_random_seed()
         call cpu_time(t0)
 
         call test_s_eye_pseudoinverse(error)
@@ -799,5 +785,5 @@ module test_linalg_pseudoinverse
         
     end subroutine test_w_singular_pseudoinverse
 
-end module test_linalg_pseudoinverse
+end module test_la_pinv
 
