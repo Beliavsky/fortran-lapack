@@ -6,12 +6,26 @@ module test_linalg_pseudoinverse
 
     contains
 
+    !> Initialize reproducible pseudoinverse test data.
+    subroutine initialize_random_seed()
+        integer :: i,n
+        integer,allocatable :: seed(:)
+
+        call random_seed(size=n)
+        allocate (seed(n))
+        do i = 1,n
+            seed(i) = 104729 + 37*i
+        end do
+        call random_seed(put=seed)
+    end subroutine initialize_random_seed
+
     !> Matrix inversion tests
     subroutine test_pseudoinverse_matrix(error)
         logical,intent(out) :: error
 
         real :: t0,t1
 
+        call initialize_random_seed()
         call cpu_time(t0)
 
         call test_s_eye_pseudoinverse(error)
