@@ -27531,7 +27531,7 @@ module la_lapack_d
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_dla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+     pure subroutine la_dla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
 
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -27875,7 +27875,7 @@ module la_lapack_d
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_dla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_dla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -28403,7 +28403,7 @@ module la_lapack_d
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_dla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_dla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -68126,7 +68126,7 @@ module la_lapack_d
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_dtrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm,m, &
+     pure subroutine la_dtrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm,m, &
                work,ldwork,iwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -69943,7 +69943,7 @@ module la_lapack_d
      !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
      !> matrix X.
 
-     subroutine la_dgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+     pure subroutine la_dgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -73090,7 +73090,7 @@ module la_lapack_d
      !> [  c  a  ]
      !> where b*c < 0. The eigenvalues of such a block are a +- sqrt(bc).
 
-     subroutine la_dgees(jobvs,sort,select,n,a,lda,sdim,wr,wi,vs,ldvs,work,lwork, &
+     pure subroutine la_dgees(jobvs,sort,select,n,a,lda,sdim,wr,wi,vs,ldvs,work,lwork, &
                bwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -73342,7 +73342,7 @@ module la_lapack_d
      !> [  c  a  ]
      !> where b*c < 0. The eigenvalues of such a block are a +- sqrt(bc).
 
-     subroutine la_dgeesx(jobvs,sort,select,sense,n,a,lda,sdim,wr,wi,vs,ldvs, &
+     pure subroutine la_dgeesx(jobvs,sort,select,sense,n,a,lda,sdim,wr,wi,vs,ldvs, &
                rconde,rcondv,work,lwork,iwork,liwork,bwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -73901,7 +73901,7 @@ module la_lapack_d
      !> explanation of balancing, see section 4.10.2_dp of the LAPACK
      !> Users' Guide.
 
-     subroutine la_dgeevx(balanc,jobvl,jobvr,sense,n,a,lda,wr,wi,vl,ldvl,vr,ldvr, &
+     pure subroutine la_dgeevx(balanc,jobvl,jobvr,sense,n,a,lda,wr,wi,vl,ldvl,vr,ldvr, &
                ilo,ihi,scale,abnrm,rconde,rcondv,work,lwork,iwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -78192,7 +78192,7 @@ module la_lapack_d
      !> of SIGMA are the singular values of A. The columns of U and V are the
      !> left and the right singular vectors of A, respectively.
 
-     subroutine la_dgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+     pure subroutine la_dgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                numrank,iwork,liwork,work,lwork,rwork,lrwork,info)
            ! Scalar Arguments
            character,intent(in) :: joba,jobp,jobr,jobu,jobv

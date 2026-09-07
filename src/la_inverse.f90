@@ -92,7 +92,7 @@ module la_inverse
      contains
 
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_s(a,err)
+     pure subroutine la_invert_s(a,err)
          !> Input matrix a[n,n]
          real(sp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -170,7 +170,7 @@ module la_inverse
      end function la_inverse_s
 
      ! Inverse matrix operator
-     function la_inverse_s_operator(a) result(inva)
+     pure function la_inverse_s_operator(a) result(inva)
          !> Input matrix a[n,n]
          real(sp),intent(in) :: a(:,:)
          !> Result matrix
@@ -178,7 +178,8 @@ module la_inverse
 
          type(la_state) :: err
 
-         inva = la_inverse_s(a,err)
+         allocate (inva,source=a)
+         call la_invert_s(inva,err)
 
          ! On error, return an empty matrix
          if (err%error()) then
@@ -189,7 +190,7 @@ module la_inverse
      end function la_inverse_s_operator
 
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_d(a,err)
+     pure subroutine la_invert_d(a,err)
          !> Input matrix a[n,n]
          real(dp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -267,7 +268,7 @@ module la_inverse
      end function la_inverse_d
 
      ! Inverse matrix operator
-     function la_inverse_d_operator(a) result(inva)
+     pure function la_inverse_d_operator(a) result(inva)
          !> Input matrix a[n,n]
          real(dp),intent(in) :: a(:,:)
          !> Result matrix
@@ -275,7 +276,8 @@ module la_inverse
 
          type(la_state) :: err
 
-         inva = la_inverse_d(a,err)
+         allocate (inva,source=a)
+         call la_invert_d(inva,err)
 
          ! On error, return an empty matrix
          if (err%error()) then
@@ -286,7 +288,7 @@ module la_inverse
      end function la_inverse_d_operator
 
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_q(a,err)
+     pure subroutine la_invert_q(a,err)
          !> Input matrix a[n,n]
          real(qp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -364,7 +366,7 @@ module la_inverse
      end function la_inverse_q
 
      ! Inverse matrix operator
-     function la_inverse_q_operator(a) result(inva)
+     pure function la_inverse_q_operator(a) result(inva)
          !> Input matrix a[n,n]
          real(qp),intent(in) :: a(:,:)
          !> Result matrix
@@ -372,7 +374,8 @@ module la_inverse
 
          type(la_state) :: err
 
-         inva = la_inverse_q(a,err)
+         allocate (inva,source=a)
+         call la_invert_q(inva,err)
 
          ! On error, return an empty matrix
          if (err%error()) then
@@ -383,7 +386,7 @@ module la_inverse
      end function la_inverse_q_operator
 
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_c(a,err)
+     pure subroutine la_invert_c(a,err)
          !> Input matrix a[n,n]
          complex(sp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -461,7 +464,7 @@ module la_inverse
      end function la_inverse_c
 
      ! Inverse matrix operator
-     function la_inverse_c_operator(a) result(inva)
+     pure function la_inverse_c_operator(a) result(inva)
          !> Input matrix a[n,n]
          complex(sp),intent(in) :: a(:,:)
          !> Result matrix
@@ -469,7 +472,8 @@ module la_inverse
 
          type(la_state) :: err
 
-         inva = la_inverse_c(a,err)
+         allocate (inva,source=a)
+         call la_invert_c(inva,err)
 
          ! On error, return an empty matrix
          if (err%error()) then
@@ -480,7 +484,7 @@ module la_inverse
      end function la_inverse_c_operator
 
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_z(a,err)
+     pure subroutine la_invert_z(a,err)
          !> Input matrix a[n,n]
          complex(dp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -558,7 +562,7 @@ module la_inverse
      end function la_inverse_z
 
      ! Inverse matrix operator
-     function la_inverse_z_operator(a) result(inva)
+     pure function la_inverse_z_operator(a) result(inva)
          !> Input matrix a[n,n]
          complex(dp),intent(in) :: a(:,:)
          !> Result matrix
@@ -566,7 +570,8 @@ module la_inverse
 
          type(la_state) :: err
 
-         inva = la_inverse_z(a,err)
+         allocate (inva,source=a)
+         call la_invert_z(inva,err)
 
          ! On error, return an empty matrix
          if (err%error()) then
@@ -577,7 +582,7 @@ module la_inverse
      end function la_inverse_z_operator
 
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_w(a,err)
+     pure subroutine la_invert_w(a,err)
          !> Input matrix a[n,n]
          complex(qp),intent(inout) :: a(:,:)
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -655,7 +660,7 @@ module la_inverse
      end function la_inverse_w
 
      ! Inverse matrix operator
-     function la_inverse_w_operator(a) result(inva)
+     pure function la_inverse_w_operator(a) result(inva)
          !> Input matrix a[n,n]
          complex(qp),intent(in) :: a(:,:)
          !> Result matrix
@@ -663,7 +668,8 @@ module la_inverse
 
          type(la_state) :: err
 
-         inva = la_inverse_w(a,err)
+         allocate (inva,source=a)
+         call la_invert_w(inva,err)
 
          ! On error, return an empty matrix
          if (err%error()) then

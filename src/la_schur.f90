@@ -393,7 +393,7 @@ module la_schur
         
     end subroutine la_real_eig_s_schur
 
-    subroutine get_schur_d_workspace(a,lwork,err)
+    pure subroutine get_schur_d_workspace(a,lwork,err)
         !> Input matrix a[m,m]
         real(dp),intent(in),target :: a(:,:)
         !> Minimum workspace size for the decomposition operation
@@ -404,7 +404,7 @@ module la_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
-        real(dp),pointer :: amat(:,:)
+        real(dp),allocatable :: amat(:,:)
         real(dp) :: rwork_dummy(1)
         real(dp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(la_state) :: err0
@@ -415,7 +415,7 @@ module la_schur
         n = size(a,2,kind=ilp)
         
         !> Create a dummy intent(inout) argument
-        amat => a
+        allocate (amat,source=a)
         
         !> Select dummy task
         jobvs = gees_vectors(.true.)
@@ -440,7 +440,7 @@ module la_schur
     end subroutine get_schur_d_workspace
     
     ! Schur decomposition subroutine
-    subroutine la_d_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_d_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         real(dp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -604,7 +604,7 @@ module la_schur
     end subroutine la_d_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
-    module subroutine la_real_eig_d_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure module subroutine la_real_eig_d_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         real(dp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -1147,7 +1147,7 @@ module la_schur
         
     end subroutine la_real_eig_c_schur
 
-    subroutine get_schur_z_workspace(a,lwork,err)
+    pure subroutine get_schur_z_workspace(a,lwork,err)
         !> Input matrix a[m,m]
         complex(dp),intent(in),target :: a(:,:)
         !> Minimum workspace size for the decomposition operation
@@ -1158,7 +1158,7 @@ module la_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
-        complex(dp),pointer :: amat(:,:)
+        complex(dp),allocatable :: amat(:,:)
         real(dp) :: rwork_dummy(1)
         complex(dp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(la_state) :: err0
@@ -1169,7 +1169,7 @@ module la_schur
         n = size(a,2,kind=ilp)
         
         !> Create a dummy intent(inout) argument
-        amat => a
+        allocate (amat,source=a)
         
         !> Select dummy task
         jobvs = gees_vectors(.true.)
@@ -1194,7 +1194,7 @@ module la_schur
     end subroutine get_schur_z_workspace
     
     ! Schur decomposition subroutine
-    subroutine la_z_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_z_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         complex(dp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -1356,7 +1356,7 @@ module la_schur
     end subroutine la_z_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
-    subroutine la_real_eig_z_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_real_eig_z_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         complex(dp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T

@@ -1244,7 +1244,7 @@ module la_lapack
                module procedure la_cgees
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgees(jobvs,sort,select,n,a,lda,sdim,wr,wi,vs,ldvs,work, &
+               pure subroutine dgees(jobvs,sort,select,n,a,lda,sdim,wr,wi,vs,ldvs,work, &
                          lwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1278,7 +1278,7 @@ module la_lapack
 #endif
                module procedure la_wgees
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgees(jobvs,sort,select,n,a,lda,sdim,w,vs,ldvs,work,lwork, &
+               pure subroutine zgees(jobvs,sort,select,n,a,lda,sdim,w,vs,ldvs,work,lwork, &
                          rwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1788,7 +1788,7 @@ module la_lapack
 #endif
                module procedure la_wgels
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+               pure subroutine zgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -2047,7 +2047,7 @@ module la_lapack
 #endif
                module procedure la_wgelsy
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork, &
+               pure subroutine zgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork, &
                          rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3184,7 +3184,7 @@ module la_lapack
                module procedure la_cgesvdq
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+               pure subroutine dgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                          numrank,iwork,liwork,work,lwork,rwork,lrwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3216,7 +3216,7 @@ module la_lapack
 #endif
                module procedure la_wgesvdq
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+               pure subroutine zgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                          numrank,iwork,liwork,cwork,lcwork,rwork,lrwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3581,7 +3581,7 @@ module la_lapack
                module procedure la_cgetsls
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+               pure subroutine dgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -3609,7 +3609,7 @@ module la_lapack
 #endif
                module procedure la_wgetsls
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+               pure subroutine zgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -7128,7 +7128,7 @@ module la_lapack
           !> in computing that entry have at least one zero multiplicand.
           interface la_gbamv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+               pure subroutine cla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -7141,7 +7141,7 @@ module la_lapack
                module procedure la_cla_gbamv
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+               pure subroutine dla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -7154,7 +7154,7 @@ module la_lapack
 #endif
                module procedure la_qla_gbamv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+               pure subroutine sla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -7167,7 +7167,7 @@ module la_lapack
 #endif
                module procedure la_wla_gbamv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+               pure subroutine zla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -7332,7 +7332,7 @@ module la_lapack
           !> in computing that entry have at least one zero multiplicand.
           interface la_geamv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine cla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: alpha,beta
@@ -7344,7 +7344,7 @@ module la_lapack
                module procedure la_cla_geamv
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine dla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -7356,7 +7356,7 @@ module la_lapack
 #endif
                module procedure la_qla_geamv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine sla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -7368,7 +7368,7 @@ module la_lapack
 #endif
                module procedure la_wla_geamv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine zla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: alpha,beta
@@ -7527,7 +7527,7 @@ module la_lapack
           !> in computing that entry have at least one zero multiplicand.
           interface la_heamv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine cla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: alpha,beta
@@ -7540,7 +7540,7 @@ module la_lapack
 #endif
                module procedure la_wla_heamv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine zla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: alpha,beta
@@ -7839,7 +7839,7 @@ module la_lapack
           !> in computing that entry have at least one zero multiplicand.
           interface la_syamv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine cla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: alpha,beta
@@ -7851,7 +7851,7 @@ module la_lapack
                module procedure la_cla_syamv
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine dla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -7863,7 +7863,7 @@ module la_lapack
 #endif
                module procedure la_qla_syamv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine sla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -7875,7 +7875,7 @@ module la_lapack
 #endif
                module procedure la_wla_syamv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine zla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: alpha,beta
@@ -25132,7 +25132,7 @@ module la_lapack
                module procedure la_ctrsna
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dtrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm, &
+               pure subroutine dtrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm, &
                          m,work,ldwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)

@@ -5337,7 +5337,7 @@ module la_lapack_c
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_cla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+     pure subroutine la_cla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
 
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5577,7 +5577,7 @@ module la_lapack_c
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_cla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_cla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -5809,7 +5809,7 @@ module la_lapack_c
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_cla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_cla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -6142,7 +6142,7 @@ module la_lapack_c
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_cla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_cla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--

@@ -269,7 +269,7 @@ module la_pseudoinverse
      end function la_pinv_s_operator
 
      ! Compute the in-place pseudo-inverse of matrix a
-     subroutine la_pseudoinvert_d(a,pinva,rtol,err)
+     pure subroutine la_pseudoinvert_d(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          real(dp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -353,17 +353,16 @@ module la_pseudoinverse
      end function la_pseudoinverse_d
 
      ! Inverse matrix operator
-     function la_pinv_d_operator(a) result(pinva)
+     pure function la_pinv_d_operator(a) result(pinva)
          !> Input matrix a[m,n]
          real(dp),intent(in),target :: a(:,:)
          !> Result matrix
          real(dp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         ! Use pointer to circumvent svd intent(inout) restriction
-         real(dp),pointer :: ap(:,:)
-         ap => a
+         real(dp),allocatable :: acopy(:,:)
 
-         call la_pseudoinvert_d(ap,pinva)
+         allocate (acopy,source=a)
+         call la_pseudoinvert_d(acopy,pinva)
 
      end function la_pinv_d_operator
 
@@ -566,7 +565,7 @@ module la_pseudoinverse
      end function la_pinv_c_operator
 
      ! Compute the in-place pseudo-inverse of matrix a
-     subroutine la_pseudoinvert_z(a,pinva,rtol,err)
+     pure subroutine la_pseudoinvert_z(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          complex(dp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -650,17 +649,16 @@ module la_pseudoinverse
      end function la_pseudoinverse_z
 
      ! Inverse matrix operator
-     function la_pinv_z_operator(a) result(pinva)
+     pure function la_pinv_z_operator(a) result(pinva)
          !> Input matrix a[m,n]
          complex(dp),intent(in),target :: a(:,:)
          !> Result matrix
          complex(dp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         ! Use pointer to circumvent svd intent(inout) restriction
-         complex(dp),pointer :: ap(:,:)
-         ap => a
+         complex(dp),allocatable :: acopy(:,:)
 
-         call la_pseudoinvert_z(ap,pinva)
+         allocate (acopy,source=a)
+         call la_pseudoinvert_z(acopy,pinva)
 
      end function la_pinv_z_operator
 

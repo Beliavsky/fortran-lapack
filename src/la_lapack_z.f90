@@ -5434,7 +5434,7 @@ module la_lapack_z
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_zla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+     pure subroutine la_zla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
 
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5674,7 +5674,7 @@ module la_lapack_z
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_zla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_zla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -5906,7 +5906,7 @@ module la_lapack_z
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_zla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_zla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -6239,7 +6239,7 @@ module la_lapack_z
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_zla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_zla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -53595,7 +53595,7 @@ module la_lapack_z
      !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
      !> matrix X.
 
-     subroutine la_zgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+     pure subroutine la_zgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -65173,7 +65173,7 @@ module la_lapack_z
      !> version of the QR factorization with column pivoting.
      !> o Matrix B (the right hand side) is updated with Blas-3.
 
-     subroutine la_zgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,rwork, &
+     pure subroutine la_zgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,rwork, &
                info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -69669,7 +69669,7 @@ module la_lapack_z
      !> of SIGMA are the singular values of A. The columns of U and V are the
      !> left and the right singular vectors of A, respectively.
 
-     subroutine la_zgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+     pure subroutine la_zgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                numrank,iwork,liwork,cwork,lcwork,rwork,lrwork,info)
            ! Scalar Arguments
            character,intent(in) :: joba,jobp,jobr,jobu,jobv
@@ -70760,7 +70760,7 @@ module la_lapack_z
      !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
      !> matrix X.
 
-     subroutine la_zgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+     pure subroutine la_zgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -73731,7 +73731,7 @@ module la_lapack_z
      !> invariant subspace corresponding to the selected eigenvalues.
      !> A complex matrix is in Schur form if it is upper triangular.
 
-     subroutine la_zgees(jobvs,sort,select,n,a,lda,sdim,w,vs,ldvs,work,lwork, &
+     pure subroutine la_zgees(jobvs,sort,select,n,a,lda,sdim,w,vs,ldvs,work,lwork, &
                rwork,bwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -73908,7 +73908,7 @@ module la_lapack_z
      !> these quantities are called s and sep respectively).
      !> A complex matrix is in Schur form if it is upper triangular.
 
-     subroutine la_zgeesx(jobvs,sort,select,sense,n,a,lda,sdim,w,vs,ldvs,rconde, &
+     pure subroutine la_zgeesx(jobvs,sort,select,sense,n,a,lda,sdim,w,vs,ldvs,rconde, &
                rcondv,work,lwork,rwork,bwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
