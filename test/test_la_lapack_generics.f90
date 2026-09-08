@@ -1,7 +1,7 @@
 ! Kind-agnostic LAPACK generics of the blocked and expert drivers
 module test_la_lapack_generics
     use la_constants,only:sp,dp,qp,ilp,lk
-    use la_lapack,only:geqp3,ggev3,gges3,gghd3,geevx,geesx,gesvx
+    use la_lapack,only:geqp3,ggev3,gges3,gghd3,geevx,geesx,gesvx,lacn2
     use testdrive,only:error_type,check,new_unittest,unittest_type
 
     implicit none(type,external)
@@ -107,6 +107,7 @@ module test_la_lapack_generics
         real(sp),parameter :: tol = 100*sqrt(epsilon(0.0_sp))
 
         integer(ilp) :: i,info,sdim,ilo,ihi,jpvt(n),ipiv(n),iwork(8*n)
+        integer(ilp) :: kase,isave(3),isgn(n)
         logical(lk) :: bwork(n)
         character :: equed
         real(sp) :: a(n,n),eye(n,n),acopy(n,n),bcopy(n,n),af(n,n)
@@ -114,7 +115,7 @@ module test_la_lapack_generics
         real(sp) :: rhs(n,1),bmat(n,1),x(n,1)
         real(sp) :: tau(n),work(lwork),alphar(n),alphai(n),beta(n),wr(n),wi(n)
         real(sp) :: scal(n),rconde(n),rcondv(n),rowsc(n),colsc(n),ferr(1),berr(1)
-        real(sp) :: abnrm,rcond,rce,rcv
+        real(sp) :: abnrm,rcond,rce,rcv,norm_est,norm_v(n),norm_x(n)
 
         a = transpose(reshape([real(sp) :: 4,1,0, &
                                         1,3,1, &
@@ -124,6 +125,16 @@ module test_la_lapack_generics
           eye(i,i) = 1.0_sp
         end do
         rhs(:,1) = [real(sp) :: 1,2,3]
+
+        !> Reentrant reverse-communication norm estimator
+        kase = 0_ilp
+        isave = 0_ilp
+        norm_est = 0.0_sp
+        call lacn2(n,norm_v,norm_x,isgn,norm_est,kase,isave)
+        call check(error,kase == 1_ilp,'lacn2 s initialization failed')
+        if (allocated(error)) return
+        call check(error,all(abs(norm_x - 1.0_sp/real(n,sp)) < tol),'lacn2 s initial vector incorrect')
+        if (allocated(error)) return
 
         !> Pivoted QR factorization
         acopy = a
@@ -192,6 +203,7 @@ module test_la_lapack_generics
         real(dp),parameter :: tol = 100*sqrt(epsilon(0.0_dp))
 
         integer(ilp) :: i,info,sdim,ilo,ihi,jpvt(n),ipiv(n),iwork(8*n)
+        integer(ilp) :: kase,isave(3),isgn(n)
         logical(lk) :: bwork(n)
         character :: equed
         real(dp) :: a(n,n),eye(n,n),acopy(n,n),bcopy(n,n),af(n,n)
@@ -199,7 +211,7 @@ module test_la_lapack_generics
         real(dp) :: rhs(n,1),bmat(n,1),x(n,1)
         real(dp) :: tau(n),work(lwork),alphar(n),alphai(n),beta(n),wr(n),wi(n)
         real(dp) :: scal(n),rconde(n),rcondv(n),rowsc(n),colsc(n),ferr(1),berr(1)
-        real(dp) :: abnrm,rcond,rce,rcv
+        real(dp) :: abnrm,rcond,rce,rcv,norm_est,norm_v(n),norm_x(n)
 
         a = transpose(reshape([real(dp) :: 4,1,0, &
                                         1,3,1, &
@@ -209,6 +221,16 @@ module test_la_lapack_generics
           eye(i,i) = 1.0_dp
         end do
         rhs(:,1) = [real(dp) :: 1,2,3]
+
+        !> Reentrant reverse-communication norm estimator
+        kase = 0_ilp
+        isave = 0_ilp
+        norm_est = 0.0_dp
+        call lacn2(n,norm_v,norm_x,isgn,norm_est,kase,isave)
+        call check(error,kase == 1_ilp,'lacn2 d initialization failed')
+        if (allocated(error)) return
+        call check(error,all(abs(norm_x - 1.0_dp/real(n,dp)) < tol),'lacn2 d initial vector incorrect')
+        if (allocated(error)) return
 
         !> Pivoted QR factorization
         acopy = a
@@ -277,6 +299,7 @@ module test_la_lapack_generics
         real(qp),parameter :: tol = 100*sqrt(epsilon(0.0_qp))
 
         integer(ilp) :: i,info,sdim,ilo,ihi,jpvt(n),ipiv(n),iwork(8*n)
+        integer(ilp) :: kase,isave(3),isgn(n)
         logical(lk) :: bwork(n)
         character :: equed
         real(qp) :: a(n,n),eye(n,n),acopy(n,n),bcopy(n,n),af(n,n)
@@ -284,7 +307,7 @@ module test_la_lapack_generics
         real(qp) :: rhs(n,1),bmat(n,1),x(n,1)
         real(qp) :: tau(n),work(lwork),alphar(n),alphai(n),beta(n),wr(n),wi(n)
         real(qp) :: scal(n),rconde(n),rcondv(n),rowsc(n),colsc(n),ferr(1),berr(1)
-        real(qp) :: abnrm,rcond,rce,rcv
+        real(qp) :: abnrm,rcond,rce,rcv,norm_est,norm_v(n),norm_x(n)
 
         a = transpose(reshape([real(qp) :: 4,1,0, &
                                         1,3,1, &
@@ -294,6 +317,16 @@ module test_la_lapack_generics
           eye(i,i) = 1.0_qp
         end do
         rhs(:,1) = [real(qp) :: 1,2,3]
+
+        !> Reentrant reverse-communication norm estimator
+        kase = 0_ilp
+        isave = 0_ilp
+        norm_est = 0.0_qp
+        call lacn2(n,norm_v,norm_x,isgn,norm_est,kase,isave)
+        call check(error,kase == 1_ilp,'lacn2 q initialization failed')
+        if (allocated(error)) return
+        call check(error,all(abs(norm_x - 1.0_qp/real(n,qp)) < tol),'lacn2 q initial vector incorrect')
+        if (allocated(error)) return
 
         !> Pivoted QR factorization
         acopy = a
@@ -362,14 +395,15 @@ module test_la_lapack_generics
         real(sp),parameter :: tol = 100*sqrt(epsilon(0.0_sp))
 
         integer(ilp) :: i,info,sdim,ilo,ihi,jpvt(n),ipiv(n)
+        integer(ilp) :: kase,isave(3)
         logical(lk) :: bwork(n)
         character :: equed
         complex(sp) :: a(n,n),eye(n,n),acopy(n,n),bcopy(n,n),af(n,n)
         complex(sp) :: q(n,n),z(n,n),vl(n,n),vr(n,n),vs(n,n),vsl(n,n),vsr(n,n)
         complex(sp) :: rhs(n,1),bmat(n,1),x(n,1)
-        complex(sp) :: tau(n),work(lwork),alpha(n),beta(n),w(n)
+        complex(sp) :: tau(n),work(lwork),alpha(n),beta(n),w(n),norm_v(n),norm_x(n)
         real(sp) :: rwork(8*n),scal(n),rconde(n),rcondv(n),rowsc(n),colsc(n),ferr(1),berr(1)
-        real(sp) :: abnrm,rcond,rce,rcv
+        real(sp) :: abnrm,rcond,rce,rcv,norm_est
 
         a = transpose(reshape([complex(sp) :: 4,1,0, &
                                         1,3,1, &
@@ -379,6 +413,16 @@ module test_la_lapack_generics
           eye(i,i) = 1.0_sp
         end do
         rhs(:,1) = [complex(sp) :: 1,2,3]
+
+        !> Reentrant reverse-communication norm estimator
+        kase = 0_ilp
+        isave = 0_ilp
+        norm_est = 0.0_sp
+        call lacn2(n,norm_v,norm_x,norm_est,kase,isave)
+        call check(error,kase == 1_ilp,'lacn2 c initialization failed')
+        if (allocated(error)) return
+        call check(error,all(abs(norm_x - 1.0_sp/real(n,sp)) < tol),'lacn2 c initial vector incorrect')
+        if (allocated(error)) return
 
         !> Pivoted QR factorization
         acopy = a
@@ -447,14 +491,15 @@ module test_la_lapack_generics
         real(dp),parameter :: tol = 100*sqrt(epsilon(0.0_dp))
 
         integer(ilp) :: i,info,sdim,ilo,ihi,jpvt(n),ipiv(n)
+        integer(ilp) :: kase,isave(3)
         logical(lk) :: bwork(n)
         character :: equed
         complex(dp) :: a(n,n),eye(n,n),acopy(n,n),bcopy(n,n),af(n,n)
         complex(dp) :: q(n,n),z(n,n),vl(n,n),vr(n,n),vs(n,n),vsl(n,n),vsr(n,n)
         complex(dp) :: rhs(n,1),bmat(n,1),x(n,1)
-        complex(dp) :: tau(n),work(lwork),alpha(n),beta(n),w(n)
+        complex(dp) :: tau(n),work(lwork),alpha(n),beta(n),w(n),norm_v(n),norm_x(n)
         real(dp) :: rwork(8*n),scal(n),rconde(n),rcondv(n),rowsc(n),colsc(n),ferr(1),berr(1)
-        real(dp) :: abnrm,rcond,rce,rcv
+        real(dp) :: abnrm,rcond,rce,rcv,norm_est
 
         a = transpose(reshape([complex(dp) :: 4,1,0, &
                                         1,3,1, &
@@ -464,6 +509,16 @@ module test_la_lapack_generics
           eye(i,i) = 1.0_dp
         end do
         rhs(:,1) = [complex(dp) :: 1,2,3]
+
+        !> Reentrant reverse-communication norm estimator
+        kase = 0_ilp
+        isave = 0_ilp
+        norm_est = 0.0_dp
+        call lacn2(n,norm_v,norm_x,norm_est,kase,isave)
+        call check(error,kase == 1_ilp,'lacn2 z initialization failed')
+        if (allocated(error)) return
+        call check(error,all(abs(norm_x - 1.0_dp/real(n,dp)) < tol),'lacn2 z initial vector incorrect')
+        if (allocated(error)) return
 
         !> Pivoted QR factorization
         acopy = a
@@ -532,14 +587,15 @@ module test_la_lapack_generics
         real(qp),parameter :: tol = 100*sqrt(epsilon(0.0_qp))
 
         integer(ilp) :: i,info,sdim,ilo,ihi,jpvt(n),ipiv(n)
+        integer(ilp) :: kase,isave(3)
         logical(lk) :: bwork(n)
         character :: equed
         complex(qp) :: a(n,n),eye(n,n),acopy(n,n),bcopy(n,n),af(n,n)
         complex(qp) :: q(n,n),z(n,n),vl(n,n),vr(n,n),vs(n,n),vsl(n,n),vsr(n,n)
         complex(qp) :: rhs(n,1),bmat(n,1),x(n,1)
-        complex(qp) :: tau(n),work(lwork),alpha(n),beta(n),w(n)
+        complex(qp) :: tau(n),work(lwork),alpha(n),beta(n),w(n),norm_v(n),norm_x(n)
         real(qp) :: rwork(8*n),scal(n),rconde(n),rcondv(n),rowsc(n),colsc(n),ferr(1),berr(1)
-        real(qp) :: abnrm,rcond,rce,rcv
+        real(qp) :: abnrm,rcond,rce,rcv,norm_est
 
         a = transpose(reshape([complex(qp) :: 4,1,0, &
                                         1,3,1, &
@@ -549,6 +605,16 @@ module test_la_lapack_generics
           eye(i,i) = 1.0_qp
         end do
         rhs(:,1) = [complex(qp) :: 1,2,3]
+
+        !> Reentrant reverse-communication norm estimator
+        kase = 0_ilp
+        isave = 0_ilp
+        norm_est = 0.0_qp
+        call lacn2(n,norm_v,norm_x,norm_est,kase,isave)
+        call check(error,kase == 1_ilp,'lacn2 w initialization failed')
+        if (allocated(error)) return
+        call check(error,all(abs(norm_x - 1.0_qp/real(n,qp)) < tol),'lacn2 w initial vector incorrect')
+        if (allocated(error)) return
 
         !> Pivoted QR factorization
         acopy = a

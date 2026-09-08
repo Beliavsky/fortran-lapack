@@ -6271,7 +6271,7 @@ module la_lapack_eigv_svd_drivers2
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_sgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork,info)
+     pure subroutine la_sgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork,info)
         use la_constants_sp,only:zero,one
 
         ! -- lapack driver routine --
@@ -8213,7 +8213,7 @@ module la_lapack_eigv_svd_drivers2
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_qgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork,info)
+     pure subroutine la_qgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork,info)
         use la_constants_qp,only:zero,one
 
         ! -- lapack driver routine --
@@ -9183,7 +9183,7 @@ module la_lapack_eigv_svd_drivers2
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_cgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,iwork, &
+     pure subroutine la_cgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,iwork, &
                info)
         use la_constants_sp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -12171,7 +12171,7 @@ module la_lapack_eigv_svd_drivers2
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_wgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,iwork, &
+     pure subroutine la_wgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,iwork, &
                info)
         use la_constants_qp,only:zero,one,czero,cone
         ! -- lapack driver routine --

@@ -173,7 +173,7 @@ module la_inverse
      end subroutine la_invert_s
 
      ! Compute the square matrix inverse of a into a second matrix
-     subroutine la_invert_split_s(a,inva,pivot,err)
+     pure subroutine la_invert_split_s(a,inva,pivot,err)
          !> Input matrix a[n,n]
          real(sp),intent(in) :: a(:,:)
          !> Inverse matrix inva[n,n]
@@ -320,7 +320,7 @@ module la_inverse
      end subroutine la_invert_d
 
      ! Compute the square matrix inverse of a into a second matrix
-     subroutine la_invert_split_d(a,inva,pivot,err)
+     pure subroutine la_invert_split_d(a,inva,pivot,err)
          !> Input matrix a[n,n]
          real(dp),intent(in) :: a(:,:)
          !> Inverse matrix inva[n,n]
@@ -467,7 +467,7 @@ module la_inverse
      end subroutine la_invert_q
 
      ! Compute the square matrix inverse of a into a second matrix
-     subroutine la_invert_split_q(a,inva,pivot,err)
+     pure subroutine la_invert_split_q(a,inva,pivot,err)
          !> Input matrix a[n,n]
          real(qp),intent(in) :: a(:,:)
          !> Inverse matrix inva[n,n]
@@ -614,7 +614,7 @@ module la_inverse
      end subroutine la_invert_c
 
      ! Compute the square matrix inverse of a into a second matrix
-     subroutine la_invert_split_c(a,inva,pivot,err)
+     pure subroutine la_invert_split_c(a,inva,pivot,err)
          !> Input matrix a[n,n]
          complex(sp),intent(in) :: a(:,:)
          !> Inverse matrix inva[n,n]
@@ -761,7 +761,7 @@ module la_inverse
      end subroutine la_invert_z
 
      ! Compute the square matrix inverse of a into a second matrix
-     subroutine la_invert_split_z(a,inva,pivot,err)
+     pure subroutine la_invert_split_z(a,inva,pivot,err)
          !> Input matrix a[n,n]
          complex(dp),intent(in) :: a(:,:)
          !> Inverse matrix inva[n,n]
@@ -908,7 +908,7 @@ module la_inverse
      end subroutine la_invert_w
 
      ! Compute the square matrix inverse of a into a second matrix
-     subroutine la_invert_split_w(a,inva,pivot,err)
+     pure subroutine la_invert_split_w(a,inva,pivot,err)
          !> Input matrix a[n,n]
          complex(qp),intent(in) :: a(:,:)
          !> Inverse matrix inva[n,n]

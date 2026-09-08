@@ -42,6 +42,7 @@ IMPURE_INTRINSIC_RE = re.compile(
     r"get_environment_variable)\s*\(",
     re.IGNORECASE,
 )
+OUTPUT_INTENT_RE = re.compile(r"\bintent\s*\(\s*(out|inout)\s*\)", re.IGNORECASE)
 
 
 @dataclass
@@ -98,6 +99,12 @@ def parse_arguments() -> argparse.Namespace:
         "--include-untracked",
         action="store_true",
         help="include untracked .f90/.F90 files",
+    )
+    parser.add_argument(
+        "--kind",
+        choices=("all", "function", "subroutine"),
+        default="all",
+        help="report all procedure kinds, only functions, or only subroutines (default: all)",
     )
     parser.add_argument("--repository-url", help="override the detected public URL")
     return parser.parse_args()
@@ -281,6 +288,11 @@ def detectable_reasons(procedure: Procedure, nonpure_names: set[str]) -> list[st
     if procedure.impure:
         reasons.append("explicitly declared `impure`")
     for line, statement in procedure.body:
+        output_intent = OUTPUT_INTENT_RE.search(statement)
+        if procedure.kind == "function" and output_intent:
+            reasons.append(
+                f"function dummy has `intent({output_intent.group(1).lower()})` at line {line}"
+            )
         if IO_RE.match(statement):
             reasons.append(f"I/O at line {line}")
         if SAVE_RE.search(statement):
@@ -310,14 +322,21 @@ def source_reference(procedure: Procedure, repository: Repository) -> str:
     return f"`{label}`"
 
 
-def markdown_report(repository: Repository, procedures: list[Procedure], paths: list[str]) -> str:
+def markdown_report(
+    repository: Repository, procedures: list[Procedure], paths: list[str], kind: str = "all"
+) -> str:
     """Create a publication-ready Markdown audit report."""
 
-    implementations = [item for item in procedures if not item.interface]
-    interfaces = [item for item in procedures if item.interface]
+    all_implementations = [item for item in procedures if not item.interface]
+    all_interfaces = [item for item in procedures if item.interface]
+    all_remaining = [item for item in all_implementations if not item.semantically_pure]
+    nonpure_names = {item.name for item in all_remaining}
+    implementations = [
+        item for item in all_implementations if kind == "all" or item.kind == kind
+    ]
+    interfaces = [item for item in all_interfaces if kind == "all" or item.kind == kind]
     remaining = [item for item in implementations if not item.semantically_pure]
     remaining_interfaces = [item for item in interfaces if not item.semantically_pure]
-    nonpure_names = {item.name for item in remaining}
     classified = [(item, detectable_reasons(item, nonpure_names)) for item in remaining]
     with_reasons = [(item, reasons) for item, reasons in classified if reasons]
     review = [(item, reasons) for item, reasons in classified if not reasons]
@@ -330,20 +349,21 @@ def markdown_report(repository: Repository, procedures: list[Procedure], paths: 
     if repository.web_url and repository.commit:
         revision = f"[`{repository.label}@{short_commit}`]({repository.web_url}/commit/{repository.commit})"
 
+    subject = "procedures" if kind == "all" else f"{kind}s"
     lines = [
-        "# Remaining non-pure procedures",
+        f"# Remaining non-pure {subject}",
         "",
-        "This mechanically generated audit lists procedures that are not declared `pure` or implicitly pure through `elemental`.",
+        f"This mechanically generated audit lists {subject} that are not declared `pure` or implicitly pure through `elemental`.",
         "It is an inventory, not a claim that every listed procedure can safely be made pure.",
         "",
         f"- Repository revision: {revision}",
         f"- Scanned paths: {', '.join(f'`{item}`' for item in paths)}",
-        f"- Implementations scanned: {len(implementations)}",
-        f"- Pure implementations: {sum(item.semantically_pure for item in implementations)}",
-        f"- Remaining non-pure implementations: {len(remaining)}",
-        f"- Remaining non-pure interface declarations: {len(remaining_interfaces)}",
+        f"- {subject.capitalize()} selected: {len(implementations)} implementations",
+        f"- Pure {subject}: {sum(item.semantically_pure for item in implementations)}",
+        f"- Remaining non-pure {subject}: {len(remaining)} implementations",
+        f"- Remaining non-pure {subject} in interface declarations: {len(remaining_interfaces)}",
         "",
-        "The reason detector is deliberately conservative. It recognizes direct I/O, saved state, `data` initialization, stop statements, selected impure intrinsics, and explicit calls to other non-pure implementations. Function references and procedure-pointer dispatch may require manual call-graph review.",
+        "The reason detector is deliberately conservative. It recognizes output or inout function dummies, direct I/O, saved state, `data` initialization, stop statements, selected impure intrinsics, and explicit calls to other non-pure implementations. Function references and procedure-pointer dispatch may require manual call-graph review.",
     ]
     if repository.sources_clean is False:
         lines.extend(
@@ -443,7 +463,7 @@ def main() -> int:
     procedures: list[Procedure] = []
     for path in selected_files(root, paths, arguments.include_untracked):
         procedures.extend(scan_file(path, root))
-    report = markdown_report(repository, procedures, paths)
+    report = markdown_report(repository, procedures, paths, arguments.kind)
     if arguments.output:
         output = arguments.output.resolve()
         output.write_text(report, encoding="utf-8", newline="\n")

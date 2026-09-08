@@ -2229,7 +2229,7 @@ module la_lapack_eigv_gen_aux
      !> has its diagonal elements equal and its off-diagonal elements of
      !> opposite sign.
 
-     subroutine la_slaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
+     pure subroutine la_slaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
         use la_constants_sp,only:zero,one,ten
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2620,7 +2620,7 @@ module la_lapack_eigv_gen_aux
      !> has its diagonal elements equal and its off-diagonal elements of
      !> opposite sign.
 
-     subroutine la_qlaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
+     pure subroutine la_qlaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
         use la_constants_qp,only:zero,one,ten
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2820,7 +2820,7 @@ module la_lapack_eigv_gen_aux
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_strexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
+     pure subroutine la_strexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3228,7 +3228,7 @@ module la_lapack_eigv_gen_aux
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_qtrexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
+     pure subroutine la_qtrexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --

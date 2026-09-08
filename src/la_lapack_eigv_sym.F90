@@ -2707,7 +2707,7 @@ module la_lapack_eigv_sym
      !> SSBEV: computes all the eigenvalues and, optionally, eigenvectors of
      !> a real symmetric band matrix A.
 
-     subroutine la_ssbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,info)
+     pure subroutine la_ssbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2809,7 +2809,7 @@ module la_lapack_eigv_sym
      !> DSBEV: computes all the eigenvalues and, optionally, eigenvectors of
      !> a real symmetric band matrix A.
 
-     subroutine la_dsbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,info)
+     pure subroutine la_dsbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2911,7 +2911,7 @@ module la_lapack_eigv_sym
      !> QSBEV: computes all the eigenvalues and, optionally, eigenvectors of
      !> a real symmetric band matrix A.
 
-     subroutine la_qsbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,info)
+     pure subroutine la_qsbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3016,7 +3016,7 @@ module la_lapack_eigv_sym
      !> be selected by specifying either a range of values or a range of
      !> indices for the desired eigenvalues.
 
-     subroutine la_ssbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
+     pure subroutine la_ssbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
                m,w,z,ldz,work,iwork,ifail,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -3242,7 +3242,7 @@ module la_lapack_eigv_sym
      !> be selected by specifying either a range of values or a range of
      !> indices for the desired eigenvalues.
 
-     subroutine la_dsbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
+     pure subroutine la_dsbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
                m,w,z,ldz,work,iwork,ifail,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -3468,7 +3468,7 @@ module la_lapack_eigv_sym
      !> be selected by specifying either a range of values or a range of
      !> indices for the desired eigenvalues.
 
-     subroutine la_qsbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
+     pure subroutine la_qsbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
                m,w,z,ldz,work,iwork,ifail,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -4481,7 +4481,7 @@ module la_lapack_eigv_sym
      !> SSPEV: computes all the eigenvalues and, optionally, eigenvectors of a
      !> real symmetric matrix A in packed storage.
 
-     subroutine la_sspev(jobz,uplo,n,ap,w,z,ldz,work,info)
+     pure subroutine la_sspev(jobz,uplo,n,ap,w,z,ldz,work,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4574,7 +4574,7 @@ module la_lapack_eigv_sym
      !> DSPEV: computes all the eigenvalues and, optionally, eigenvectors of a
      !> real symmetric matrix A in packed storage.
 
-     subroutine la_dspev(jobz,uplo,n,ap,w,z,ldz,work,info)
+     pure subroutine la_dspev(jobz,uplo,n,ap,w,z,ldz,work,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4667,7 +4667,7 @@ module la_lapack_eigv_sym
      !> QSPEV: computes all the eigenvalues and, optionally, eigenvectors of a
      !> real symmetric matrix A in packed storage.
 
-     subroutine la_qspev(jobz,uplo,n,ap,w,z,ldz,work,info)
+     pure subroutine la_qspev(jobz,uplo,n,ap,w,z,ldz,work,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4763,7 +4763,7 @@ module la_lapack_eigv_sym
      !> can be selected by specifying either a range of values or a range of
      !> indices for the desired eigenvalues.
 
-     subroutine la_sspevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_sspevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
                work,iwork,ifail,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -4976,7 +4976,7 @@ module la_lapack_eigv_sym
      !> can be selected by specifying either a range of values or a range of
      !> indices for the desired eigenvalues.
 
-     subroutine la_dspevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_dspevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
                work,iwork,ifail,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -5189,7 +5189,7 @@ module la_lapack_eigv_sym
      !> can be selected by specifying either a range of values or a range of
      !> indices for the desired eigenvalues.
 
-     subroutine la_qspevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_qspevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
                work,iwork,ifail,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -5404,7 +5404,7 @@ module la_lapack_eigv_sym
      !> Here A and B are assumed to be symmetric, stored in packed format,
      !> and B is also positive definite.
 
-     subroutine la_sspgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,info)
+     pure subroutine la_sspgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -5487,7 +5487,7 @@ module la_lapack_eigv_sym
      !> Here A and B are assumed to be symmetric, stored in packed format,
      !> and B is also positive definite.
 
-     subroutine la_dspgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,info)
+     pure subroutine la_dspgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -5570,7 +5570,7 @@ module la_lapack_eigv_sym
      !> Here A and B are assumed to be symmetric, stored in packed format,
      !> and B is also positive definite.
 
-     subroutine la_qspgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,info)
+     pure subroutine la_qspgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -5656,7 +5656,7 @@ module la_lapack_eigv_sym
      !> selected by specifying either a range of values or a range of indices
      !> for the desired eigenvalues.
 
-     subroutine la_sspgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
+     pure subroutine la_sspgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
                z,ldz,work,iwork,ifail,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5767,7 +5767,7 @@ module la_lapack_eigv_sym
      !> selected by specifying either a range of values or a range of indices
      !> for the desired eigenvalues.
 
-     subroutine la_dspgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
+     pure subroutine la_dspgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
                z,ldz,work,iwork,ifail,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5878,7 +5878,7 @@ module la_lapack_eigv_sym
      !> selected by specifying either a range of values or a range of indices
      !> for the desired eigenvalues.
 
-     subroutine la_qspgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
+     pure subroutine la_qspgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
                z,ldz,work,iwork,ifail,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5985,7 +5985,7 @@ module la_lapack_eigv_sym
      !> SSYEV: computes all eigenvalues and, optionally, eigenvectors of a
      !> real symmetric matrix A.
 
-     subroutine la_ssyev(jobz,uplo,n,a,lda,w,work,lwork,info)
+     pure subroutine la_ssyev(jobz,uplo,n,a,lda,w,work,lwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6199,7 +6199,7 @@ module la_lapack_eigv_sym
      !> QSYEV: computes all eigenvalues and, optionally, eigenvectors of a
      !> real symmetric matrix A.
 
-     subroutine la_qsyev(jobz,uplo,n,a,lda,w,work,lwork,info)
+     pure subroutine la_qsyev(jobz,uplo,n,a,lda,w,work,lwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6309,7 +6309,7 @@ module la_lapack_eigv_sym
      !> selected by specifying either a range of values or a range of indices
      !> for the desired eigenvalues.
 
-     subroutine la_ssyevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_ssyevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
                work,lwork,iwork,ifail,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -6803,7 +6803,7 @@ module la_lapack_eigv_sym
      !> selected by specifying either a range of values or a range of indices
      !> for the desired eigenvalues.
 
-     subroutine la_qsyevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_qsyevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
                work,lwork,iwork,ifail,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -7052,7 +7052,7 @@ module la_lapack_eigv_sym
      !> Here A and B are assumed to be symmetric and B is also
      !> positive definite.
 
-     subroutine la_ssygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
+     pure subroutine la_ssygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
         use la_constants_sp
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -7252,7 +7252,7 @@ module la_lapack_eigv_sym
      !> Here A and B are assumed to be symmetric and B is also
      !> positive definite.
 
-     subroutine la_qsygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
+     pure subroutine la_qsygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
         use la_constants_qp
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -7354,7 +7354,7 @@ module la_lapack_eigv_sym
      !> Eigenvalues and eigenvectors can be selected by specifying either a
      !> range of values or a range of indices for the desired eigenvalues.
 
-     subroutine la_ssygvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
+     pure subroutine la_ssygvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
                 m,w,z,ldz,work,lwork,iwork,ifail,info)
         use la_constants_sp
         ! -- lapack driver routine --
@@ -7610,7 +7610,7 @@ module la_lapack_eigv_sym
      !> Eigenvalues and eigenvectors can be selected by specifying either a
      !> range of values or a range of indices for the desired eigenvalues.
 
-     subroutine la_qsygvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
+     pure subroutine la_qsygvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
                 m,w,z,ldz,work,lwork,iwork,ifail,info)
         use la_constants_qp
         ! -- lapack driver routine --
@@ -8270,7 +8270,7 @@ module la_lapack_eigv_sym
      !> Because of large use of BLAS of level 3, SSYEVD needs N**2 more
      !> workspace than SSYEVX.
 
-     subroutine la_ssyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
+     pure subroutine la_ssyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -8538,7 +8538,7 @@ module la_lapack_eigv_sym
      !> Because of large use of BLAS of level 3, QSYEVD needs N**2 more
      !> workspace than QSYEVX.
 
-     subroutine la_qsyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
+     pure subroutine la_qsyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -8673,7 +8673,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_ssygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork,liwork, &
+     pure subroutine la_ssygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork,liwork, &
                 info)
         use la_constants_sp
         ! -- lapack driver routine --
@@ -8915,7 +8915,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_qsygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork,liwork, &
+     pure subroutine la_qsygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork,liwork, &
                 info)
         use la_constants_qp
         ! -- lapack driver routine --
@@ -9035,7 +9035,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_ssbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,iwork,liwork, &
+     pure subroutine la_ssbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,iwork,liwork, &
                info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -9167,7 +9167,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_dsbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,iwork,liwork, &
+     pure subroutine la_dsbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,iwork,liwork, &
                info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -9299,7 +9299,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_qsbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,iwork,liwork, &
+     pure subroutine la_qsbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,iwork,liwork, &
                info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -9784,7 +9784,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_sspevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
+     pure subroutine la_sspevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
         use la_constants_sp,only:zero,one
 
         ! -- lapack driver routine --
@@ -9909,7 +9909,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_dspevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
+     pure subroutine la_dspevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
         use la_constants_dp,only:zero,one
 
         ! -- lapack driver routine --
@@ -10034,7 +10034,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_qspevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
+     pure subroutine la_qspevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
         use la_constants_qp,only:zero,one
 
         ! -- lapack driver routine --
@@ -10163,7 +10163,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_sspgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,iwork,liwork, &
+     pure subroutine la_sspgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,iwork,liwork, &
                 info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -10286,7 +10286,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_dspgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,iwork,liwork, &
+     pure subroutine la_dspgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,iwork,liwork, &
                 info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -10409,7 +10409,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_qspgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,iwork,liwork, &
+     pure subroutine la_qspgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,iwork,liwork, &
                 info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -10571,7 +10571,7 @@ module la_lapack_eigv_sym
      !> which do not handle NaNs and infinities in the ieee standard default
      !> manner.
 
-     subroutine la_ssyevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_ssyevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
                isuppz,work,lwork,iwork,liwork,info)
         use la_constants_sp,only:zero,one,two
         ! -- lapack driver routine --
@@ -11222,7 +11222,7 @@ module la_lapack_eigv_sym
      !> which do not handle NaNs and infinities in the ieee standard default
      !> manner.
 
-     subroutine la_qsyevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_qsyevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
                isuppz,work,lwork,iwork,liwork,info)
         use la_constants_qp,only:zero,one,two
         ! -- lapack driver routine --
@@ -14657,7 +14657,7 @@ module la_lapack_eigv_sym
      !> CHEEV: computes all eigenvalues and, optionally, eigenvectors of a
      !> complex Hermitian matrix A.
 
-     subroutine la_cheev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
+     pure subroutine la_cheev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
         use la_constants_sp,only:zero,one,cone
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -14767,7 +14767,7 @@ module la_lapack_eigv_sym
      !> ZHEEV: computes all eigenvalues and, optionally, eigenvectors of a
      !> complex Hermitian matrix A.
 
-     subroutine la_zheev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
+     pure subroutine la_zheev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
         use la_constants_dp,only:zero,one,cone
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -14877,7 +14877,7 @@ module la_lapack_eigv_sym
      !> WHEEV: computes all eigenvalues and, optionally, eigenvectors of a
      !> complex Hermitian matrix A.
 
-     subroutine la_wheev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
+     pure subroutine la_wheev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
         use la_constants_qp,only:zero,one,cone
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -15036,7 +15036,7 @@ module la_lapack_eigv_sym
      !> which do not handle NaNs and infinities in the ieee standard default
      !> manner.
 
-     subroutine la_cheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_cheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
                isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
         use la_constants_sp,only:zero,one,two
         ! -- lapack driver routine --
@@ -15375,7 +15375,7 @@ module la_lapack_eigv_sym
      !> which do not handle NaNs and infinities in the ieee standard default
      !> manner.
 
-     subroutine la_zheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_zheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
                isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
         use la_constants_dp,only:zero,one,two
         ! -- lapack driver routine --
@@ -15714,7 +15714,7 @@ module la_lapack_eigv_sym
      !> which do not handle NaNs and infinities in the ieee standard default
      !> manner.
 
-     subroutine la_wheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_wheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
                isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
         use la_constants_qp,only:zero,one,two
         ! -- lapack driver routine --
@@ -16008,7 +16008,7 @@ module la_lapack_eigv_sym
      !> be selected by specifying either a range of values or a range of
      !> indices for the desired eigenvalues.
 
-     subroutine la_cheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_cheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
                work,lwork,rwork,iwork,ifail,info)
         use la_constants_sp,only:zero,one,cone
         ! -- lapack driver routine --
@@ -16254,7 +16254,7 @@ module la_lapack_eigv_sym
      !> be selected by specifying either a range of values or a range of
      !> indices for the desired eigenvalues.
 
-     subroutine la_zheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_zheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
                work,lwork,rwork,iwork,ifail,info)
         use la_constants_dp,only:zero,one,cone
         ! -- lapack driver routine --
@@ -16500,7 +16500,7 @@ module la_lapack_eigv_sym
      !> be selected by specifying either a range of values or a range of
      !> indices for the desired eigenvalues.
 
-     subroutine la_wheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_wheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
                work,lwork,rwork,iwork,ifail,info)
         use la_constants_qp,only:zero,one,cone
         ! -- lapack driver routine --
@@ -16748,7 +16748,7 @@ module la_lapack_eigv_sym
      !> Here A and B are assumed to be Hermitian and B is also
      !> positive definite.
 
-     subroutine la_chegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info)
+     pure subroutine la_chegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info)
         use la_constants_sp
 
         ! -- lapack driver routine --
@@ -16849,7 +16849,7 @@ module la_lapack_eigv_sym
      !> Here A and B are assumed to be Hermitian and B is also
      !> positive definite.
 
-     subroutine la_zhegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info)
+     pure subroutine la_zhegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info)
         use la_constants_dp
 
         ! -- lapack driver routine --
@@ -16950,7 +16950,7 @@ module la_lapack_eigv_sym
      !> Here A and B are assumed to be Hermitian and B is also
      !> positive definite.
 
-     subroutine la_whegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info)
+     pure subroutine la_whegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info)
         use la_constants_qp
 
         ! -- lapack driver routine --
@@ -17053,7 +17053,7 @@ module la_lapack_eigv_sym
      !> Eigenvalues and eigenvectors can be selected by specifying either a
      !> range of values or a range of indices for the desired eigenvalues.
 
-     subroutine la_chegvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
+     pure subroutine la_chegvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
                 m,w,z,ldz,work,lwork,rwork,iwork,ifail,info)
         use la_constants_sp
         ! -- lapack driver routine --
@@ -17181,7 +17181,7 @@ module la_lapack_eigv_sym
      !> Eigenvalues and eigenvectors can be selected by specifying either a
      !> range of values or a range of indices for the desired eigenvalues.
 
-     subroutine la_zhegvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
+     pure subroutine la_zhegvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
                 m,w,z,ldz,work,lwork,rwork,iwork,ifail,info)
         use la_constants_dp
         ! -- lapack driver routine --
@@ -17309,7 +17309,7 @@ module la_lapack_eigv_sym
      !> Eigenvalues and eigenvectors can be selected by specifying either a
      !> range of values or a range of indices for the desired eigenvalues.
 
-     subroutine la_whegvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
+     pure subroutine la_whegvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
                 m,w,z,ldz,work,lwork,rwork,iwork,ifail,info)
         use la_constants_qp
         ! -- lapack driver routine --
@@ -17434,7 +17434,7 @@ module la_lapack_eigv_sym
      !> CHPEV: computes all the eigenvalues and, optionally, eigenvectors of a
      !> complex Hermitian matrix in packed storage.
 
-     subroutine la_chpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
+     pure subroutine la_chpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -17531,7 +17531,7 @@ module la_lapack_eigv_sym
      !> ZHPEV: computes all the eigenvalues and, optionally, eigenvectors of a
      !> complex Hermitian matrix in packed storage.
 
-     subroutine la_zhpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
+     pure subroutine la_zhpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -17628,7 +17628,7 @@ module la_lapack_eigv_sym
      !> WHPEV: computes all the eigenvalues and, optionally, eigenvectors of a
      !> complex Hermitian matrix in packed storage.
 
-     subroutine la_whpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
+     pure subroutine la_whpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -17728,7 +17728,7 @@ module la_lapack_eigv_sym
      !> Eigenvalues/vectors can be selected by specifying either a range of
      !> values or a range of indices for the desired eigenvalues.
 
-     subroutine la_chpevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_chpevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
                work,rwork,iwork,ifail,info)
         use la_constants_sp,only:zero,one,cone
         ! -- lapack driver routine --
@@ -17944,7 +17944,7 @@ module la_lapack_eigv_sym
      !> Eigenvalues/vectors can be selected by specifying either a range of
      !> values or a range of indices for the desired eigenvalues.
 
-     subroutine la_zhpevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_zhpevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
                work,rwork,iwork,ifail,info)
         use la_constants_dp,only:zero,one,cone
         ! -- lapack driver routine --
@@ -18160,7 +18160,7 @@ module la_lapack_eigv_sym
      !> Eigenvalues/vectors can be selected by specifying either a range of
      !> values or a range of indices for the desired eigenvalues.
 
-     subroutine la_whpevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_whpevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
                work,rwork,iwork,ifail,info)
         use la_constants_qp,only:zero,one,cone
         ! -- lapack driver routine --
@@ -18378,7 +18378,7 @@ module la_lapack_eigv_sym
      !> Here A and B are assumed to be Hermitian, stored in packed format,
      !> and B is also positive definite.
 
-     subroutine la_chpgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,rwork,info)
+     pure subroutine la_chpgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,rwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -18462,7 +18462,7 @@ module la_lapack_eigv_sym
      !> Here A and B are assumed to be Hermitian, stored in packed format,
      !> and B is also positive definite.
 
-     subroutine la_zhpgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,rwork,info)
+     pure subroutine la_zhpgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,rwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -18546,7 +18546,7 @@ module la_lapack_eigv_sym
      !> Here A and B are assumed to be Hermitian, stored in packed format,
      !> and B is also positive definite.
 
-     subroutine la_whpgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,rwork,info)
+     pure subroutine la_whpgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,rwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -18633,7 +18633,7 @@ module la_lapack_eigv_sym
      !> specifying either a range of values or a range of indices for the
      !> desired eigenvalues.
 
-     subroutine la_chpgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
+     pure subroutine la_chpgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
                z,ldz,work,rwork,iwork,ifail,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -18744,7 +18744,7 @@ module la_lapack_eigv_sym
      !> specifying either a range of values or a range of indices for the
      !> desired eigenvalues.
 
-     subroutine la_zhpgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
+     pure subroutine la_zhpgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
                z,ldz,work,rwork,iwork,ifail,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -18855,7 +18855,7 @@ module la_lapack_eigv_sym
      !> specifying either a range of values or a range of indices for the
      !> desired eigenvalues.
 
-     subroutine la_whpgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
+     pure subroutine la_whpgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
                z,ldz,work,rwork,iwork,ifail,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -18962,7 +18962,7 @@ module la_lapack_eigv_sym
      !> CHBEV: computes all the eigenvalues and, optionally, eigenvectors of
      !> a complex Hermitian band matrix A.
 
-     subroutine la_chbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,rwork,info)
+     pure subroutine la_chbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,rwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -19066,7 +19066,7 @@ module la_lapack_eigv_sym
      !> ZHBEV: computes all the eigenvalues and, optionally, eigenvectors of
      !> a complex Hermitian band matrix A.
 
-     subroutine la_zhbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,rwork,info)
+     pure subroutine la_zhbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,rwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -19170,7 +19170,7 @@ module la_lapack_eigv_sym
      !> WHBEV: computes all the eigenvalues and, optionally, eigenvectors of
      !> a complex Hermitian band matrix A.
 
-     subroutine la_whbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,rwork,info)
+     pure subroutine la_whbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,rwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -19282,7 +19282,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_chbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,rwork,lrwork, &
+     pure subroutine la_chbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,rwork,lrwork, &
                iwork,liwork,info)
         use la_constants_sp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -19431,7 +19431,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_zhbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,rwork,lrwork, &
+     pure subroutine la_zhbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,rwork,lrwork, &
                iwork,liwork,info)
         use la_constants_dp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -19580,7 +19580,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_whbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,rwork,lrwork, &
+     pure subroutine la_whbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,rwork,lrwork, &
                iwork,liwork,info)
         use la_constants_qp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -19725,7 +19725,7 @@ module la_lapack_eigv_sym
      !> can be selected by specifying either a range of values or a range of
      !> indices for the desired eigenvalues.
 
-     subroutine la_chbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
+     pure subroutine la_chbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
                m,w,z,ldz,work,rwork,iwork,ifail,info)
         use la_constants_sp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -19955,7 +19955,7 @@ module la_lapack_eigv_sym
      !> can be selected by specifying either a range of values or a range of
      !> indices for the desired eigenvalues.
 
-     subroutine la_zhbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
+     pure subroutine la_zhbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
                m,w,z,ldz,work,rwork,iwork,ifail,info)
         use la_constants_dp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -20185,7 +20185,7 @@ module la_lapack_eigv_sym
      !> can be selected by specifying either a range of values or a range of
      !> indices for the desired eigenvalues.
 
-     subroutine la_whbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
+     pure subroutine la_whbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
                m,w,z,ldz,work,rwork,iwork,ifail,info)
         use la_constants_qp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -21606,7 +21606,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_cheevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork,liwork, &
+     pure subroutine la_cheevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork,liwork, &
                 info)
         use la_constants_sp,only:zero,one,cone
         ! -- lapack driver routine --
@@ -21758,7 +21758,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_zheevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork,liwork, &
+     pure subroutine la_zheevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork,liwork, &
                 info)
         use la_constants_dp,only:zero,one,cone
         ! -- lapack driver routine --
@@ -21910,7 +21910,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_wheevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork,liwork, &
+     pure subroutine la_wheevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork,liwork, &
                 info)
         use la_constants_qp,only:zero,one,cone
         ! -- lapack driver routine --
@@ -22065,7 +22065,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_chegvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,lrwork, &
+     pure subroutine la_chegvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,lrwork, &
                 iwork,liwork,info)
         use la_constants_sp
         ! -- lapack driver routine --
@@ -22197,7 +22197,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_zhegvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,lrwork, &
+     pure subroutine la_zhegvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,lrwork, &
                 iwork,liwork,info)
         use la_constants_dp
         ! -- lapack driver routine --
@@ -22329,7 +22329,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_whegvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,lrwork, &
+     pure subroutine la_whegvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,lrwork, &
                 iwork,liwork,info)
         use la_constants_qp
         ! -- lapack driver routine --
@@ -22460,7 +22460,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_chpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
+     pure subroutine la_chpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
                liwork,info)
         use la_constants_sp,only:zero,one,cone
         ! -- lapack driver routine --
@@ -22601,7 +22601,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_zhpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
+     pure subroutine la_zhpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
                liwork,info)
         use la_constants_dp,only:zero,one,cone
         ! -- lapack driver routine --
@@ -22742,7 +22742,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_whpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
+     pure subroutine la_whpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
                liwork,info)
         use la_constants_qp,only:zero,one,cone
         ! -- lapack driver routine --
@@ -22887,7 +22887,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_chpgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,rwork,lrwork, &
+     pure subroutine la_chpgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,rwork,lrwork, &
                 iwork,liwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -23019,7 +23019,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_zhpgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,rwork,lrwork, &
+     pure subroutine la_zhpgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,rwork,lrwork, &
                 iwork,liwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -23151,7 +23151,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_whpgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,rwork,lrwork, &
+     pure subroutine la_whpgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,rwork,lrwork, &
                 iwork,liwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --

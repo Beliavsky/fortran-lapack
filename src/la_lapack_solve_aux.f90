@@ -429,6 +429,8 @@ module la_lapack_solve_aux
 
      !> SLACON: estimates the 1-norm of a square, real matrix A.
      !> Reverse communication is used for evaluating matrix-vector products.
+     !> This legacy compatibility routine retains hidden saved state and is not reentrant.
+     !> Use SLACN2 for pure or concurrent callers.
 
      subroutine la_slacon(n,v,x,isgn,est,kase)
         use la_constants_sp
@@ -549,6 +551,8 @@ module la_lapack_solve_aux
      end subroutine la_slacon
      !> DLACON: estimates the 1-norm of a square, real matrix A.
      !> Reverse communication is used for evaluating matrix-vector products.
+     !> This legacy compatibility routine retains hidden saved state and is not reentrant.
+     !> Use DLACN2 for pure or concurrent callers.
 
      subroutine la_dlacon(n,v,x,isgn,est,kase)
         use la_constants_dp
@@ -669,6 +673,8 @@ module la_lapack_solve_aux
      end subroutine la_dlacon
      !> QLACON: estimates the 1-norm of a square, real matrix A.
      !> Reverse communication is used for evaluating matrix-vector products.
+     !> This legacy compatibility routine retains hidden saved state and is not reentrant.
+     !> Use QLACN2 for pure or concurrent callers.
 
      subroutine la_qlacon(n,v,x,isgn,est,kase)
         use la_constants_qp
@@ -1429,6 +1435,8 @@ module la_lapack_solve_aux
 
      !> CLACON: estimates the 1-norm of a square, complex matrix A.
      !> Reverse communication is used for evaluating matrix-vector products.
+     !> This legacy compatibility routine retains hidden saved state and is not reentrant.
+     !> Use CLACN2 for pure or concurrent callers.
 
      subroutine la_clacon(n,v,x,est,kase)
         use la_constants_sp,only:one,two,czero,cone
@@ -1554,6 +1562,8 @@ module la_lapack_solve_aux
      end subroutine la_clacon
      !> ZLACON: estimates the 1-norm of a square, complex matrix A.
      !> Reverse communication is used for evaluating matrix-vector products.
+     !> This legacy compatibility routine retains hidden saved state and is not reentrant.
+     !> Use ZLACN2 for pure or concurrent callers.
 
      subroutine la_zlacon(n,v,x,est,kase)
         use la_constants_dp,only:one,two,czero,cone
@@ -1679,6 +1689,8 @@ module la_lapack_solve_aux
      end subroutine la_zlacon
      !> WLACON: estimates the 1-norm of a square, complex matrix A.
      !> Reverse communication is used for evaluating matrix-vector products.
+     !> This legacy compatibility routine retains hidden saved state and is not reentrant.
+     !> Use WLACN2 for pure or concurrent callers.
 
      subroutine la_wlacon(n,v,x,est,kase)
         use la_constants_qp,only:one,two,czero,cone

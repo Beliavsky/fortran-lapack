@@ -96,7 +96,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
 
-     real(sp) function la_slangb(norm,n,kl,ku,ab,ldab,work)
+     pure real(sp) function la_slangb(norm,n,kl,ku,ab,ldab,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -106,12 +106,13 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: kl,ku,ldab,n
            ! Array Arguments
            real(sp),intent(in) :: ab(ldab,*)
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k,l
            real(sp) :: scale,sum,value,temp
+           real(sp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -138,18 +139,16 @@ module la_lapack_blas_like_mnorm
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
-              do i = 1,n
-                 work(i) = zero
-              end do
+              allocate (row_sums(n),source=zero)
               do j = 1,n
                  k = ku + 1 - j
                  do i = max(1,j - ku),min(n,j + kl)
-                    work(i) = work(i) + abs(ab(k + i,j))
+                    row_sums(i) = row_sums(i) + abs(ab(k + i,j))
                  end do
               end do
               value = zero
               do i = 1,n
-                 temp = work(i)
+                 temp = row_sums(i)
                  if (value < temp .or. la_sisnan(temp)) value = temp
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -171,7 +170,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
 
-     real(dp) function la_dlangb(norm,n,kl,ku,ab,ldab,work)
+     pure real(dp) function la_dlangb(norm,n,kl,ku,ab,ldab,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -181,12 +180,13 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: kl,ku,ldab,n
            ! Array Arguments
            real(dp),intent(in) :: ab(ldab,*)
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k,l
            real(dp) :: scale,sum,value,temp
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -213,18 +213,16 @@ module la_lapack_blas_like_mnorm
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
-              do i = 1,n
-                 work(i) = zero
-              end do
+              allocate (row_sums(n),source=zero)
               do j = 1,n
                  k = ku + 1 - j
                  do i = max(1,j - ku),min(n,j + kl)
-                    work(i) = work(i) + abs(ab(k + i,j))
+                    row_sums(i) = row_sums(i) + abs(ab(k + i,j))
                  end do
               end do
               value = zero
               do i = 1,n
-                 temp = work(i)
+                 temp = row_sums(i)
                  if (value < temp .or. la_disnan(temp)) value = temp
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -246,7 +244,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
 
-     real(qp) function la_qlangb(norm,n,kl,ku,ab,ldab,work)
+     pure real(qp) function la_qlangb(norm,n,kl,ku,ab,ldab,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -256,12 +254,13 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: kl,ku,ldab,n
            ! Array Arguments
            real(qp),intent(in) :: ab(ldab,*)
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k,l
            real(qp) :: scale,sum,value,temp
+           real(qp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -288,18 +287,16 @@ module la_lapack_blas_like_mnorm
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
-              do i = 1,n
-                 work(i) = zero
-              end do
+              allocate (row_sums(n),source=zero)
               do j = 1,n
                  k = ku + 1 - j
                  do i = max(1,j - ku),min(n,j + kl)
-                    work(i) = work(i) + abs(ab(k + i,j))
+                    row_sums(i) = row_sums(i) + abs(ab(k + i,j))
                  end do
               end do
               value = zero
               do i = 1,n
-                 temp = work(i)
+                 temp = row_sums(i)
                  if (value < temp .or. la_qisnan(temp)) value = temp
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -765,7 +762,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> Hessenberg matrix A.
 
-     real(sp) function la_slanhs(norm,n,a,lda,work)
+     pure real(sp) function la_slanhs(norm,n,a,lda,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -775,12 +772,13 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: lda,n
            ! Array Arguments
            real(sp),intent(in) :: a(lda,*)
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
            real(sp) :: scale,sum,value
+           real(sp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -807,17 +805,15 @@ module la_lapack_blas_like_mnorm
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
-              do i = 1,n
-                 work(i) = zero
-              end do
+              allocate (row_sums(n),source=zero)
               do j = 1,n
                  do i = 1,min(n,j + 1)
-                    work(i) = work(i) + abs(a(i,j))
+                    row_sums(i) = row_sums(i) + abs(a(i,j))
                  end do
               end do
               value = zero
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_sisnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -837,7 +833,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> Hessenberg matrix A.
 
-     real(dp) function la_dlanhs(norm,n,a,lda,work)
+     pure real(dp) function la_dlanhs(norm,n,a,lda,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -847,12 +843,13 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: lda,n
            ! Array Arguments
            real(dp),intent(in) :: a(lda,*)
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
            real(dp) :: scale,sum,value
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -879,17 +876,15 @@ module la_lapack_blas_like_mnorm
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
-              do i = 1,n
-                 work(i) = zero
-              end do
+              allocate (row_sums(n),source=zero)
               do j = 1,n
                  do i = 1,min(n,j + 1)
-                    work(i) = work(i) + abs(a(i,j))
+                    row_sums(i) = row_sums(i) + abs(a(i,j))
                  end do
               end do
               value = zero
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_disnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -909,7 +904,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> Hessenberg matrix A.
 
-     real(qp) function la_qlanhs(norm,n,a,lda,work)
+     pure real(qp) function la_qlanhs(norm,n,a,lda,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -919,12 +914,13 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: lda,n
            ! Array Arguments
            real(qp),intent(in) :: a(lda,*)
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
            real(qp) :: scale,sum,value
+           real(qp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -951,17 +947,15 @@ module la_lapack_blas_like_mnorm
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
-              do i = 1,n
-                 work(i) = zero
-              end do
+              allocate (row_sums(n),source=zero)
               do j = 1,n
                  do i = 1,min(n,j + 1)
-                    work(i) = work(i) + abs(a(i,j))
+                    row_sums(i) = row_sums(i) + abs(a(i,j))
                  end do
               end do
               value = zero
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_qisnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -982,7 +976,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n symmetric band matrix A,  with k super-diagonals.
 
-     real(sp) function la_slansb(norm,uplo,n,k,ab,ldab,work)
+     pure real(sp) function la_slansb(norm,uplo,n,k,ab,ldab,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -992,12 +986,13 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
            real(sp),intent(in) :: ab(ldab,*)
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,l
            real(sp) :: absa,scale,sum,value
+           real(sp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -1025,6 +1020,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
               value = zero
+              allocate (row_sums(n),source=zero)
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
                     sum = zero
@@ -1032,25 +1028,22 @@ module la_lapack_blas_like_mnorm
                     do i = max(1,j - k),j - 1
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(ab(k + 1,j))
+                    row_sums(j) = sum + abs(ab(k + 1,j))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_sisnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(ab(1,j))
+                    sum = row_sums(j) + abs(ab(1,j))
                     l = 1 - j
                     do i = j + 1,min(n,j + k)
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_sisnan(sum)) value = sum
                  end do
@@ -1087,7 +1080,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n symmetric band matrix A,  with k super-diagonals.
 
-     real(dp) function la_dlansb(norm,uplo,n,k,ab,ldab,work)
+     pure real(dp) function la_dlansb(norm,uplo,n,k,ab,ldab,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1097,12 +1090,13 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
            real(dp),intent(in) :: ab(ldab,*)
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,l
            real(dp) :: absa,scale,sum,value
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -1130,6 +1124,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
               value = zero
+              allocate (row_sums(n),source=zero)
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
                     sum = zero
@@ -1137,25 +1132,22 @@ module la_lapack_blas_like_mnorm
                     do i = max(1,j - k),j - 1
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(ab(k + 1,j))
+                    row_sums(j) = sum + abs(ab(k + 1,j))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_disnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(ab(1,j))
+                    sum = row_sums(j) + abs(ab(1,j))
                     l = 1 - j
                     do i = j + 1,min(n,j + k)
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_disnan(sum)) value = sum
                  end do
@@ -1192,7 +1184,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n symmetric band matrix A,  with k super-diagonals.
 
-     real(qp) function la_qlansb(norm,uplo,n,k,ab,ldab,work)
+     pure real(qp) function la_qlansb(norm,uplo,n,k,ab,ldab,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1202,12 +1194,13 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
            real(qp),intent(in) :: ab(ldab,*)
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,l
            real(qp) :: absa,scale,sum,value
+           real(qp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -1235,6 +1228,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
               value = zero
+              allocate (row_sums(n),source=zero)
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
                     sum = zero
@@ -1242,25 +1236,22 @@ module la_lapack_blas_like_mnorm
                     do i = max(1,j - k),j - 1
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(ab(k + 1,j))
+                    row_sums(j) = sum + abs(ab(k + 1,j))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_qisnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(ab(1,j))
+                    sum = row_sums(j) + abs(ab(1,j))
                     l = 1 - j
                     do i = j + 1,min(n,j + k)
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_qisnan(sum)) value = sum
                  end do
@@ -3411,7 +3402,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> real symmetric matrix A,  supplied in packed form.
 
-     real(sp) function la_slansp(norm,uplo,n,ap,work)
+     pure real(sp) function la_slansp(norm,uplo,n,ap,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3421,12 +3412,13 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: n
            ! Array Arguments
            real(sp),intent(in) :: ap(*)
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k
            real(sp) :: absa,scale,sum,value
+           real(sp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,sqrt
            ! Executable Statements
@@ -3458,6 +3450,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
               value = zero
+              allocate (row_sums(n),source=zero)
               k = 1
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
@@ -3465,27 +3458,24 @@ module la_lapack_blas_like_mnorm
                     do i = 1,j - 1
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
-                    work(j) = sum + abs(ap(k))
+                    row_sums(j) = sum + abs(ap(k))
                     k = k + 1
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_sisnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(ap(k))
+                    sum = row_sums(j) + abs(ap(k))
                     k = k + 1
                     do i = j + 1,n
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
                     if (value < sum .or. la_sisnan(sum)) value = sum
@@ -3535,7 +3525,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> real symmetric matrix A,  supplied in packed form.
 
-     real(dp) function la_dlansp(norm,uplo,n,ap,work)
+     pure real(dp) function la_dlansp(norm,uplo,n,ap,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3545,12 +3535,13 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: n
            ! Array Arguments
            real(dp),intent(in) :: ap(*)
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k
            real(dp) :: absa,scale,sum,value
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,sqrt
            ! Executable Statements
@@ -3582,6 +3573,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
               value = zero
+              allocate (row_sums(n),source=zero)
               k = 1
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
@@ -3589,27 +3581,24 @@ module la_lapack_blas_like_mnorm
                     do i = 1,j - 1
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
-                    work(j) = sum + abs(ap(k))
+                    row_sums(j) = sum + abs(ap(k))
                     k = k + 1
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_disnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(ap(k))
+                    sum = row_sums(j) + abs(ap(k))
                     k = k + 1
                     do i = j + 1,n
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
                     if (value < sum .or. la_disnan(sum)) value = sum
@@ -3659,7 +3648,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> real symmetric matrix A,  supplied in packed form.
 
-     real(qp) function la_qlansp(norm,uplo,n,ap,work)
+     pure real(qp) function la_qlansp(norm,uplo,n,ap,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3669,12 +3658,13 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: n
            ! Array Arguments
            real(qp),intent(in) :: ap(*)
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k
            real(qp) :: absa,scale,sum,value
+           real(qp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,sqrt
            ! Executable Statements
@@ -3706,6 +3696,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
               value = zero
+              allocate (row_sums(n),source=zero)
               k = 1
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
@@ -3713,27 +3704,24 @@ module la_lapack_blas_like_mnorm
                     do i = 1,j - 1
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
-                    work(j) = sum + abs(ap(k))
+                    row_sums(j) = sum + abs(ap(k))
                     k = k + 1
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_qisnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(ap(k))
+                    sum = row_sums(j) + abs(ap(k))
                     k = k + 1
                     do i = j + 1,n
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
                     if (value < sum .or. la_qisnan(sum)) value = sum
@@ -4257,7 +4245,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
 
-     real(sp) function la_slantb(norm,uplo,diag,n,k,ab,ldab,work)
+     pure real(sp) function la_slantb(norm,uplo,diag,n,k,ab,ldab,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4267,13 +4255,14 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
            real(sp),intent(in) :: ab(ldab,*)
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            logical(lk) :: udiag
            integer(ilp) :: i,j,l
            real(sp) :: scale,sum,value
+           real(sp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -4354,53 +4343,54 @@ module la_lapack_blas_like_mnorm
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
               value = zero
+              allocate (row_sums(n))
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        l = k + 1 - j
                        do i = max(1,j - k),j - 1
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        l = k + 1 - j
                        do i = max(1,j - k),j
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  end if
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        l = 1 - j
                        do i = j + 1,min(n,j + k)
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        l = 1 - j
                        do i = j,min(n,j + k)
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  end if
               end if
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_sisnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -4450,7 +4440,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
 
-     real(dp) function la_dlantb(norm,uplo,diag,n,k,ab,ldab,work)
+     pure real(dp) function la_dlantb(norm,uplo,diag,n,k,ab,ldab,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4460,13 +4450,14 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
            real(dp),intent(in) :: ab(ldab,*)
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            logical(lk) :: udiag
            integer(ilp) :: i,j,l
            real(dp) :: scale,sum,value
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -4547,53 +4538,54 @@ module la_lapack_blas_like_mnorm
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
               value = zero
+              allocate (row_sums(n))
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        l = k + 1 - j
                        do i = max(1,j - k),j - 1
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        l = k + 1 - j
                        do i = max(1,j - k),j
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  end if
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        l = 1 - j
                        do i = j + 1,min(n,j + k)
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        l = 1 - j
                        do i = j,min(n,j + k)
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  end if
               end if
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_disnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -4643,7 +4635,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
 
-     real(qp) function la_qlantb(norm,uplo,diag,n,k,ab,ldab,work)
+     pure real(qp) function la_qlantb(norm,uplo,diag,n,k,ab,ldab,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4653,13 +4645,14 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
            real(qp),intent(in) :: ab(ldab,*)
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            logical(lk) :: udiag
            integer(ilp) :: i,j,l
            real(qp) :: scale,sum,value
+           real(qp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -4740,53 +4733,54 @@ module la_lapack_blas_like_mnorm
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
               value = zero
+              allocate (row_sums(n))
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        l = k + 1 - j
                        do i = max(1,j - k),j - 1
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        l = k + 1 - j
                        do i = max(1,j - k),j
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  end if
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        l = 1 - j
                        do i = j + 1,min(n,j + k)
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        l = 1 - j
                        do i = j,min(n,j + k)
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  end if
               end if
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_qisnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -4837,7 +4831,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> triangular matrix A, supplied in packed form.
 
-     real(sp) function la_slantp(norm,uplo,diag,n,ap,work)
+     pure real(sp) function la_slantp(norm,uplo,diag,n,ap,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4847,13 +4841,14 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: n
            ! Array Arguments
            real(sp),intent(in) :: ap(*)
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            logical(lk) :: udiag
            integer(ilp) :: i,j,k
            real(sp) :: scale,sum,value
+           real(sp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,sqrt
            ! Executable Statements
@@ -4941,26 +4936,27 @@ module la_lapack_blas_like_mnorm
               end if
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate (row_sums(n))
               k = 1
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        do i = 1,j - 1
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                        k = k + 1
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = 1,j
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
@@ -4968,22 +4964,22 @@ module la_lapack_blas_like_mnorm
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        k = k + 1
                        do i = j + 1,n
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j,n
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
@@ -4991,7 +4987,7 @@ module la_lapack_blas_like_mnorm
               end if
               value = zero
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_sisnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -5043,7 +5039,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> triangular matrix A, supplied in packed form.
 
-     real(dp) function la_dlantp(norm,uplo,diag,n,ap,work)
+     pure real(dp) function la_dlantp(norm,uplo,diag,n,ap,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5053,13 +5049,14 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: n
            ! Array Arguments
            real(dp),intent(in) :: ap(*)
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            logical(lk) :: udiag
            integer(ilp) :: i,j,k
            real(dp) :: scale,sum,value
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,sqrt
            ! Executable Statements
@@ -5147,26 +5144,27 @@ module la_lapack_blas_like_mnorm
               end if
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate (row_sums(n))
               k = 1
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        do i = 1,j - 1
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                        k = k + 1
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = 1,j
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
@@ -5174,22 +5172,22 @@ module la_lapack_blas_like_mnorm
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        k = k + 1
                        do i = j + 1,n
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j,n
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
@@ -5197,7 +5195,7 @@ module la_lapack_blas_like_mnorm
               end if
               value = zero
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_disnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -5249,7 +5247,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> triangular matrix A, supplied in packed form.
 
-     real(qp) function la_qlantp(norm,uplo,diag,n,ap,work)
+     pure real(qp) function la_qlantp(norm,uplo,diag,n,ap,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5259,13 +5257,14 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: n
            ! Array Arguments
            real(qp),intent(in) :: ap(*)
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            logical(lk) :: udiag
            integer(ilp) :: i,j,k
            real(qp) :: scale,sum,value
+           real(qp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,sqrt
            ! Executable Statements
@@ -5353,26 +5352,27 @@ module la_lapack_blas_like_mnorm
               end if
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate (row_sums(n))
               k = 1
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        do i = 1,j - 1
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                        k = k + 1
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = 1,j
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
@@ -5380,22 +5380,22 @@ module la_lapack_blas_like_mnorm
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        k = k + 1
                        do i = j + 1,n
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j,n
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
@@ -5403,7 +5403,7 @@ module la_lapack_blas_like_mnorm
               end if
               value = zero
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_qisnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -5456,7 +5456,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> trapezoidal or triangular matrix A.
 
-     real(sp) function la_slantr(norm,uplo,diag,m,n,a,lda,work)
+     pure real(sp) function la_slantr(norm,uplo,diag,m,n,a,lda,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5466,13 +5466,14 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: lda,m,n
            ! Array Arguments
            real(sp),intent(in) :: a(lda,*)
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            logical(lk) :: udiag
            integer(ilp) :: i,j
            real(sp) :: scale,sum,value
+           real(sp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -5552,53 +5553,54 @@ module la_lapack_blas_like_mnorm
               end if
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate (row_sums(m))
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,m
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        do i = 1,min(m,j - 1)
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  else
                     do i = 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = 1,min(m,j)
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  end if
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,min(m,n)
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do i = n + 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j + 1,m
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  else
                     do i = 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j,m
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  end if
               end if
               value = zero
               do i = 1,m
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_sisnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -5642,7 +5644,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> trapezoidal or triangular matrix A.
 
-     real(dp) function la_dlantr(norm,uplo,diag,m,n,a,lda,work)
+     pure real(dp) function la_dlantr(norm,uplo,diag,m,n,a,lda,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5652,13 +5654,14 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: lda,m,n
            ! Array Arguments
            real(dp),intent(in) :: a(lda,*)
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            logical(lk) :: udiag
            integer(ilp) :: i,j
            real(dp) :: scale,sum,value
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -5738,53 +5741,54 @@ module la_lapack_blas_like_mnorm
               end if
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate (row_sums(m))
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,m
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        do i = 1,min(m,j - 1)
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  else
                     do i = 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = 1,min(m,j)
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  end if
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,min(m,n)
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do i = n + 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j + 1,m
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  else
                     do i = 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j,m
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  end if
               end if
               value = zero
               do i = 1,m
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_disnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -5828,7 +5832,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> trapezoidal or triangular matrix A.
 
-     real(qp) function la_qlantr(norm,uplo,diag,m,n,a,lda,work)
+     pure real(qp) function la_qlantr(norm,uplo,diag,m,n,a,lda,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5838,13 +5842,14 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: lda,m,n
            ! Array Arguments
            real(qp),intent(in) :: a(lda,*)
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            logical(lk) :: udiag
            integer(ilp) :: i,j
            real(qp) :: scale,sum,value
+           real(qp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -5924,53 +5929,54 @@ module la_lapack_blas_like_mnorm
               end if
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate (row_sums(m))
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,m
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        do i = 1,min(m,j - 1)
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  else
                     do i = 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = 1,min(m,j)
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  end if
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,min(m,n)
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do i = n + 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j + 1,m
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  else
                     do i = 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j,m
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  end if
               end if
               value = zero
               do i = 1,m
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_qisnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -6015,7 +6021,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
 
-     real(sp) function la_clangb(norm,n,kl,ku,ab,ldab,work)
+     pure real(sp) function la_clangb(norm,n,kl,ku,ab,ldab,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6024,13 +6030,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm
            integer(ilp),intent(in) :: kl,ku,ldab,n
            ! Array Arguments
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
            complex(sp),intent(in) :: ab(ldab,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k,l
            real(sp) :: scale,sum,value,temp
+           real(sp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -6057,18 +6064,16 @@ module la_lapack_blas_like_mnorm
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
-              do i = 1,n
-                 work(i) = zero
-              end do
+              allocate (row_sums(n),source=zero)
               do j = 1,n
                  k = ku + 1 - j
                  do i = max(1,j - ku),min(n,j + kl)
-                    work(i) = work(i) + abs(ab(k + i,j))
+                    row_sums(i) = row_sums(i) + abs(ab(k + i,j))
                  end do
               end do
               value = zero
               do i = 1,n
-                 temp = work(i)
+                 temp = row_sums(i)
                  if (value < temp .or. la_sisnan(temp)) value = temp
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -6090,7 +6095,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
 
-     real(dp) function la_zlangb(norm,n,kl,ku,ab,ldab,work)
+     pure real(dp) function la_zlangb(norm,n,kl,ku,ab,ldab,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6099,13 +6104,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm
            integer(ilp),intent(in) :: kl,ku,ldab,n
            ! Array Arguments
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
            complex(dp),intent(in) :: ab(ldab,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k,l
            real(dp) :: scale,sum,value,temp
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -6132,18 +6138,16 @@ module la_lapack_blas_like_mnorm
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
-              do i = 1,n
-                 work(i) = zero
-              end do
+              allocate (row_sums(n),source=zero)
               do j = 1,n
                  k = ku + 1 - j
                  do i = max(1,j - ku),min(n,j + kl)
-                    work(i) = work(i) + abs(ab(k + i,j))
+                    row_sums(i) = row_sums(i) + abs(ab(k + i,j))
                  end do
               end do
               value = zero
               do i = 1,n
-                 temp = work(i)
+                 temp = row_sums(i)
                  if (value < temp .or. la_disnan(temp)) value = temp
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -6165,7 +6169,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
 
-     real(qp) function la_wlangb(norm,n,kl,ku,ab,ldab,work)
+     pure real(qp) function la_wlangb(norm,n,kl,ku,ab,ldab,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6174,13 +6178,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm
            integer(ilp),intent(in) :: kl,ku,ldab,n
            ! Array Arguments
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
            complex(qp),intent(in) :: ab(ldab,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k,l
            real(qp) :: scale,sum,value,temp
+           real(qp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -6207,18 +6212,16 @@ module la_lapack_blas_like_mnorm
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
-              do i = 1,n
-                 work(i) = zero
-              end do
+              allocate (row_sums(n),source=zero)
               do j = 1,n
                  k = ku + 1 - j
                  do i = max(1,j - ku),min(n,j + kl)
-                    work(i) = work(i) + abs(ab(k + i,j))
+                    row_sums(i) = row_sums(i) + abs(ab(k + i,j))
                  end do
               end do
               value = zero
               do i = 1,n
-                 temp = work(i)
+                 temp = row_sums(i)
                  if (value < temp .or. la_qisnan(temp)) value = temp
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -6684,7 +6687,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n hermitian band matrix A,  with k super-diagonals.
 
-     real(sp) function la_clanhb(norm,uplo,n,k,ab,ldab,work)
+     pure real(sp) function la_clanhb(norm,uplo,n,k,ab,ldab,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6693,12 +6696,13 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
            complex(sp),intent(in) :: ab(ldab,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,l
+           real(sp),allocatable :: row_sums(:)
            real(sp) :: absa,scale,sum,value
            ! Intrinsic Functions
            intrinsic :: abs,max,min,real,sqrt
@@ -6731,6 +6735,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is hermitian).
               value = zero
+              allocate (row_sums(n),source=zero)
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
                     sum = zero
@@ -6738,25 +6743,22 @@ module la_lapack_blas_like_mnorm
                     do i = max(1,j - k),j - 1
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(real(ab(k + 1,j),KIND=sp))
+                    row_sums(j) = sum + abs(real(ab(k + 1,j),KIND=sp))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_sisnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(real(ab(1,j),KIND=sp))
+                    sum = row_sums(j) + abs(real(ab(1,j),KIND=sp))
                     l = 1 - j
                     do i = j + 1,min(n,j + k)
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_sisnan(sum)) value = sum
                  end do
@@ -6803,7 +6805,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n hermitian band matrix A,  with k super-diagonals.
 
-     real(dp) function la_zlanhb(norm,uplo,n,k,ab,ldab,work)
+     pure real(dp) function la_zlanhb(norm,uplo,n,k,ab,ldab,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6812,12 +6814,13 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
            complex(dp),intent(in) :: ab(ldab,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,l
+           real(dp),allocatable :: row_sums(:)
            real(dp) :: absa,scale,sum,value
            ! Intrinsic Functions
            intrinsic :: abs,real,max,min,sqrt
@@ -6850,6 +6853,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is hermitian).
               value = zero
+              allocate (row_sums(n),source=zero)
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
                     sum = zero
@@ -6857,25 +6861,22 @@ module la_lapack_blas_like_mnorm
                     do i = max(1,j - k),j - 1
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(real(ab(k + 1,j),KIND=dp))
+                    row_sums(j) = sum + abs(real(ab(k + 1,j),KIND=dp))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_disnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(real(ab(1,j),KIND=dp))
+                    sum = row_sums(j) + abs(real(ab(1,j),KIND=dp))
                     l = 1 - j
                     do i = j + 1,min(n,j + k)
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_disnan(sum)) value = sum
                  end do
@@ -6922,7 +6923,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n hermitian band matrix A,  with k super-diagonals.
 
-     real(qp) function la_wlanhb(norm,uplo,n,k,ab,ldab,work)
+     pure real(qp) function la_wlanhb(norm,uplo,n,k,ab,ldab,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6931,12 +6932,13 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
            complex(qp),intent(in) :: ab(ldab,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,l
+           real(qp),allocatable :: row_sums(:)
            real(qp) :: absa,scale,sum,value
            ! Intrinsic Functions
            intrinsic :: abs,real,max,min,sqrt
@@ -6969,6 +6971,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is hermitian).
               value = zero
+              allocate (row_sums(n),source=zero)
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
                     sum = zero
@@ -6976,25 +6979,22 @@ module la_lapack_blas_like_mnorm
                     do i = max(1,j - k),j - 1
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(real(ab(k + 1,j),KIND=qp))
+                    row_sums(j) = sum + abs(real(ab(k + 1,j),KIND=qp))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_qisnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(real(ab(1,j),KIND=qp))
+                    sum = row_sums(j) + abs(real(ab(1,j),KIND=qp))
                     l = 1 - j
                     do i = j + 1,min(n,j + k)
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_qisnan(sum)) value = sum
                  end do
@@ -7042,7 +7042,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex hermitian matrix A.
 
-     real(sp) function la_clanhe(norm,uplo,n,a,lda,work)
+     pure real(sp) function la_clanhe(norm,uplo,n,a,lda,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -7051,12 +7051,13 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: lda,n
            ! Array Arguments
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
            complex(sp),intent(in) :: a(lda,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
+           real(sp),allocatable :: row_sums(:)
            real(sp) :: absa,scale,sum,value
            ! Intrinsic Functions
            intrinsic :: abs,real,sqrt
@@ -7089,30 +7090,28 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is hermitian).
               value = zero
+              allocate (row_sums(n),source=zero)
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
                     sum = zero
                     do i = 1,j - 1
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(real(a(j,j),KIND=sp))
+                    row_sums(j) = sum + abs(real(a(j,j),KIND=sp))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_sisnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(real(a(j,j),KIND=sp))
+                    sum = row_sums(j) + abs(real(a(j,j),KIND=sp))
                     do i = j + 1,n
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_sisnan(sum)) value = sum
                  end do
@@ -7152,7 +7151,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex hermitian matrix A.
 
-     real(dp) function la_zlanhe(norm,uplo,n,a,lda,work)
+     pure real(dp) function la_zlanhe(norm,uplo,n,a,lda,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -7161,12 +7160,13 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: lda,n
            ! Array Arguments
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
            complex(dp),intent(in) :: a(lda,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
+           real(dp),allocatable :: row_sums(:)
            real(dp) :: absa,scale,sum,value
            ! Intrinsic Functions
            intrinsic :: abs,real,sqrt
@@ -7199,30 +7199,28 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is hermitian).
               value = zero
+              allocate (row_sums(n),source=zero)
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
                     sum = zero
                     do i = 1,j - 1
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(real(a(j,j),KIND=dp))
+                    row_sums(j) = sum + abs(real(a(j,j),KIND=dp))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_disnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(real(a(j,j),KIND=dp))
+                    sum = row_sums(j) + abs(real(a(j,j),KIND=dp))
                     do i = j + 1,n
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_disnan(sum)) value = sum
                  end do
@@ -7262,7 +7260,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex hermitian matrix A.
 
-     real(qp) function la_wlanhe(norm,uplo,n,a,lda,work)
+     pure real(qp) function la_wlanhe(norm,uplo,n,a,lda,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -7271,12 +7269,13 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: lda,n
            ! Array Arguments
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
            complex(qp),intent(in) :: a(lda,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
+           real(qp),allocatable :: row_sums(:)
            real(qp) :: absa,scale,sum,value
            ! Intrinsic Functions
            intrinsic :: abs,real,sqrt
@@ -7309,30 +7308,28 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is hermitian).
               value = zero
+              allocate (row_sums(n),source=zero)
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
                     sum = zero
                     do i = 1,j - 1
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(real(a(j,j),KIND=qp))
+                    row_sums(j) = sum + abs(real(a(j,j),KIND=qp))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_qisnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(real(a(j,j),KIND=qp))
+                    sum = row_sums(j) + abs(real(a(j,j),KIND=qp))
                     do i = j + 1,n
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_qisnan(sum)) value = sum
                  end do
@@ -11034,7 +11031,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex hermitian matrix A,  supplied in packed form.
 
-     real(sp) function la_clanhp(norm,uplo,n,ap,work)
+     pure real(sp) function la_clanhp(norm,uplo,n,ap,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -11043,12 +11040,13 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: n
            ! Array Arguments
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
            complex(sp),intent(in) :: ap(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k
+           real(sp),allocatable :: row_sums(:)
            real(sp) :: absa,scale,sum,value
            ! Intrinsic Functions
            intrinsic :: abs,real,sqrt
@@ -11085,6 +11083,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is hermitian).
               value = zero
+              allocate (row_sums(n),source=zero)
               k = 1
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
@@ -11092,27 +11091,24 @@ module la_lapack_blas_like_mnorm
                     do i = 1,j - 1
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
-                    work(j) = sum + abs(real(ap(k),KIND=sp))
+                    row_sums(j) = sum + abs(real(ap(k),KIND=sp))
                     k = k + 1
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_sisnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(real(ap(k),KIND=sp))
+                    sum = row_sums(j) + abs(real(ap(k),KIND=sp))
                     k = k + 1
                     do i = j + 1,n
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
                     if (value < sum .or. la_sisnan(sum)) value = sum
@@ -11162,7 +11158,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex hermitian matrix A,  supplied in packed form.
 
-     real(dp) function la_zlanhp(norm,uplo,n,ap,work)
+     pure real(dp) function la_zlanhp(norm,uplo,n,ap,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -11171,12 +11167,13 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: n
            ! Array Arguments
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
            complex(dp),intent(in) :: ap(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k
+           real(dp),allocatable :: row_sums(:)
            real(dp) :: absa,scale,sum,value
            ! Intrinsic Functions
            intrinsic :: abs,real,sqrt
@@ -11213,6 +11210,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is hermitian).
               value = zero
+              allocate (row_sums(n),source=zero)
               k = 1
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
@@ -11220,27 +11218,24 @@ module la_lapack_blas_like_mnorm
                     do i = 1,j - 1
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
-                    work(j) = sum + abs(real(ap(k),KIND=dp))
+                    row_sums(j) = sum + abs(real(ap(k),KIND=dp))
                     k = k + 1
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_disnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(real(ap(k),KIND=dp))
+                    sum = row_sums(j) + abs(real(ap(k),KIND=dp))
                     k = k + 1
                     do i = j + 1,n
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
                     if (value < sum .or. la_disnan(sum)) value = sum
@@ -11290,7 +11285,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex hermitian matrix A,  supplied in packed form.
 
-     real(qp) function la_wlanhp(norm,uplo,n,ap,work)
+     pure real(qp) function la_wlanhp(norm,uplo,n,ap,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -11299,12 +11294,13 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: n
            ! Array Arguments
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
            complex(qp),intent(in) :: ap(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k
+           real(qp),allocatable :: row_sums(:)
            real(qp) :: absa,scale,sum,value
            ! Intrinsic Functions
            intrinsic :: abs,real,sqrt
@@ -11341,6 +11337,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is hermitian).
               value = zero
+              allocate (row_sums(n),source=zero)
               k = 1
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
@@ -11348,27 +11345,24 @@ module la_lapack_blas_like_mnorm
                     do i = 1,j - 1
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
-                    work(j) = sum + abs(real(ap(k),KIND=qp))
+                    row_sums(j) = sum + abs(real(ap(k),KIND=qp))
                     k = k + 1
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_qisnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(real(ap(k),KIND=qp))
+                    sum = row_sums(j) + abs(real(ap(k),KIND=qp))
                     k = k + 1
                     do i = j + 1,n
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
                     if (value < sum .or. la_qisnan(sum)) value = sum
@@ -11419,7 +11413,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> Hessenberg matrix A.
 
-     real(sp) function la_clanhs(norm,n,a,lda,work)
+     pure real(sp) function la_clanhs(norm,n,a,lda,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -11428,13 +11422,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm
            integer(ilp),intent(in) :: lda,n
            ! Array Arguments
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
            complex(sp),intent(in) :: a(lda,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
            real(sp) :: scale,sum,value
+           real(sp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -11461,17 +11456,15 @@ module la_lapack_blas_like_mnorm
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
-              do i = 1,n
-                 work(i) = zero
-              end do
+              allocate (row_sums(n),source=zero)
               do j = 1,n
                  do i = 1,min(n,j + 1)
-                    work(i) = work(i) + abs(a(i,j))
+                    row_sums(i) = row_sums(i) + abs(a(i,j))
                  end do
               end do
               value = zero
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_sisnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -11491,7 +11484,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> Hessenberg matrix A.
 
-     real(dp) function la_zlanhs(norm,n,a,lda,work)
+     pure real(dp) function la_zlanhs(norm,n,a,lda,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -11500,13 +11493,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm
            integer(ilp),intent(in) :: lda,n
            ! Array Arguments
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
            complex(dp),intent(in) :: a(lda,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
            real(dp) :: scale,sum,value
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -11533,17 +11527,15 @@ module la_lapack_blas_like_mnorm
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
-              do i = 1,n
-                 work(i) = zero
-              end do
+              allocate (row_sums(n),source=zero)
               do j = 1,n
                  do i = 1,min(n,j + 1)
-                    work(i) = work(i) + abs(a(i,j))
+                    row_sums(i) = row_sums(i) + abs(a(i,j))
                  end do
               end do
               value = zero
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_disnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -11563,7 +11555,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> Hessenberg matrix A.
 
-     real(qp) function la_wlanhs(norm,n,a,lda,work)
+     pure real(qp) function la_wlanhs(norm,n,a,lda,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -11572,13 +11564,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm
            integer(ilp),intent(in) :: lda,n
            ! Array Arguments
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
            complex(qp),intent(in) :: a(lda,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
            real(qp) :: scale,sum,value
+           real(qp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -11605,17 +11598,15 @@ module la_lapack_blas_like_mnorm
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
-              do i = 1,n
-                 work(i) = zero
-              end do
+              allocate (row_sums(n),source=zero)
               do j = 1,n
                  do i = 1,min(n,j + 1)
-                    work(i) = work(i) + abs(a(i,j))
+                    row_sums(i) = row_sums(i) + abs(a(i,j))
                  end do
               end do
               value = zero
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_qisnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -11826,7 +11817,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n symmetric band matrix A,  with k super-diagonals.
 
-     real(sp) function la_clansb(norm,uplo,n,k,ab,ldab,work)
+     pure real(sp) function la_clansb(norm,uplo,n,k,ab,ldab,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -11835,13 +11826,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
            complex(sp),intent(in) :: ab(ldab,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,l
            real(sp) :: absa,scale,sum,value
+           real(sp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -11869,6 +11861,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
               value = zero
+              allocate (row_sums(n),source=zero)
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
                     sum = zero
@@ -11876,25 +11869,22 @@ module la_lapack_blas_like_mnorm
                     do i = max(1,j - k),j - 1
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(ab(k + 1,j))
+                    row_sums(j) = sum + abs(ab(k + 1,j))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_sisnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(ab(1,j))
+                    sum = row_sums(j) + abs(ab(1,j))
                     l = 1 - j
                     do i = j + 1,min(n,j + k)
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_sisnan(sum)) value = sum
                  end do
@@ -11931,7 +11921,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n symmetric band matrix A,  with k super-diagonals.
 
-     real(dp) function la_zlansb(norm,uplo,n,k,ab,ldab,work)
+     pure real(dp) function la_zlansb(norm,uplo,n,k,ab,ldab,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -11940,13 +11930,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
            complex(dp),intent(in) :: ab(ldab,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,l
            real(dp) :: absa,scale,sum,value
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -11974,6 +11965,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
               value = zero
+              allocate (row_sums(n),source=zero)
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
                     sum = zero
@@ -11981,25 +11973,22 @@ module la_lapack_blas_like_mnorm
                     do i = max(1,j - k),j - 1
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(ab(k + 1,j))
+                    row_sums(j) = sum + abs(ab(k + 1,j))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_disnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(ab(1,j))
+                    sum = row_sums(j) + abs(ab(1,j))
                     l = 1 - j
                     do i = j + 1,min(n,j + k)
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_disnan(sum)) value = sum
                  end do
@@ -12036,7 +12025,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n symmetric band matrix A,  with k super-diagonals.
 
-     real(qp) function la_wlansb(norm,uplo,n,k,ab,ldab,work)
+     pure real(qp) function la_wlansb(norm,uplo,n,k,ab,ldab,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -12045,13 +12034,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
            complex(qp),intent(in) :: ab(ldab,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,l
            real(qp) :: absa,scale,sum,value
+           real(qp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -12079,6 +12069,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
               value = zero
+              allocate (row_sums(n),source=zero)
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
                     sum = zero
@@ -12086,25 +12077,22 @@ module la_lapack_blas_like_mnorm
                     do i = max(1,j - k),j - 1
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(ab(k + 1,j))
+                    row_sums(j) = sum + abs(ab(k + 1,j))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_qisnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(ab(1,j))
+                    sum = row_sums(j) + abs(ab(1,j))
                     l = 1 - j
                     do i = j + 1,min(n,j + k)
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_qisnan(sum)) value = sum
                  end do
@@ -12142,7 +12130,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex symmetric matrix A,  supplied in packed form.
 
-     real(sp) function la_clansp(norm,uplo,n,ap,work)
+     pure real(sp) function la_clansp(norm,uplo,n,ap,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -12151,13 +12139,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: n
            ! Array Arguments
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
            complex(sp),intent(in) :: ap(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k
            real(sp) :: absa,scale,sum,value
+           real(sp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,aimag,real,sqrt
            ! Executable Statements
@@ -12189,6 +12178,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
               value = zero
+              allocate (row_sums(n),source=zero)
               k = 1
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
@@ -12196,27 +12186,24 @@ module la_lapack_blas_like_mnorm
                     do i = 1,j - 1
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
-                    work(j) = sum + abs(ap(k))
+                    row_sums(j) = sum + abs(ap(k))
                     k = k + 1
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_sisnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(ap(k))
+                    sum = row_sums(j) + abs(ap(k))
                     k = k + 1
                     do i = j + 1,n
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
                     if (value < sum .or. la_sisnan(sum)) value = sum
@@ -12275,7 +12262,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex symmetric matrix A,  supplied in packed form.
 
-     real(dp) function la_zlansp(norm,uplo,n,ap,work)
+     pure real(dp) function la_zlansp(norm,uplo,n,ap,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -12284,13 +12271,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: n
            ! Array Arguments
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
            complex(dp),intent(in) :: ap(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k
            real(dp) :: absa,scale,sum,value
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,real,aimag,sqrt
            ! Executable Statements
@@ -12322,6 +12310,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
               value = zero
+              allocate (row_sums(n),source=zero)
               k = 1
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
@@ -12329,27 +12318,24 @@ module la_lapack_blas_like_mnorm
                     do i = 1,j - 1
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
-                    work(j) = sum + abs(ap(k))
+                    row_sums(j) = sum + abs(ap(k))
                     k = k + 1
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_disnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(ap(k))
+                    sum = row_sums(j) + abs(ap(k))
                     k = k + 1
                     do i = j + 1,n
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
                     if (value < sum .or. la_disnan(sum)) value = sum
@@ -12408,7 +12394,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex symmetric matrix A,  supplied in packed form.
 
-     real(qp) function la_wlansp(norm,uplo,n,ap,work)
+     pure real(qp) function la_wlansp(norm,uplo,n,ap,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -12417,13 +12403,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: n
            ! Array Arguments
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
            complex(qp),intent(in) :: ap(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k
            real(qp) :: absa,scale,sum,value
+           real(qp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,real,aimag,sqrt
            ! Executable Statements
@@ -12455,6 +12442,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
               value = zero
+              allocate (row_sums(n),source=zero)
               k = 1
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
@@ -12462,27 +12450,24 @@ module la_lapack_blas_like_mnorm
                     do i = 1,j - 1
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
-                    work(j) = sum + abs(ap(k))
+                    row_sums(j) = sum + abs(ap(k))
                     k = k + 1
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_qisnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(ap(k))
+                    sum = row_sums(j) + abs(ap(k))
                     k = k + 1
                     do i = j + 1,n
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
                     if (value < sum .or. la_qisnan(sum)) value = sum
@@ -12542,7 +12527,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex symmetric matrix A.
 
-     real(sp) function la_clansy(norm,uplo,n,a,lda,work)
+     pure real(sp) function la_clansy(norm,uplo,n,a,lda,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -12551,13 +12536,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: lda,n
            ! Array Arguments
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
            complex(sp),intent(in) :: a(lda,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
            real(sp) :: absa,scale,sum,value
+           real(sp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,sqrt
            ! Executable Statements
@@ -12584,6 +12570,7 @@ module la_lapack_blas_like_mnorm
            else if ((la_lsame(norm,'I')) .or. (la_lsame(norm,'O')) .or. ( &
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
+              allocate (row_sums(n),source=zero)
               value = zero
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
@@ -12591,24 +12578,21 @@ module la_lapack_blas_like_mnorm
                     do i = 1,j - 1
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(a(j,j))
+                    row_sums(j) = sum + abs(a(j,j))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_sisnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(a(j,j))
+                    sum = row_sums(j) + abs(a(j,j))
                     do i = j + 1,n
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_sisnan(sum)) value = sum
                  end do
@@ -12638,7 +12622,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex symmetric matrix A.
 
-     real(dp) function la_zlansy(norm,uplo,n,a,lda,work)
+     pure real(dp) function la_zlansy(norm,uplo,n,a,lda,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -12647,13 +12631,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: lda,n
            ! Array Arguments
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
            complex(dp),intent(in) :: a(lda,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
            real(dp) :: absa,scale,sum,value
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,sqrt
            ! Executable Statements
@@ -12680,6 +12665,7 @@ module la_lapack_blas_like_mnorm
            else if ((la_lsame(norm,'I')) .or. (la_lsame(norm,'O')) .or. ( &
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
+              allocate (row_sums(n),source=zero)
               value = zero
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
@@ -12687,24 +12673,21 @@ module la_lapack_blas_like_mnorm
                     do i = 1,j - 1
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(a(j,j))
+                    row_sums(j) = sum + abs(a(j,j))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_disnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(a(j,j))
+                    sum = row_sums(j) + abs(a(j,j))
                     do i = j + 1,n
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_disnan(sum)) value = sum
                  end do
@@ -12734,7 +12717,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex symmetric matrix A.
 
-     real(qp) function la_wlansy(norm,uplo,n,a,lda,work)
+     pure real(qp) function la_wlansy(norm,uplo,n,a,lda,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -12743,13 +12726,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: lda,n
            ! Array Arguments
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
            complex(qp),intent(in) :: a(lda,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
            real(qp) :: absa,scale,sum,value
+           real(qp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,sqrt
            ! Executable Statements
@@ -12776,6 +12760,7 @@ module la_lapack_blas_like_mnorm
            else if ((la_lsame(norm,'I')) .or. (la_lsame(norm,'O')) .or. ( &
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
+              allocate (row_sums(n),source=zero)
               value = zero
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
@@ -12783,24 +12768,21 @@ module la_lapack_blas_like_mnorm
                     do i = 1,j - 1
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(a(j,j))
+                    row_sums(j) = sum + abs(a(j,j))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_qisnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(a(j,j))
+                    sum = row_sums(j) + abs(a(j,j))
                     do i = j + 1,n
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_qisnan(sum)) value = sum
                  end do
@@ -12831,7 +12813,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
 
-     real(sp) function la_clantb(norm,uplo,diag,n,k,ab,ldab,work)
+     pure real(sp) function la_clantb(norm,uplo,diag,n,k,ab,ldab,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -12840,7 +12822,7 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: diag,norm,uplo
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
            complex(sp),intent(in) :: ab(ldab,*)
        ! =====================================================================
 
@@ -12848,6 +12830,7 @@ module la_lapack_blas_like_mnorm
            logical(lk) :: udiag
            integer(ilp) :: i,j,l
            real(sp) :: scale,sum,value
+           real(sp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -12928,53 +12911,54 @@ module la_lapack_blas_like_mnorm
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
               value = zero
+              allocate (row_sums(n))
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        l = k + 1 - j
                        do i = max(1,j - k),j - 1
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        l = k + 1 - j
                        do i = max(1,j - k),j
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  end if
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        l = 1 - j
                        do i = j + 1,min(n,j + k)
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        l = 1 - j
                        do i = j,min(n,j + k)
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  end if
               end if
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_sisnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -13024,7 +13008,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
 
-     real(dp) function la_zlantb(norm,uplo,diag,n,k,ab,ldab,work)
+     pure real(dp) function la_zlantb(norm,uplo,diag,n,k,ab,ldab,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -13033,7 +13017,7 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: diag,norm,uplo
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
            complex(dp),intent(in) :: ab(ldab,*)
        ! =====================================================================
 
@@ -13041,6 +13025,7 @@ module la_lapack_blas_like_mnorm
            logical(lk) :: udiag
            integer(ilp) :: i,j,l
            real(dp) :: scale,sum,value
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -13121,53 +13106,54 @@ module la_lapack_blas_like_mnorm
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
               value = zero
+              allocate (row_sums(n))
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        l = k + 1 - j
                        do i = max(1,j - k),j - 1
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        l = k + 1 - j
                        do i = max(1,j - k),j
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  end if
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        l = 1 - j
                        do i = j + 1,min(n,j + k)
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        l = 1 - j
                        do i = j,min(n,j + k)
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  end if
               end if
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_disnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -13217,7 +13203,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
 
-     real(qp) function la_wlantb(norm,uplo,diag,n,k,ab,ldab,work)
+     pure real(qp) function la_wlantb(norm,uplo,diag,n,k,ab,ldab,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -13226,7 +13212,7 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: diag,norm,uplo
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
            complex(qp),intent(in) :: ab(ldab,*)
        ! =====================================================================
 
@@ -13234,6 +13220,7 @@ module la_lapack_blas_like_mnorm
            logical(lk) :: udiag
            integer(ilp) :: i,j,l
            real(qp) :: scale,sum,value
+           real(qp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -13314,53 +13301,54 @@ module la_lapack_blas_like_mnorm
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
               value = zero
+              allocate (row_sums(n))
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        l = k + 1 - j
                        do i = max(1,j - k),j - 1
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        l = k + 1 - j
                        do i = max(1,j - k),j
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  end if
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        l = 1 - j
                        do i = j + 1,min(n,j + k)
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        l = 1 - j
                        do i = j,min(n,j + k)
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  end if
               end if
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_qisnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -13411,7 +13399,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> triangular matrix A, supplied in packed form.
 
-     real(sp) function la_clantp(norm,uplo,diag,n,ap,work)
+     pure real(sp) function la_clantp(norm,uplo,diag,n,ap,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -13420,7 +13408,7 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: diag,norm,uplo
            integer(ilp),intent(in) :: n
            ! Array Arguments
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
            complex(sp),intent(in) :: ap(*)
        ! =====================================================================
 
@@ -13428,6 +13416,7 @@ module la_lapack_blas_like_mnorm
            logical(lk) :: udiag
            integer(ilp) :: i,j,k
            real(sp) :: scale,sum,value
+           real(sp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,sqrt
            ! Executable Statements
@@ -13515,26 +13504,27 @@ module la_lapack_blas_like_mnorm
               end if
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate (row_sums(n))
               k = 1
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        do i = 1,j - 1
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                        k = k + 1
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = 1,j
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
@@ -13542,22 +13532,22 @@ module la_lapack_blas_like_mnorm
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        k = k + 1
                        do i = j + 1,n
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j,n
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
@@ -13565,7 +13555,7 @@ module la_lapack_blas_like_mnorm
               end if
               value = zero
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_sisnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -13617,7 +13607,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> triangular matrix A, supplied in packed form.
 
-     real(dp) function la_zlantp(norm,uplo,diag,n,ap,work)
+     pure real(dp) function la_zlantp(norm,uplo,diag,n,ap,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -13626,7 +13616,7 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: diag,norm,uplo
            integer(ilp),intent(in) :: n
            ! Array Arguments
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
            complex(dp),intent(in) :: ap(*)
        ! =====================================================================
 
@@ -13634,6 +13624,7 @@ module la_lapack_blas_like_mnorm
            logical(lk) :: udiag
            integer(ilp) :: i,j,k
            real(dp) :: scale,sum,value
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,sqrt
            ! Executable Statements
@@ -13721,26 +13712,27 @@ module la_lapack_blas_like_mnorm
               end if
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate (row_sums(n))
               k = 1
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        do i = 1,j - 1
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                        k = k + 1
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = 1,j
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
@@ -13748,22 +13740,22 @@ module la_lapack_blas_like_mnorm
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        k = k + 1
                        do i = j + 1,n
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j,n
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
@@ -13771,7 +13763,7 @@ module la_lapack_blas_like_mnorm
               end if
               value = zero
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_disnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -13823,7 +13815,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> triangular matrix A, supplied in packed form.
 
-     real(qp) function la_wlantp(norm,uplo,diag,n,ap,work)
+     pure real(qp) function la_wlantp(norm,uplo,diag,n,ap,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -13832,7 +13824,7 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: diag,norm,uplo
            integer(ilp),intent(in) :: n
            ! Array Arguments
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
            complex(qp),intent(in) :: ap(*)
        ! =====================================================================
 
@@ -13840,6 +13832,7 @@ module la_lapack_blas_like_mnorm
            logical(lk) :: udiag
            integer(ilp) :: i,j,k
            real(qp) :: scale,sum,value
+           real(qp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,sqrt
            ! Executable Statements
@@ -13927,26 +13920,27 @@ module la_lapack_blas_like_mnorm
               end if
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate (row_sums(n))
               k = 1
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        do i = 1,j - 1
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                        k = k + 1
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = 1,j
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
@@ -13954,22 +13948,22 @@ module la_lapack_blas_like_mnorm
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        k = k + 1
                        do i = j + 1,n
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j,n
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
@@ -13977,7 +13971,7 @@ module la_lapack_blas_like_mnorm
               end if
               value = zero
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_qisnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -14030,7 +14024,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> trapezoidal or triangular matrix A.
 
-     real(sp) function la_clantr(norm,uplo,diag,m,n,a,lda,work)
+     pure real(sp) function la_clantr(norm,uplo,diag,m,n,a,lda,work)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -14039,7 +14033,7 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: diag,norm,uplo
            integer(ilp),intent(in) :: lda,m,n
            ! Array Arguments
-           real(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: work(*)
            complex(sp),intent(in) :: a(lda,*)
        ! =====================================================================
 
@@ -14047,6 +14041,7 @@ module la_lapack_blas_like_mnorm
            logical(lk) :: udiag
            integer(ilp) :: i,j
            real(sp) :: scale,sum,value
+           real(sp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -14126,53 +14121,54 @@ module la_lapack_blas_like_mnorm
               end if
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate (row_sums(m))
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,m
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        do i = 1,min(m,j - 1)
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  else
                     do i = 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = 1,min(m,j)
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  end if
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,min(m,n)
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do i = n + 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j + 1,m
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  else
                     do i = 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j,m
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  end if
               end if
               value = zero
               do i = 1,m
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_sisnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -14216,7 +14212,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> trapezoidal or triangular matrix A.
 
-     real(dp) function la_zlantr(norm,uplo,diag,m,n,a,lda,work)
+     pure real(dp) function la_zlantr(norm,uplo,diag,m,n,a,lda,work)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -14225,7 +14221,7 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: diag,norm,uplo
            integer(ilp),intent(in) :: lda,m,n
            ! Array Arguments
-           real(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: work(*)
            complex(dp),intent(in) :: a(lda,*)
        ! =====================================================================
 
@@ -14233,6 +14229,7 @@ module la_lapack_blas_like_mnorm
            logical(lk) :: udiag
            integer(ilp) :: i,j
            real(dp) :: scale,sum,value
+           real(dp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -14312,53 +14309,54 @@ module la_lapack_blas_like_mnorm
               end if
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate (row_sums(m))
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,m
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        do i = 1,min(m,j - 1)
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  else
                     do i = 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = 1,min(m,j)
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  end if
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,min(m,n)
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do i = n + 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j + 1,m
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  else
                     do i = 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j,m
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  end if
               end if
               value = zero
               do i = 1,m
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_disnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -14402,7 +14400,7 @@ module la_lapack_blas_like_mnorm
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> trapezoidal or triangular matrix A.
 
-     real(qp) function la_wlantr(norm,uplo,diag,m,n,a,lda,work)
+     pure real(qp) function la_wlantr(norm,uplo,diag,m,n,a,lda,work)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -14411,7 +14409,7 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: diag,norm,uplo
            integer(ilp),intent(in) :: lda,m,n
            ! Array Arguments
-           real(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: work(*)
            complex(qp),intent(in) :: a(lda,*)
        ! =====================================================================
 
@@ -14419,6 +14417,7 @@ module la_lapack_blas_like_mnorm
            logical(lk) :: udiag
            integer(ilp) :: i,j
            real(qp) :: scale,sum,value
+           real(qp),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -14498,53 +14497,54 @@ module la_lapack_blas_like_mnorm
               end if
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate (row_sums(m))
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,m
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        do i = 1,min(m,j - 1)
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  else
                     do i = 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = 1,min(m,j)
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  end if
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,min(m,n)
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do i = n + 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j + 1,m
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  else
                     do i = 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j,m
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  end if
               end if
               value = zero
               do i = 1,m
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_qisnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &

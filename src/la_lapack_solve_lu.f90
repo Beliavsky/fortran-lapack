@@ -754,7 +754,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_sgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
+     pure subroutine la_sgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
                c,b,ldb,x,ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -980,7 +980,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_dgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
+     pure subroutine la_dgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
                c,b,ldb,x,ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -1203,7 +1203,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_qgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
+     pure subroutine la_qgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
                c,b,ldb,x,ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -1893,7 +1893,7 @@ module la_lapack_solve_lu
      !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
      !> respectively.
 
-     subroutine la_qdgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,iter,info)
+     pure subroutine la_qdgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,iter,info)
         use la_constants_qp,only:negone,one
 
         ! -- lapack driver routine --
@@ -2192,7 +2192,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_sgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
+     pure subroutine la_sgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
                x,ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -2396,7 +2396,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_dgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
+     pure subroutine la_dgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
                x,ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -2600,7 +2600,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_qgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
+     pure subroutine la_qgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
                x,ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -3236,7 +3236,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_cgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
+     pure subroutine la_cgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
                c,b,ldb,x,ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -3463,7 +3463,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_zgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
+     pure subroutine la_zgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
                c,b,ldb,x,ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -3690,7 +3690,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_wgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
+     pure subroutine la_wgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
                c,b,ldb,x,ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -4387,7 +4387,7 @@ module la_lapack_solve_lu
      !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
      !> respectively.
 
-     subroutine la_wzgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,rwork,iter, &
+     pure subroutine la_wzgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,rwork,iter, &
                info)
         use la_constants_qp,only:cone,cnegone
         ! -- lapack driver routine --
@@ -4692,7 +4692,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_cgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
+     pure subroutine la_cgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
                x,ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -4897,7 +4897,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_zgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
+     pure subroutine la_zgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
                x,ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -5102,7 +5102,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_wgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
+     pure subroutine la_wgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
                x,ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --

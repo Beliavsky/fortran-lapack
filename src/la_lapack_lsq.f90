@@ -75,7 +75,7 @@ module la_lapack_lsq
      !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
      !> matrix X.
 
-     subroutine la_sgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+     pure subroutine la_sgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -509,7 +509,7 @@ module la_lapack_lsq
      !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
      !> matrix X.
 
-     subroutine la_qgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+     pure subroutine la_qgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -741,7 +741,7 @@ module la_lapack_lsq
      !> o The permutation of matrix B (the right hand side) is faster and
      !> more simple.
 
-     subroutine la_sgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,info)
+     pure subroutine la_sgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,info)
         use la_constants_sp,only:zero,one
 
         ! -- lapack driver routine --
@@ -1205,7 +1205,7 @@ module la_lapack_lsq
      !> o The permutation of matrix B (the right hand side) is faster and
      !> more simple.
 
-     subroutine la_qgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,info)
+     pure subroutine la_qgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,info)
         use la_constants_qp,only:zero,one
 
         ! -- lapack driver routine --
@@ -1424,7 +1424,7 @@ module la_lapack_lsq
      !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
      !> matrix X.
 
-     subroutine la_sgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+     pure subroutine la_sgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1896,7 +1896,7 @@ module la_lapack_lsq
      !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
      !> matrix X.
 
-     subroutine la_qgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+     pure subroutine la_qgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2140,7 +2140,7 @@ module la_lapack_lsq
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_sgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,iwork, &
+     pure subroutine la_sgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,iwork, &
                info)
         use la_constants_sp,only:zero,one,two
         ! -- lapack driver routine --
@@ -2789,7 +2789,7 @@ module la_lapack_lsq
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_qgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,iwork, &
+     pure subroutine la_qgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,iwork, &
                info)
         use la_constants_qp,only:zero,one,two
         ! -- lapack driver routine --
@@ -3100,7 +3100,7 @@ module la_lapack_lsq
      !> singular values which are less than RCOND times the largest singular
      !> value.
 
-     subroutine la_sgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,info)
+     pure subroutine la_sgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,info)
         use la_constants_sp,only:zero,one
 
         ! -- lapack driver routine --
@@ -3981,7 +3981,7 @@ module la_lapack_lsq
      !> singular values which are less than RCOND times the largest singular
      !> value.
 
-     subroutine la_qgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,info)
+     pure subroutine la_qgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,info)
         use la_constants_qp,only:zero,one
 
         ! -- lapack driver routine --
@@ -4430,7 +4430,7 @@ module la_lapack_lsq
      !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
      !> matrix X.
 
-     subroutine la_cgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+     pure subroutine la_cgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
         use la_constants_sp,only:zero,one,czero
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4864,7 +4864,7 @@ module la_lapack_lsq
      !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
      !> matrix X.
 
-     subroutine la_wgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+     pure subroutine la_wgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
         use la_constants_qp,only:zero,one,czero
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5089,7 +5089,7 @@ module la_lapack_lsq
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_cgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
+     pure subroutine la_cgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
                iwork,info)
         use la_constants_sp,only:zero,one,two,czero
         ! -- lapack driver routine --
@@ -5763,7 +5763,7 @@ module la_lapack_lsq
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_wgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
+     pure subroutine la_wgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
                iwork,info)
         use la_constants_qp,only:zero,one,two,czero
         ! -- lapack driver routine --
@@ -6088,7 +6088,7 @@ module la_lapack_lsq
      !> singular values which are less than RCOND times the largest singular
      !> value.
 
-     subroutine la_cgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
+     pure subroutine la_cgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
                info)
         use la_constants_sp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -7002,7 +7002,7 @@ module la_lapack_lsq
      !> singular values which are less than RCOND times the largest singular
      !> value.
 
-     subroutine la_wgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
+     pure subroutine la_wgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
                info)
         use la_constants_qp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -7480,7 +7480,7 @@ module la_lapack_lsq
      !> version of the QR factorization with column pivoting.
      !> o Matrix B (the right hand side) is updated with Blas-3.
 
-     subroutine la_cgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,rwork, &
+     pure subroutine la_cgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,rwork, &
                info)
         use la_constants_sp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -7926,7 +7926,7 @@ module la_lapack_lsq
      !> version of the QR factorization with column pivoting.
      !> o Matrix B (the right hand side) is updated with Blas-3.
 
-     subroutine la_wgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,rwork, &
+     pure subroutine la_wgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,rwork, &
                info)
         use la_constants_qp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -8136,7 +8136,7 @@ module la_lapack_lsq
      !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
      !> matrix X.
 
-     subroutine la_cgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+     pure subroutine la_cgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
         use la_constants_sp,only:zero,one,czero
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -8608,7 +8608,7 @@ module la_lapack_lsq
      !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
      !> matrix X.
 
-     subroutine la_wgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+     pure subroutine la_wgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
         use la_constants_qp,only:zero,one,czero
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --

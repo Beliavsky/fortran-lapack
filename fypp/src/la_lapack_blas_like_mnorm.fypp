@@ -58,12 +58,13 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: kl,ku,ldab,n
            ! Array Arguments
            real(${rk}$),intent(in) :: ab(ldab,*)
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k,l
            real(${rk}$) :: scale,sum,value,temp
+           real(${rk}$),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -90,18 +91,16 @@ module la_lapack_blas_like_mnorm
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
-              do i = 1,n
-                 work(i) = zero
-              end do
+              allocate(row_sums(n),source=zero)
               do j = 1,n
                  k = ku + 1 - j
                  do i = max(1,j - ku),min(n,j + kl)
-                    work(i) = work(i) + abs(ab(k + i,j))
+                    row_sums(i) = row_sums(i) + abs(ab(k + i,j))
                  end do
               end do
               value = zero
               do i = 1,n
-                 temp = work(i)
+                 temp = row_sums(i)
                  if (value < temp .or. la_${ri}$isnan(temp)) value = temp
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -289,12 +288,13 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: lda,n
            ! Array Arguments
            real(${rk}$),intent(in) :: a(lda,*)
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
            real(${rk}$) :: scale,sum,value
+           real(${rk}$),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -321,17 +321,15 @@ module la_lapack_blas_like_mnorm
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
-              do i = 1,n
-                 work(i) = zero
-              end do
+              allocate(row_sums(n),source=zero)
               do j = 1,n
                  do i = 1,min(n,j + 1)
-                    work(i) = work(i) + abs(a(i,j))
+                    row_sums(i) = row_sums(i) + abs(a(i,j))
                  end do
               end do
               value = zero
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_${ri}$isnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -364,12 +362,13 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
            real(${rk}$),intent(in) :: ab(ldab,*)
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,l
            real(${rk}$) :: absa,scale,sum,value
+           real(${rk}$),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -397,6 +396,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
               value = zero
+              allocate(row_sums(n),source=zero)
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
                     sum = zero
@@ -404,25 +404,22 @@ module la_lapack_blas_like_mnorm
                     do i = max(1,j - k),j - 1
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(ab(k + 1,j))
+                    row_sums(j) = sum + abs(ab(k + 1,j))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_${ri}$isnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(ab(1,j))
+                    sum = row_sums(j) + abs(ab(1,j))
                     l = 1 - j
                     do i = j + 1,min(n,j + k)
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_${ri}$isnan(sum)) value = sum
                  end do
@@ -1183,12 +1180,13 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: n
            ! Array Arguments
            real(${rk}$),intent(in) :: ap(*)
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k
            real(${rk}$) :: absa,scale,sum,value
+           real(${rk}$),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,sqrt
            ! Executable Statements
@@ -1220,6 +1218,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
               value = zero
+              allocate(row_sums(n),source=zero)
               k = 1
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
@@ -1227,27 +1226,24 @@ module la_lapack_blas_like_mnorm
                     do i = 1,j - 1
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
-                    work(j) = sum + abs(ap(k))
+                    row_sums(j) = sum + abs(ap(k))
                     k = k + 1
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_${ri}$isnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(ap(k))
+                    sum = row_sums(j) + abs(ap(k))
                     k = k + 1
                     do i = j + 1,n
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
                     if (value < sum .or. la_${ri}$isnan(sum)) value = sum
@@ -1473,13 +1469,14 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
            real(${rk}$),intent(in) :: ab(ldab,*)
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            logical(lk) :: udiag
            integer(ilp) :: i,j,l
            real(${rk}$) :: scale,sum,value
+           real(${rk}$),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -1560,53 +1557,54 @@ module la_lapack_blas_like_mnorm
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
               value = zero
+              allocate(row_sums(n))
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        l = k + 1 - j
                        do i = max(1,j - k),j - 1
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        l = k + 1 - j
                        do i = max(1,j - k),j
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  end if
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        l = 1 - j
                        do i = j + 1,min(n,j + k)
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        l = 1 - j
                        do i = j,min(n,j + k)
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  end if
               end if
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_${ri}$isnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -1669,13 +1667,14 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: n
            ! Array Arguments
            real(${rk}$),intent(in) :: ap(*)
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            logical(lk) :: udiag
            integer(ilp) :: i,j,k
            real(${rk}$) :: scale,sum,value
+           real(${rk}$),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,sqrt
            ! Executable Statements
@@ -1763,26 +1762,27 @@ module la_lapack_blas_like_mnorm
               end if
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate(row_sums(n))
               k = 1
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        do i = 1,j - 1
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                        k = k + 1
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = 1,j
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
@@ -1790,22 +1790,22 @@ module la_lapack_blas_like_mnorm
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        k = k + 1
                        do i = j + 1,n
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j,n
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
@@ -1813,7 +1813,7 @@ module la_lapack_blas_like_mnorm
               end if
               value = zero
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_${ri}$isnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -1878,13 +1878,14 @@ module la_lapack_blas_like_mnorm
            integer(ilp),intent(in) :: lda,m,n
            ! Array Arguments
            real(${rk}$),intent(in) :: a(lda,*)
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
        ! =====================================================================
 
            ! Local Scalars
            logical(lk) :: udiag
            integer(ilp) :: i,j
            real(${rk}$) :: scale,sum,value
+           real(${rk}$),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -1964,53 +1965,54 @@ module la_lapack_blas_like_mnorm
               end if
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate(row_sums(m))
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,m
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        do i = 1,min(m,j - 1)
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  else
                     do i = 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = 1,min(m,j)
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  end if
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,min(m,n)
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do i = n + 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j + 1,m
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  else
                     do i = 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j,m
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  end if
               end if
               value = zero
               do i = 1,m
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_${ri}$isnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -2066,13 +2068,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm
            integer(ilp),intent(in) :: kl,ku,ldab,n
            ! Array Arguments
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
            complex(${rk}$),intent(in) :: ab(ldab,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k,l
            real(${rk}$) :: scale,sum,value,temp
+           real(${rk}$),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -2099,18 +2102,16 @@ module la_lapack_blas_like_mnorm
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
-              do i = 1,n
-                 work(i) = zero
-              end do
+              allocate(row_sums(n),source=zero)
               do j = 1,n
                  k = ku + 1 - j
                  do i = max(1,j - ku),min(n,j + kl)
-                    work(i) = work(i) + abs(ab(k + i,j))
+                    row_sums(i) = row_sums(i) + abs(ab(k + i,j))
                  end do
               end do
               value = zero
               do i = 1,n
-                 temp = work(i)
+                 temp = row_sums(i)
                  if (value < temp .or. la_${ci}$isnan(temp)) value = temp
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -2297,12 +2298,13 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
            complex(${rk}$),intent(in) :: ab(ldab,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,l
+           real(${rk}$),allocatable :: row_sums(:)
            real(${rk}$) :: absa,scale,sum,value
            ! Intrinsic Functions
 #:if rk == "sp"
@@ -2339,6 +2341,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is hermitian).
               value = zero
+              allocate(row_sums(n),source=zero)
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
                     sum = zero
@@ -2346,25 +2349,22 @@ module la_lapack_blas_like_mnorm
                     do i = max(1,j - k),j - 1
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(real(ab(k + 1,j),KIND=${rk}$))
+                    row_sums(j) = sum + abs(real(ab(k + 1,j),KIND=${rk}$))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_${ci}$isnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(real(ab(1,j),KIND=${rk}$))
+                    sum = row_sums(j) + abs(real(ab(1,j),KIND=${rk}$))
                     l = 1 - j
                     do i = j + 1,min(n,j + k)
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_${ci}$isnan(sum)) value = sum
                  end do
@@ -2423,12 +2423,13 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: lda,n
            ! Array Arguments
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
            complex(${rk}$),intent(in) :: a(lda,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
+           real(${rk}$),allocatable :: row_sums(:)
            real(${rk}$) :: absa,scale,sum,value
            ! Intrinsic Functions
            intrinsic :: abs,real,sqrt
@@ -2461,30 +2462,28 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is hermitian).
               value = zero
+              allocate(row_sums(n),source=zero)
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
                     sum = zero
                     do i = 1,j - 1
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(real(a(j,j),KIND=${rk}$))
+                    row_sums(j) = sum + abs(real(a(j,j),KIND=${rk}$))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_${ci}$isnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(real(a(j,j),KIND=${rk}$))
+                    sum = row_sums(j) + abs(real(a(j,j),KIND=${rk}$))
                     do i = j + 1,n
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_${ci}$isnan(sum)) value = sum
                  end do
@@ -3759,12 +3758,13 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: n
            ! Array Arguments
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
            complex(${rk}$),intent(in) :: ap(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k
+           real(${rk}$),allocatable :: row_sums(:)
            real(${rk}$) :: absa,scale,sum,value
            ! Intrinsic Functions
            intrinsic :: abs,real,sqrt
@@ -3801,6 +3801,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is hermitian).
               value = zero
+              allocate(row_sums(n),source=zero)
               k = 1
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
@@ -3808,27 +3809,24 @@ module la_lapack_blas_like_mnorm
                     do i = 1,j - 1
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
-                    work(j) = sum + abs(real(ap(k),KIND=${rk}$))
+                    row_sums(j) = sum + abs(real(ap(k),KIND=${rk}$))
                     k = k + 1
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_${ci}$isnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(real(ap(k),KIND=${rk}$))
+                    sum = row_sums(j) + abs(real(ap(k),KIND=${rk}$))
                     k = k + 1
                     do i = j + 1,n
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
                     if (value < sum .or. la_${ci}$isnan(sum)) value = sum
@@ -3890,13 +3888,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm
            integer(ilp),intent(in) :: lda,n
            ! Array Arguments
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
            complex(${rk}$),intent(in) :: a(lda,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
            real(${rk}$) :: scale,sum,value
+           real(${rk}$),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -3923,17 +3922,15 @@ module la_lapack_blas_like_mnorm
               end do
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
-              do i = 1,n
-                 work(i) = zero
-              end do
+              allocate(row_sums(n),source=zero)
               do j = 1,n
                  do i = 1,min(n,j + 1)
-                    work(i) = work(i) + abs(a(i,j))
+                    row_sums(i) = row_sums(i) + abs(a(i,j))
                  end do
               end do
               value = zero
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_${ci}$isnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -4035,13 +4032,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
            complex(${rk}$),intent(in) :: ab(ldab,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,l
            real(${rk}$) :: absa,scale,sum,value
+           real(${rk}$),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -4069,6 +4067,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
               value = zero
+              allocate(row_sums(n),source=zero)
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
                     sum = zero
@@ -4076,25 +4075,22 @@ module la_lapack_blas_like_mnorm
                     do i = max(1,j - k),j - 1
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(ab(k + 1,j))
+                    row_sums(j) = sum + abs(ab(k + 1,j))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_${ci}$isnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(ab(1,j))
+                    sum = row_sums(j) + abs(ab(1,j))
                     l = 1 - j
                     do i = j + 1,min(n,j + k)
                        absa = abs(ab(l + i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_${ci}$isnan(sum)) value = sum
                  end do
@@ -4143,13 +4139,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: n
            ! Array Arguments
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
            complex(${rk}$),intent(in) :: ap(*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j,k
            real(${rk}$) :: absa,scale,sum,value
+           real(${rk}$),allocatable :: row_sums(:)
            ! Intrinsic Functions
 #:if rk == "sp"
            intrinsic :: abs,aimag,real,sqrt
@@ -4185,6 +4182,7 @@ module la_lapack_blas_like_mnorm
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
               value = zero
+              allocate(row_sums(n),source=zero)
               k = 1
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
@@ -4192,27 +4190,24 @@ module la_lapack_blas_like_mnorm
                     do i = 1,j - 1
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
-                    work(j) = sum + abs(ap(k))
+                    row_sums(j) = sum + abs(ap(k))
                     k = k + 1
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_${ci}$isnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(ap(k))
+                    sum = row_sums(j) + abs(ap(k))
                     k = k + 1
                     do i = j + 1,n
                        absa = abs(ap(k))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                        k = k + 1
                     end do
                     if (value < sum .or. la_${ci}$isnan(sum)) value = sum
@@ -4283,13 +4278,14 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: norm,uplo
            integer(ilp),intent(in) :: lda,n
            ! Array Arguments
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
            complex(${rk}$),intent(in) :: a(lda,*)
        ! =====================================================================
 
            ! Local Scalars
            integer(ilp) :: i,j
            real(${rk}$) :: absa,scale,sum,value
+           real(${rk}$),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,sqrt
            ! Executable Statements
@@ -4316,6 +4312,7 @@ module la_lapack_blas_like_mnorm
            else if ((la_lsame(norm,'I')) .or. (la_lsame(norm,'O')) .or. ( &
                      norm == '1')) then
               ! find normi(a) ( = norm1(a), since a is symmetric).
+              allocate(row_sums(n),source=zero)
               value = zero
               if (la_lsame(uplo,'U')) then
                  do j = 1,n
@@ -4323,24 +4320,21 @@ module la_lapack_blas_like_mnorm
                     do i = 1,j - 1
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
-                    work(j) = sum + abs(a(j,j))
+                    row_sums(j) = sum + abs(a(j,j))
                  end do
                  do i = 1,n
-                    sum = work(i)
+                    sum = row_sums(i)
                     if (value < sum .or. la_${ci}$isnan(sum)) value = sum
                  end do
               else
-                 do i = 1,n
-                    work(i) = zero
-                 end do
                  do j = 1,n
-                    sum = work(j) + abs(a(j,j))
+                    sum = row_sums(j) + abs(a(j,j))
                     do i = j + 1,n
                        absa = abs(a(i,j))
                        sum = sum + absa
-                       work(i) = work(i) + absa
+                       row_sums(i) = row_sums(i) + absa
                     end do
                     if (value < sum .or. la_${ci}$isnan(sum)) value = sum
                  end do
@@ -4382,7 +4376,7 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: diag,norm,uplo
            integer(ilp),intent(in) :: k,ldab,n
            ! Array Arguments
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
            complex(${rk}$),intent(in) :: ab(ldab,*)
        ! =====================================================================
 
@@ -4390,6 +4384,7 @@ module la_lapack_blas_like_mnorm
            logical(lk) :: udiag
            integer(ilp) :: i,j,l
            real(${rk}$) :: scale,sum,value
+           real(${rk}$),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,max,min,sqrt
            ! Executable Statements
@@ -4470,53 +4465,54 @@ module la_lapack_blas_like_mnorm
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
               value = zero
+              allocate(row_sums(n))
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        l = k + 1 - j
                        do i = max(1,j - k),j - 1
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        l = k + 1 - j
                        do i = max(1,j - k),j
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  end if
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        l = 1 - j
                        do i = j + 1,min(n,j + k)
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        l = 1 - j
                        do i = j,min(n,j + k)
-                          work(i) = work(i) + abs(ab(l + i,j))
+                          row_sums(i) = row_sums(i) + abs(ab(l + i,j))
                        end do
                     end do
                  end if
               end if
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_${ci}$isnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -4578,7 +4574,7 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: diag,norm,uplo
            integer(ilp),intent(in) :: n
            ! Array Arguments
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
            complex(${rk}$),intent(in) :: ap(*)
        ! =====================================================================
 
@@ -4586,6 +4582,7 @@ module la_lapack_blas_like_mnorm
            logical(lk) :: udiag
            integer(ilp) :: i,j,k
            real(${rk}$) :: scale,sum,value
+           real(${rk}$),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,sqrt
            ! Executable Statements
@@ -4673,26 +4670,27 @@ module la_lapack_blas_like_mnorm
               end if
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate(row_sums(n))
               k = 1
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        do i = 1,j - 1
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                        k = k + 1
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = 1,j
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
@@ -4700,22 +4698,22 @@ module la_lapack_blas_like_mnorm
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,n
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        k = k + 1
                        do i = j + 1,n
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
                  else
                     do i = 1,n
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j,n
-                          work(i) = work(i) + abs(ap(k))
+                          row_sums(i) = row_sums(i) + abs(ap(k))
                           k = k + 1
                        end do
                     end do
@@ -4723,7 +4721,7 @@ module la_lapack_blas_like_mnorm
               end if
               value = zero
               do i = 1,n
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_${ci}$isnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &
@@ -4787,7 +4785,7 @@ module la_lapack_blas_like_mnorm
            character,intent(in) :: diag,norm,uplo
            integer(ilp),intent(in) :: lda,m,n
            ! Array Arguments
-           real(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: work(*)
            complex(${rk}$),intent(in) :: a(lda,*)
        ! =====================================================================
 
@@ -4795,6 +4793,7 @@ module la_lapack_blas_like_mnorm
            logical(lk) :: udiag
            integer(ilp) :: i,j
            real(${rk}$) :: scale,sum,value
+           real(${rk}$),allocatable :: row_sums(:)
            ! Intrinsic Functions
            intrinsic :: abs,min,sqrt
            ! Executable Statements
@@ -4874,53 +4873,54 @@ module la_lapack_blas_like_mnorm
               end if
            else if (la_lsame(norm,'I')) then
               ! find normi(a).
+              allocate(row_sums(m))
               if (la_lsame(uplo,'U')) then
                  if (la_lsame(diag,'U')) then
                     do i = 1,m
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do j = 1,n
                        do i = 1,min(m,j - 1)
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  else
                     do i = 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = 1,min(m,j)
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  end if
               else
                  if (la_lsame(diag,'U')) then
                     do i = 1,min(m,n)
-                       work(i) = one
+                       row_sums(i) = one
                     end do
                     do i = n + 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j + 1,m
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  else
                     do i = 1,m
-                       work(i) = zero
+                       row_sums(i) = zero
                     end do
                     do j = 1,n
                        do i = j,m
-                          work(i) = work(i) + abs(a(i,j))
+                          row_sums(i) = row_sums(i) + abs(a(i,j))
                        end do
                     end do
                  end if
               end if
               value = zero
               do i = 1,m
-                 sum = work(i)
+                 sum = row_sums(i)
                  if (value < sum .or. la_${ci}$isnan(sum)) value = sum
               end do
            else if ((la_lsame(norm,'F')) .or. (la_lsame(norm,'E'))) &

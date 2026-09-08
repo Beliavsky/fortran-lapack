@@ -110,7 +110,7 @@ module la_lapack_eigv_gen
      !> and the pair of corresponding 2-by-2 blocks in S and T will have a
      !> complex conjugate pair of generalized eigenvalues.
 
-     subroutine la_sgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
+     pure subroutine la_sgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
                alphai,beta,vsl,ldvsl,vsr,ldvsr,work,lwork,bwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -429,7 +429,7 @@ module la_lapack_eigv_gen
      !> and the pair of corresponding 2-by-2 blocks in S and T will have a
      !> complex conjugate pair of generalized eigenvalues.
 
-     subroutine la_dgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
+     pure subroutine la_dgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
                alphai,beta,vsl,ldvsl,vsr,ldvsr,work,lwork,bwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -748,7 +748,7 @@ module la_lapack_eigv_gen
      !> and the pair of corresponding 2-by-2 blocks in S and T will have a
      !> complex conjugate pair of generalized eigenvalues.
 
-     subroutine la_qgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
+     pure subroutine la_qgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
                alphai,beta,vsl,ldvsl,vsr,ldvsr,work,lwork,bwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -1070,7 +1070,7 @@ module la_lapack_eigv_gen
      !> and the pair of corresponding 2-by-2 blocks in S and T will have a
      !> complex conjugate pair of generalized eigenvalues.
 
-     subroutine la_sggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim, &
+     pure subroutine la_sggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim, &
      alphar,alphai,beta,vsl,ldvsl,vsr,ldvsr,rconde,rcondv,work,lwork,iwork,liwork, &
                bwork,info)
         use la_constants_sp,only:zero,one
@@ -1440,7 +1440,7 @@ module la_lapack_eigv_gen
      !> and the pair of corresponding 2-by-2 blocks in S and T will have a
      !> complex conjugate pair of generalized eigenvalues.
 
-     subroutine la_dggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim, &
+     pure subroutine la_dggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim, &
      alphar,alphai,beta,vsl,ldvsl,vsr,ldvsr,rconde,rcondv,work,lwork,iwork,liwork, &
                bwork,info)
         use la_constants_dp,only:zero,one
@@ -1810,7 +1810,7 @@ module la_lapack_eigv_gen
      !> and the pair of corresponding 2-by-2 blocks in S and T will have a
      !> complex conjugate pair of generalized eigenvalues.
 
-     subroutine la_qggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim, &
+     pure subroutine la_qggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim, &
      alphar,alphai,beta,vsl,ldvsl,vsr,ldvsr,rconde,rcondv,work,lwork,iwork,liwork, &
                bwork,info)
         use la_constants_qp,only:zero,one
@@ -2168,7 +2168,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A  = lambda(j) * u(j)**H * B .
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_sggev(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
+     pure subroutine la_sggev(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
                ldvr,work,lwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -2466,7 +2466,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A  = lambda(j) * u(j)**H * B .
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_dggev(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
+     pure subroutine la_dggev(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
                ldvr,work,lwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -2764,7 +2764,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A  = lambda(j) * u(j)**H * B .
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_qggev(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
+     pure subroutine la_qggev(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
                ldvr,work,lwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -3068,7 +3068,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A  = lambda(j) * u(j)**H * B.
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_sggevx(balanc,jobvl,jobvr,sense,n,a,lda,b,ldb,alphar,alphai, &
+     pure subroutine la_sggevx(balanc,jobvl,jobvr,sense,n,a,lda,b,ldb,alphar,alphai, &
      beta,vl,ldvl,vr,ldvr,ilo,ihi,lscale,rscale,abnrm,bbnrm,rconde,rcondv,work,lwork, &
                iwork,bwork,info)
         use la_constants_sp,only:zero,one
@@ -3462,7 +3462,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A  = lambda(j) * u(j)**H * B.
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_dggevx(balanc,jobvl,jobvr,sense,n,a,lda,b,ldb,alphar,alphai, &
+     pure subroutine la_dggevx(balanc,jobvl,jobvr,sense,n,a,lda,b,ldb,alphar,alphai, &
      beta,vl,ldvl,vr,ldvr,ilo,ihi,lscale,rscale,abnrm,bbnrm,rconde,rcondv,work,lwork, &
                iwork,bwork,info)
         use la_constants_dp,only:zero,one
@@ -3857,7 +3857,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A  = lambda(j) * u(j)**H * B.
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_qggevx(balanc,jobvl,jobvr,sense,n,a,lda,b,ldb,alphar,alphai, &
+     pure subroutine la_qggevx(balanc,jobvl,jobvr,sense,n,a,lda,b,ldb,alphar,alphai, &
      beta,vl,ldvl,vr,ldvr,ilo,ihi,lscale,rscale,abnrm,bbnrm,rconde,rcondv,work,lwork, &
                iwork,bwork,info)
         use la_constants_qp,only:zero,one
@@ -4246,7 +4246,7 @@ module la_lapack_eigv_gen
      !> [  c  a  ]
      !> where b*c < 0. The eigenvalues of such a block are a +- sqrt(bc).
 
-     subroutine la_sgees(jobvs,sort,select,n,a,lda,sdim,wr,wi,vs,ldvs,work,lwork, &
+     pure subroutine la_sgees(jobvs,sort,select,n,a,lda,sdim,wr,wi,vs,ldvs,work,lwork, &
                bwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -4738,7 +4738,7 @@ module la_lapack_eigv_gen
      !> [  c  a  ]
      !> where b*c < 0. The eigenvalues of such a block are a +- sqrt(bc).
 
-     subroutine la_qgees(jobvs,sort,select,n,a,lda,sdim,wr,wi,vs,ldvs,work,lwork, &
+     pure subroutine la_qgees(jobvs,sort,select,n,a,lda,sdim,wr,wi,vs,ldvs,work,lwork, &
                bwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -4991,7 +4991,7 @@ module la_lapack_eigv_gen
      !> [  c  a  ]
      !> where b*c < 0. The eigenvalues of such a block are a +- sqrt(bc).
 
-     subroutine la_sgeesx(jobvs,sort,select,sense,n,a,lda,sdim,wr,wi,vs,ldvs, &
+     pure subroutine la_sgeesx(jobvs,sort,select,sense,n,a,lda,sdim,wr,wi,vs,ldvs, &
                rconde,rcondv,work,lwork,iwork,liwork,bwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -5579,7 +5579,7 @@ module la_lapack_eigv_gen
      !> [  c  a  ]
      !> where b*c < 0. The eigenvalues of such a block are a +- sqrt(bc).
 
-     subroutine la_qgeesx(jobvs,sort,select,sense,n,a,lda,sdim,wr,wi,vs,ldvs, &
+     pure subroutine la_qgeesx(jobvs,sort,select,sense,n,a,lda,sdim,wr,wi,vs,ldvs, &
                rconde,rcondv,work,lwork,iwork,liwork,bwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -5865,7 +5865,7 @@ module la_lapack_eigv_gen
      !> The computed eigenvectors are normalized to have Euclidean norm
      !> equal to 1 and largest component real.
 
-     subroutine la_sgeev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork, &
+     pure subroutine la_sgeev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork, &
                info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -6383,7 +6383,7 @@ module la_lapack_eigv_gen
      !> The computed eigenvectors are normalized to have Euclidean norm
      !> equal to 1 and largest component real.
 
-     subroutine la_qgeev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork, &
+     pure subroutine la_qgeev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork, &
                info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -6658,7 +6658,7 @@ module la_lapack_eigv_gen
      !> explanation of balancing, see section 4.10.2_sp of the LAPACK
      !> Users' Guide.
 
-     subroutine la_sgeevx(balanc,jobvl,jobvr,sense,n,a,lda,wr,wi,vl,ldvl,vr,ldvr, &
+     pure subroutine la_sgeevx(balanc,jobvl,jobvr,sense,n,a,lda,wr,wi,vl,ldvl,vr,ldvr, &
                ilo,ihi,scale,abnrm,rconde,rcondv,work,lwork,iwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -7282,7 +7282,7 @@ module la_lapack_eigv_gen
      !> explanation of balancing, see section 4.10.2_qp of the LAPACK
      !> Users' Guide.
 
-     subroutine la_qgeevx(balanc,jobvl,jobvr,sense,n,a,lda,wr,wi,vl,ldvl,vr,ldvr, &
+     pure subroutine la_qgeevx(balanc,jobvl,jobvr,sense,n,a,lda,wr,wi,vl,ldvl,vr,ldvr, &
                ilo,ihi,scale,abnrm,rconde,rcondv,work,lwork,iwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -7596,7 +7596,7 @@ module la_lapack_eigv_gen
      !> and the pair of corresponding 2-by-2 blocks in S and T will have a
      !> complex conjugate pair of generalized eigenvalues.
 
-     subroutine la_sgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
+     pure subroutine la_sgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
                alphai,beta,vsl,ldvsl,vsr,ldvsr,work,lwork,bwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -7910,7 +7910,7 @@ module la_lapack_eigv_gen
      !> and the pair of corresponding 2-by-2 blocks in S and T will have a
      !> complex conjugate pair of generalized eigenvalues.
 
-     subroutine la_dgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
+     pure subroutine la_dgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
                alphai,beta,vsl,ldvsl,vsr,ldvsr,work,lwork,bwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -8224,7 +8224,7 @@ module la_lapack_eigv_gen
      !> and the pair of corresponding 2-by-2 blocks in S and T will have a
      !> complex conjugate pair of generalized eigenvalues.
 
-     subroutine la_qgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
+     pure subroutine la_qgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
                alphai,beta,vsl,ldvsl,vsr,ldvsr,work,lwork,bwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -8528,7 +8528,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A  = lambda(j) * u(j)**H * B .
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_sggev3(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
+     pure subroutine la_sggev3(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
                 ldvr,work,lwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -8823,7 +8823,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A  = lambda(j) * u(j)**H * B .
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_dggev3(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
+     pure subroutine la_dggev3(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
                 ldvr,work,lwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -9123,7 +9123,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A  = lambda(j) * u(j)**H * B .
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_qggev3(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
+     pure subroutine la_qggev3(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
                 ldvr,work,lwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -9429,7 +9429,7 @@ module la_lapack_eigv_gen
      !> and T are upper triangular and, in addition, the diagonal elements
      !> of T are non-negative real numbers.
 
-     subroutine la_cgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
+     pure subroutine la_cgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
                vsl,ldvsl,vsr,ldvsr,work,lwork,rwork,bwork,info)
         use la_constants_sp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -9680,7 +9680,7 @@ module la_lapack_eigv_gen
      !> and T are upper triangular and, in addition, the diagonal elements
      !> of T are non-negative real numbers.
 
-     subroutine la_zgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
+     pure subroutine la_zgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
                vsl,ldvsl,vsr,ldvsr,work,lwork,rwork,bwork,info)
         use la_constants_dp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -9931,7 +9931,7 @@ module la_lapack_eigv_gen
      !> and T are upper triangular and, in addition, the diagonal elements
      !> of T are non-negative real numbers.
 
-     subroutine la_wgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
+     pure subroutine la_wgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
                vsl,ldvsl,vsr,ldvsr,work,lwork,rwork,bwork,info)
         use la_constants_qp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -10185,7 +10185,7 @@ module la_lapack_eigv_gen
      !> upper triangular with non-negative diagonal and S is upper
      !> triangular.
 
-     subroutine la_cggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim,alpha, &
+     pure subroutine la_cggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim,alpha, &
       beta,vsl,ldvsl,vsr,ldvsr,rconde,rcondv,work,lwork,rwork,iwork,liwork,bwork,info)
         use la_constants_sp,only:zero,one,czero,cone
 
@@ -10494,7 +10494,7 @@ module la_lapack_eigv_gen
      !> upper triangular with non-negative diagonal and S is upper
      !> triangular.
 
-     subroutine la_zggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim,alpha, &
+     pure subroutine la_zggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim,alpha, &
       beta,vsl,ldvsl,vsr,ldvsr,rconde,rcondv,work,lwork,rwork,iwork,liwork,bwork,info)
         use la_constants_dp,only:zero,one,czero,cone
 
@@ -10803,7 +10803,7 @@ module la_lapack_eigv_gen
      !> upper triangular with non-negative diagonal and S is upper
      !> triangular.
 
-     subroutine la_wggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim,alpha, &
+     pure subroutine la_wggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim,alpha, &
       beta,vsl,ldvsl,vsr,ldvsr,rconde,rcondv,work,lwork,rwork,iwork,liwork,bwork,info)
         use la_constants_qp,only:zero,one,czero,cone
 
@@ -11106,7 +11106,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A = lambda(j) * u(j)**H * B
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_cggev(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
+     pure subroutine la_cggev(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
                work,lwork,rwork,info)
         use la_constants_sp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -11375,7 +11375,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A = lambda(j) * u(j)**H * B
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_zggev(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
+     pure subroutine la_zggev(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
                work,lwork,rwork,info)
         use la_constants_dp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -11644,7 +11644,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A = lambda(j) * u(j)**H * B
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_wggev(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
+     pure subroutine la_wggev(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
                work,lwork,rwork,info)
         use la_constants_qp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -11919,7 +11919,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A  = lambda(j) * u(j)**H * B.
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_cggevx(balanc,jobvl,jobvr,sense,n,a,lda,b,ldb,alpha,beta,vl, &
+     pure subroutine la_cggevx(balanc,jobvl,jobvr,sense,n,a,lda,b,ldb,alpha,beta,vl, &
      ldvl,vr,ldvr,ilo,ihi,lscale,rscale,abnrm,bbnrm,rconde,rcondv,work,lwork,rwork, &
                iwork,bwork,info)
         use la_constants_sp,only:zero,one,czero,cone
@@ -12266,7 +12266,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A  = lambda(j) * u(j)**H * B.
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_zggevx(balanc,jobvl,jobvr,sense,n,a,lda,b,ldb,alpha,beta,vl, &
+     pure subroutine la_zggevx(balanc,jobvl,jobvr,sense,n,a,lda,b,ldb,alpha,beta,vl, &
      ldvl,vr,ldvr,ilo,ihi,lscale,rscale,abnrm,bbnrm,rconde,rcondv,work,lwork,rwork, &
                iwork,bwork,info)
         use la_constants_dp,only:zero,one,czero,cone
@@ -12613,7 +12613,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A  = lambda(j) * u(j)**H * B.
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_wggevx(balanc,jobvl,jobvr,sense,n,a,lda,b,ldb,alpha,beta,vl, &
+     pure subroutine la_wggevx(balanc,jobvl,jobvr,sense,n,a,lda,b,ldb,alpha,beta,vl, &
      ldvl,vr,ldvr,ilo,ihi,lscale,rscale,abnrm,bbnrm,rconde,rcondv,work,lwork,rwork, &
                iwork,bwork,info)
         use la_constants_qp,only:zero,one,czero,cone
@@ -12949,7 +12949,7 @@ module la_lapack_eigv_gen
      !> invariant subspace corresponding to the selected eigenvalues.
      !> A complex matrix is in Schur form if it is upper triangular.
 
-     subroutine la_cgees(jobvs,sort,select,n,a,lda,sdim,w,vs,ldvs,work,lwork, &
+     pure subroutine la_cgees(jobvs,sort,select,n,a,lda,sdim,w,vs,ldvs,work,lwork, &
                rwork,bwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -13291,7 +13291,7 @@ module la_lapack_eigv_gen
      !> invariant subspace corresponding to the selected eigenvalues.
      !> A complex matrix is in Schur form if it is upper triangular.
 
-     subroutine la_wgees(jobvs,sort,select,n,a,lda,sdim,w,vs,ldvs,work,lwork, &
+     pure subroutine la_wgees(jobvs,sort,select,n,a,lda,sdim,w,vs,ldvs,work,lwork, &
                rwork,bwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -13469,7 +13469,7 @@ module la_lapack_eigv_gen
      !> these quantities are called s and sep respectively).
      !> A complex matrix is in Schur form if it is upper triangular.
 
-     subroutine la_cgeesx(jobvs,sort,select,sense,n,a,lda,sdim,w,vs,ldvs,rconde, &
+     pure subroutine la_cgeesx(jobvs,sort,select,sense,n,a,lda,sdim,w,vs,ldvs,rconde, &
                rcondv,work,lwork,rwork,bwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -13873,7 +13873,7 @@ module la_lapack_eigv_gen
      !> these quantities are called s and sep respectively).
      !> A complex matrix is in Schur form if it is upper triangular.
 
-     subroutine la_wgeesx(jobvs,sort,select,sense,n,a,lda,sdim,w,vs,ldvs,rconde, &
+     pure subroutine la_wgeesx(jobvs,sort,select,sense,n,a,lda,sdim,w,vs,ldvs,rconde, &
                rcondv,work,lwork,rwork,bwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -14072,7 +14072,7 @@ module la_lapack_eigv_gen
      !> The computed eigenvectors are normalized to have Euclidean norm
      !> equal to 1 and largest component real.
 
-     subroutine la_cgeev(jobvl,jobvr,n,a,lda,w,vl,ldvl,vr,ldvr,work,lwork,rwork, &
+     pure subroutine la_cgeev(jobvl,jobvr,n,a,lda,w,vl,ldvl,vr,ldvr,work,lwork,rwork, &
                info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -14570,7 +14570,7 @@ module la_lapack_eigv_gen
      !> The computed eigenvectors are normalized to have Euclidean norm
      !> equal to 1 and largest component real.
 
-     subroutine la_wgeev(jobvl,jobvr,n,a,lda,w,vl,ldvl,vr,ldvr,work,lwork,rwork, &
+     pure subroutine la_wgeev(jobvl,jobvr,n,a,lda,w,vl,ldvl,vr,ldvr,work,lwork,rwork, &
                info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -14835,7 +14835,7 @@ module la_lapack_eigv_gen
      !> explanation of balancing, see section 4.10.2_sp of the LAPACK
      !> Users' Guide.
 
-     subroutine la_cgeevx(balanc,jobvl,jobvr,sense,n,a,lda,w,vl,ldvl,vr,ldvr,ilo, &
+     pure subroutine la_cgeevx(balanc,jobvl,jobvr,sense,n,a,lda,w,vl,ldvl,vr,ldvr,ilo, &
                ihi,scale,abnrm,rconde,rcondv,work,lwork,rwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -15439,7 +15439,7 @@ module la_lapack_eigv_gen
      !> explanation of balancing, see section 4.10.2_qp of the LAPACK
      !> Users' Guide.
 
-     subroutine la_wgeevx(balanc,jobvl,jobvr,sense,n,a,lda,w,vl,ldvl,vr,ldvr,ilo, &
+     pure subroutine la_wgeevx(balanc,jobvl,jobvr,sense,n,a,lda,w,vl,ldvl,vr,ldvr,ilo, &
                ihi,scale,abnrm,rconde,rcondv,work,lwork,rwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -15737,7 +15737,7 @@ module la_lapack_eigv_gen
      !> and T are upper triangular and, in addition, the diagonal elements
      !> of T are non-negative real numbers.
 
-     subroutine la_cgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
+     pure subroutine la_cgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
                vsl,ldvsl,vsr,ldvsr,work,lwork,rwork,bwork,info)
         use la_constants_sp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -15987,7 +15987,7 @@ module la_lapack_eigv_gen
      !> and T are upper triangular and, in addition, the diagonal elements
      !> of T are non-negative real numbers.
 
-     subroutine la_zgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
+     pure subroutine la_zgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
                vsl,ldvsl,vsr,ldvsr,work,lwork,rwork,bwork,info)
         use la_constants_dp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -16237,7 +16237,7 @@ module la_lapack_eigv_gen
      !> and T are upper triangular and, in addition, the diagonal elements
      !> of T are non-negative real numbers.
 
-     subroutine la_wgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
+     pure subroutine la_wgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
                vsl,ldvsl,vsr,ldvsr,work,lwork,rwork,bwork,info)
         use la_constants_qp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -16483,7 +16483,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A = lambda(j) * u(j)**H * B
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_cggev3(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
+     pure subroutine la_cggev3(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
                work,lwork,rwork,info)
         use la_constants_sp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -16754,7 +16754,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A = lambda(j) * u(j)**H * B
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_zggev3(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
+     pure subroutine la_zggev3(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
                work,lwork,rwork,info)
         use la_constants_dp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -17025,7 +17025,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A = lambda(j) * u(j)**H * B
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_wggev3(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
+     pure subroutine la_wggev3(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
                work,lwork,rwork,info)
         use la_constants_qp,only:zero,one,czero,cone
         ! -- lapack driver routine --

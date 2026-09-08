@@ -7848,7 +7848,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_stbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
+     pure subroutine la_stbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
         use la_constants_sp,only:zero,one
 
         ! -- lapack computational routine --
@@ -7952,7 +7952,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_dtbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
+     pure subroutine la_dtbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
         use la_constants_dp,only:zero,one
 
         ! -- lapack computational routine --
@@ -8056,7 +8056,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_qtbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
+     pure subroutine la_qtbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
         use la_constants_qp,only:zero,one
 
         ! -- lapack computational routine --
@@ -8711,7 +8711,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_stpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
+     pure subroutine la_stpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -8810,7 +8810,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_dtpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
+     pure subroutine la_dtpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -8909,7 +8909,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_qtpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
+     pure subroutine la_qtpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -9009,7 +9009,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_strcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
+     pure subroutine la_strcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -9110,7 +9110,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_dtrcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
+     pure subroutine la_dtrcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -9211,7 +9211,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_qtrcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
+     pure subroutine la_qtrcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -18282,7 +18282,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_ctbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
+     pure subroutine la_ctbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
         use la_constants_sp,only:zero,one
 
         ! -- lapack computational routine --
@@ -18391,7 +18391,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_ztbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
+     pure subroutine la_ztbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
         use la_constants_dp,only:zero,one
 
         ! -- lapack computational routine --
@@ -18500,7 +18500,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_wtbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
+     pure subroutine la_wtbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
         use la_constants_qp,only:zero,one
 
         ! -- lapack computational routine --
@@ -19160,7 +19160,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_ctpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
+     pure subroutine la_ctpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -19264,7 +19264,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_ztpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
+     pure subroutine la_ztpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -19368,7 +19368,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_wtpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
+     pure subroutine la_wtpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -19473,7 +19473,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_ctrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
+     pure subroutine la_ctrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -19579,7 +19579,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_ztrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
+     pure subroutine la_ztrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -19685,7 +19685,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_wtrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
+     pure subroutine la_wtrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --

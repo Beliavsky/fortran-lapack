@@ -407,12 +407,12 @@ module la_eig
          complex(${rk}$), allocatable :: lambda(:)
 
          !> Create
-         ${rt}$, pointer, dimension(:,:) :: amat#{if ei=='ggev'}#, bmat #{endif}#
+         ${rt}$, allocatable :: amat(:,:)#{if ei=='ggev'}#, bmat(:,:)#{endif}#
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
-         #{if ei=='ggev'}#bmat => b#{endif}#
+         !> Work on local copies so this convenience function does not modify its inputs.
+         allocate(amat,source=a)
+         #{if ei=='ggev'}#allocate(bmat,source=b)#{endif}#
 
          m   = size(a,1,kind=ilp)
          n   = size(a,2,kind=ilp)
@@ -422,7 +422,7 @@ module la_eig
          allocate(lambda(k))
 
          !> Compute eigenvalues only
-         call la_eig_${ep}$_${ri}$(amat#{if ei=='ggev'}#,bmat#{endif}#,lambda,overwrite_a=.false.)
+         call la_eig_${ep}$_${ri}$(amat#{if ei=='ggev'}#,bmat#{endif}#,lambda,overwrite_a=.true.#{if ei=='ggev'}#,overwrite_b=.true.#{endif}#)
 
      end function la_eigvals_noerr_${ep}$_${ri}$
 
@@ -695,11 +695,11 @@ module la_eig
          !> Array of singular values
          real(${rk}$), allocatable :: lambda(:)
 
-         ${rt}$, pointer :: amat(:,:)
+         ${rt}$, allocatable :: amat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
+         !> Work on a local copy so this convenience function does not modify its input.
+         allocate(amat,source=a)
 
          m   = size(a,1,kind=ilp)
          n   = size(a,2,kind=ilp)
@@ -709,7 +709,7 @@ module la_eig
          allocate(lambda(k))
 
          !> Compute eigenvalues only
-         call la_eigh_${ri}$(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
+         call la_eigh_${ri}$(amat,lambda,upper_a=upper_a,overwrite_a=.true.)
 
      end function la_eigvalsh_noerr_${ri}$     
 

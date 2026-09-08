@@ -165,6 +165,8 @@ module la_lapack_solve_aux
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
      !> ${ri.upper()}$LACON: estimates the 1-norm of a square, real matrix A.
      !> Reverse communication is used for evaluating matrix-vector products.
+     !> This legacy compatibility routine retains hidden saved state and is not reentrant.
+     !> Use ${ri.upper()}$LACN2 for pure or concurrent callers.
 
      subroutine la_${ri}$lacon(n,v,x,isgn,est,kase)
         use la_constants_${rk}$
@@ -533,6 +535,8 @@ module la_lapack_solve_aux
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
      !> ${ri.upper()}$LACON: estimates the 1-norm of a square, complex matrix A.
      !> Reverse communication is used for evaluating matrix-vector products.
+     !> This legacy compatibility routine retains hidden saved state and is not reentrant.
+     !> Use ${ri.upper()}$LACN2 for pure or concurrent callers.
 
      subroutine la_${ri}$lacon(n,v,x,est,kase)
         use la_constants_${rk}$,only:one,two,czero,cone

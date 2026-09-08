@@ -47,7 +47,7 @@ module la_lapack_eigv_svd_drivers
      !> U and V are the left and right singular vectors of A.
      !> Note that the routine returns V**T, not V.
 
-     subroutine la_sgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
+     pure subroutine la_sgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
         use la_constants_sp,only:zero,one
 
         ! -- lapack driver routine --
@@ -4566,7 +4566,7 @@ module la_lapack_eigv_svd_drivers
      !> U and V are the left and right singular vectors of A.
      !> Note that the routine returns V**T, not V.
 
-     subroutine la_qgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
+     pure subroutine la_qgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
         use la_constants_qp,only:zero,one
 
         ! -- lapack driver routine --
@@ -6824,7 +6824,7 @@ module la_lapack_eigv_svd_drivers
      !> of SIGMA are the singular values of A. The columns of U and V are the
      !> left and the right singular vectors of A, respectively.
 
-     subroutine la_sgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+     pure subroutine la_sgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                numrank,iwork,liwork,work,lwork,rwork,lrwork,info)
         use la_constants_sp
            ! Scalar Arguments
@@ -8555,7 +8555,7 @@ module la_lapack_eigv_svd_drivers
      !> of SIGMA are the singular values of A. The columns of U and V are the
      !> left and the right singular vectors of A, respectively.
 
-     subroutine la_qgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+     pure subroutine la_qgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                numrank,iwork,liwork,work,lwork,rwork,lrwork,info)
         use la_constants_qp
            ! Scalar Arguments
@@ -9423,7 +9423,7 @@ module la_lapack_eigv_svd_drivers
      !> U and V are the left and right singular vectors of A.
      !> Note that the routine returns V**H, not V.
 
-     subroutine la_cgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
+     pure subroutine la_cgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
                info)
         use la_constants_sp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -14314,7 +14314,7 @@ module la_lapack_eigv_svd_drivers
      !> U and V are the left and right singular vectors of A.
      !> Note that the routine returns V**H, not V.
 
-     subroutine la_wgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
+     pure subroutine la_wgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
                info)
         use la_constants_qp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -16758,7 +16758,7 @@ module la_lapack_eigv_svd_drivers
      !> of SIGMA are the singular values of A. The columns of U and V are the
      !> left and the right singular vectors of A, respectively.
 
-     subroutine la_cgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+     pure subroutine la_cgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                numrank,iwork,liwork,cwork,lcwork,rwork,lrwork,info)
         use la_constants_sp
            ! Scalar Arguments
@@ -18513,7 +18513,7 @@ module la_lapack_eigv_svd_drivers
      !> of SIGMA are the singular values of A. The columns of U and V are the
      !> left and the right singular vectors of A, respectively.
 
-     subroutine la_wgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+     pure subroutine la_wgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                numrank,iwork,liwork,cwork,lcwork,rwork,lrwork,info)
         use la_constants_qp
            ! Scalar Arguments

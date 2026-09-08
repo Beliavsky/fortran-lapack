@@ -45,7 +45,7 @@ module la_pseudoinverse
      !! where \f$ U \f$ and \f$ V \f$ are unitary matrices, and \f$ \Sigma^+ \f$ is the 
      !! pseudo-inverse of the singular values.
      !!
-     !! @param[in,out] A The input matrix of size \f$ [m, n] \f$. Its contents may be modified.
+     !! @param[in] A The input matrix of size \f$ [m, n] \f$.
      !! @param[out] pinva The output pseudo-inverse matrix of size \f$ [n, m] \f$.
      !! @param[in] rtol (Optional) Relative tolerance for singular value truncation.
      !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided, 
@@ -53,7 +53,7 @@ module la_pseudoinverse
      !!
      !! @note This subroutine is useful when the output matrix `pinva` is already allocated and avoids
      !!       memory allocation inside the routine.
-     !! @warning The input matrix `A` may be modified during computation.
+     !! @note The input matrix `A` is preserved; the decomposition uses a local copy.
      !!
      public :: pseudoinvert
 
@@ -165,7 +165,7 @@ module la_pseudoinverse
      ! Compute the in-place pseudo-inverse of matrix a
      subroutine la_pseudoinvert_${ri}$(a,pinva,rtol,err)
          !> Input matrix a[m,n]
-         ${rt}$, intent(inout) :: a(:,:)
+         ${rt}$, intent(in) :: a(:,:)
          !> Output pseudo-inverse matrix
          ${rt}$, intent(inout) :: pinva(:,:)
          !> [optional] ....
@@ -176,7 +176,7 @@ module la_pseudoinverse
          ! Local variables
          real(${rk}$) :: tolerance,cutoff
          real(${rk}$), allocatable :: s(:)
-         ${rt}$, allocatable :: u(:,:),vt(:,:)
+         ${rt}$, allocatable :: acopy(:,:),u(:,:),vt(:,:)
          type(la_state) :: err0
          integer(ilp) :: m,n,k,i,j
          
@@ -204,8 +204,9 @@ module la_pseudoinverse
             if (rtol>0.0_${rk}$) tolerance = rtol                
          end if
          
+         allocate(acopy,source=a)
          allocate(s(k),u(m,k),vt(k,n))
-         call svd(a,s,u,vt,overwrite_a=.false.,full_matrices=.false.,err=err0)
+         call svd(acopy,s,u,vt,overwrite_a=.true.,full_matrices=.false.,err=err0)
          if (err0%error()) then 
             err0 = la_state(this,LINALG_ERROR,'svd failure -',err0%message)
             call err0%handle(err)
@@ -242,11 +243,7 @@ module la_pseudoinverse
          !> Matrix pseudo-inverse
          ${rt}$ :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))         
          
-         ! Use pointer to circumvent svd intent(inout) restriction
-         ${rt}$, pointer :: ap(:,:)
-         ap => a
-         
-         call la_pseudoinvert_${ri}$(ap,pinva,rtol,err)
+         call la_pseudoinvert_${ri}$(a,pinva,rtol,err)
 
      end function la_pseudoinverse_${ri}$
 
@@ -257,11 +254,7 @@ module la_pseudoinverse
          !> Result matrix
          ${rt}$ :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         ! Use pointer to circumvent svd intent(inout) restriction
-         ${rt}$, pointer :: ap(:,:)
-         ap => a
-
-         call la_pseudoinvert_${ri}$(ap,pinva)
+         call la_pseudoinvert_${ri}$(a,pinva)
 
      end function la_pinv_${ri}$_operator
 

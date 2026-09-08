@@ -3287,7 +3287,7 @@ module la_lapack_eigv_comp
      !> Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973),
      !> pp. 241--256.
 
-     subroutine la_shgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
+     pure subroutine la_shgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
                beta,q,ldq,z,ldz,work,lwork,info)
         use la_constants_sp,only:zero,half,one
         ! -- lapack computational routine --
@@ -4162,7 +4162,7 @@ module la_lapack_eigv_comp
      !> Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973),
      !> pp. 241--256.
 
-     subroutine la_dhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
+     pure subroutine la_dhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
                beta,q,ldq,z,ldz,work,lwork,info)
         use la_constants_dp,only:zero,half,one
         ! -- lapack computational routine --
@@ -5037,7 +5037,7 @@ module la_lapack_eigv_comp
      !> Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973),
      !> pp. 241--256.
 
-     subroutine la_qhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
+     pure subroutine la_qhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
                beta,q,ldq,z,ldz,work,lwork,info)
         use la_constants_qp,only:zero,half,one
         ! -- lapack computational routine --
@@ -9135,7 +9135,7 @@ module la_lapack_eigv_comp
      !> Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973),
      !> pp. 241--256.
 
-     subroutine la_chgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q,ldq, &
+     pure subroutine la_chgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q,ldq, &
                 z,ldz,work,lwork,rwork,info)
         use la_constants_sp,only:zero,half,one,czero,cone
         ! -- lapack computational routine --
@@ -9633,7 +9633,7 @@ module la_lapack_eigv_comp
      !> Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973),
      !> pp. 241--256.
 
-     subroutine la_zhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q,ldq, &
+     pure subroutine la_zhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q,ldq, &
                 z,ldz,work,lwork,rwork,info)
         use la_constants_dp,only:zero,half,one,czero,cone
         ! -- lapack computational routine --
@@ -10131,7 +10131,7 @@ module la_lapack_eigv_comp
      !> Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973),
      !> pp. 241--256.
 
-     subroutine la_whgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q,ldq, &
+     pure subroutine la_whgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q,ldq, &
                 z,ldz,work,lwork,rwork,info)
         use la_constants_qp,only:zero,half,one,czero,cone
         ! -- lapack computational routine --

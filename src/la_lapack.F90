@@ -8826,8 +8826,74 @@ module la_lapack
 #endif
           end interface lacgv
 
-          !> LACON: estimates the 1-norm of a square, complex matrix A.
+          !> LACN2: estimates the 1-norm of a square matrix A.
           !> Reverse communication is used for evaluating matrix-vector products.
+          !> The caller-provided ISAVE array makes this interface reentrant and pure.
+          interface lacn2
+#ifdef LA_EXTERNAL_LAPACK
+               pure subroutine clacn2(n,v,x,est,kase,isave)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    integer(ilp),intent(inout) :: kase
+                    integer(ilp),intent(in) :: n
+                    integer(ilp),intent(inout) :: isave(3)
+                    real(sp),intent(inout) :: est
+                    complex(sp),intent(out) :: v(n)
+                    complex(sp),intent(inout) :: x(n)
+               end subroutine clacn2
+#else
+               module procedure la_clacn2
+#endif
+#ifdef LA_EXTERNAL_LAPACK
+               pure subroutine dlacn2(n,v,x,isgn,est,kase,isave)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    integer(ilp),intent(inout) :: kase
+                    integer(ilp),intent(in) :: n
+                    integer(ilp),intent(out) :: isgn(*)
+                    integer(ilp),intent(inout) :: isave(3)
+                    real(dp),intent(inout) :: est,x(*)
+                    real(dp),intent(out) :: v(*)
+               end subroutine dlacn2
+#else
+               module procedure la_dlacn2
+#endif
+               module procedure la_qlacn2
+#ifdef LA_EXTERNAL_LAPACK
+               pure subroutine slacn2(n,v,x,isgn,est,kase,isave)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    integer(ilp),intent(inout) :: kase
+                    integer(ilp),intent(in) :: n
+                    integer(ilp),intent(out) :: isgn(*)
+                    integer(ilp),intent(inout) :: isave(3)
+                    real(sp),intent(inout) :: est,x(*)
+                    real(sp),intent(out) :: v(*)
+               end subroutine slacn2
+#else
+               module procedure la_slacn2
+#endif
+               module procedure la_wlacn2
+#ifdef LA_EXTERNAL_LAPACK
+               pure subroutine zlacn2(n,v,x,est,kase,isave)
+                    import sp,dp,qp,ilp,lk
+                    implicit none(type,external)
+                    integer(ilp),intent(inout) :: kase
+                    integer(ilp),intent(in) :: n
+                    integer(ilp),intent(inout) :: isave(3)
+                    real(dp),intent(inout) :: est
+                    complex(dp),intent(out) :: v(n)
+                    complex(dp),intent(inout) :: x(n)
+               end subroutine zlacn2
+#else
+               module procedure la_zlacn2
+#endif
+          end interface lacn2
+
+          !> LACON: legacy stateful estimator of the 1-norm of a square matrix A.
+          !> Reverse communication is used for evaluating matrix-vector products.
+          !> This compatibility interface retains hidden saved state and is not reentrant.
+          !> Use LACN2 for pure or concurrent callers.
           interface lacon
 #ifdef LA_EXTERNAL_LAPACK
                subroutine clacon(n,v,x,est,kase)

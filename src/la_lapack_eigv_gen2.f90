@@ -5425,7 +5425,7 @@ module la_lapack_eigv_gen2
      !> each 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_strsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+     pure subroutine la_strsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
         use la_constants_sp,only:zero,one
 
         ! -- lapack computational routine --
@@ -6747,7 +6747,7 @@ module la_lapack_eigv_gen2
      !> each 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_qtrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+     pure subroutine la_qtrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
         use la_constants_qp,only:zero,one
 
         ! -- lapack computational routine --
@@ -7404,7 +7404,7 @@ module la_lapack_eigv_gen2
      !> H * x = w * x,     y**h * H = w * y**h
      !> where y**h denotes the conjugate transpose of the vector y.
 
-     subroutine la_shsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr,ldvr, &
+     pure subroutine la_shsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr,ldvr, &
                mm,m,work,ifaill,ifailr,info)
         use la_constants_sp,only:zero,one
         ! -- lapack computational routine --
@@ -7619,7 +7619,7 @@ module la_lapack_eigv_gen2
      !> H * x = w * x,     y**h * H = w * y**h
      !> where y**h denotes the conjugate transpose of the vector y.
 
-     subroutine la_dhsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr,ldvr, &
+     pure subroutine la_dhsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr,ldvr, &
                mm,m,work,ifaill,ifailr,info)
         use la_constants_dp,only:zero,one
         ! -- lapack computational routine --
@@ -7834,7 +7834,7 @@ module la_lapack_eigv_gen2
      !> H * x = w * x,     y**h * H = w * y**h
      !> where y**h denotes the conjugate transpose of the vector y.
 
-     subroutine la_qhsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr,ldvr, &
+     pure subroutine la_qhsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr,ldvr, &
                mm,m,work,ifaill,ifailr,info)
         use la_constants_qp,only:zero,one
         ! -- lapack computational routine --
@@ -8055,7 +8055,7 @@ module la_lapack_eigv_gen2
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_strsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
+     pure subroutine la_strsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
                lwork,iwork,liwork,info)
         use la_constants_sp
         ! -- lapack computational routine --
@@ -8445,7 +8445,7 @@ module la_lapack_eigv_gen2
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_qtrsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
+     pure subroutine la_qtrsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
                lwork,iwork,liwork,info)
         use la_constants_qp
         ! -- lapack computational routine --
@@ -8638,7 +8638,7 @@ module la_lapack_eigv_gen2
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_strsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm,m, &
+     pure subroutine la_strsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm,m, &
                work,ldwork,iwork,info)
         use la_constants_sp,only:zero,one,two
         ! -- lapack computational routine --
@@ -9128,7 +9128,7 @@ module la_lapack_eigv_gen2
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_qtrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm,m, &
+     pure subroutine la_qtrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm,m, &
                work,ldwork,iwork,info)
         use la_constants_qp,only:zero,one,two
         ! -- lapack computational routine --
@@ -9374,7 +9374,7 @@ module la_lapack_eigv_gen2
      !> of a matrix A which has been reduced to the Hessenberg form H
      !> by the orthogonal matrix Q:  A = Q*H*Q**T = (QZ)*T*(QZ)**T.
 
-     subroutine la_shseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork,info)
+     pure subroutine la_shseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork,info)
         use la_constants_sp
 
         ! -- lapack computational routine --
@@ -9666,7 +9666,7 @@ module la_lapack_eigv_gen2
      !> of a matrix A which has been reduced to the Hessenberg form H
      !> by the orthogonal matrix Q:  A = Q*H*Q**T = (QZ)*T*(QZ)**T.
 
-     subroutine la_qhseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork,info)
+     pure subroutine la_qhseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork,info)
         use la_constants_qp
 
         ! -- lapack computational routine --
@@ -12174,7 +12174,7 @@ module la_lapack_eigv_gen2
      !> M-by-N; and scale is an output scale factor, set <= 1 to avoid
      !> overflow in X.
 
-     subroutine la_ctrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+     pure subroutine la_ctrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
         use la_constants_sp,only:one
 
         ! -- lapack computational routine --
@@ -12626,7 +12626,7 @@ module la_lapack_eigv_gen2
      !> M-by-N; and scale is an output scale factor, set <= 1 to avoid
      !> overflow in X.
 
-     subroutine la_wtrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+     pure subroutine la_wtrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
         use la_constants_qp,only:one
 
         ! -- lapack computational routine --
@@ -12852,7 +12852,7 @@ module la_lapack_eigv_gen2
      !> H * x = w * x,     y**h * H = w * y**h
      !> where y**h denotes the conjugate transpose of the vector y.
 
-     subroutine la_chsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr,mm, &
+     pure subroutine la_chsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr,mm, &
                m,work,rwork,ifaill,ifailr,info)
         use la_constants_sp,only:czero
         ! -- lapack computational routine --
@@ -13025,7 +13025,7 @@ module la_lapack_eigv_gen2
      !> H * x = w * x,     y**h * H = w * y**h
      !> where y**h denotes the conjugate transpose of the vector y.
 
-     subroutine la_zhsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr,mm, &
+     pure subroutine la_zhsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr,mm, &
                m,work,rwork,ifaill,ifailr,info)
         use la_constants_dp,only:czero
         ! -- lapack computational routine --
@@ -13198,7 +13198,7 @@ module la_lapack_eigv_gen2
      !> H * x = w * x,     y**h * H = w * y**h
      !> where y**h denotes the conjugate transpose of the vector y.
 
-     subroutine la_whsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr,mm, &
+     pure subroutine la_whsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr,mm, &
                m,work,rwork,ifaill,ifailr,info)
         use la_constants_qp,only:czero
         ! -- lapack computational routine --
@@ -13373,7 +13373,7 @@ module la_lapack_eigv_gen2
      !> Optionally the routine computes the reciprocal condition numbers of
      !> the cluster of eigenvalues and/or the invariant subspace.
 
-     subroutine la_ctrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
+     pure subroutine la_ctrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
                info)
         use la_constants_sp
         ! -- lapack computational routine --
@@ -13647,7 +13647,7 @@ module la_lapack_eigv_gen2
      !> Optionally the routine computes the reciprocal condition numbers of
      !> the cluster of eigenvalues and/or the invariant subspace.
 
-     subroutine la_wtrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
+     pure subroutine la_wtrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
                info)
         use la_constants_qp
         ! -- lapack computational routine --

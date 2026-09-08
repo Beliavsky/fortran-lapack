@@ -1646,6 +1646,8 @@ Type     | 32-bit | 64-bit | 128-bit
 real     | `s`    | `d`    | `q`
 complex  | `c`    | `z`    | `w`
 
+For reverse-communication 1-norm estimation, prefer the generic `lacn2` interface. Its caller-provided `isave` array makes it pure and reentrant across all six supported kinds. The generic `lacon` interface remains available for LAPACK compatibility, but it retains hidden saved state and is therefore impure and unsuitable for concurrent calls.
+
 All public interfaces in `la_blas` and `la_lapack` allow seamless linking against external libraries via a simple pre-processor flag. 
 When an external library is available, just define macros `LA_EXTERNAL_BLAS` and `LA_EXTERNAL_LAPACK`. The kind-agnostic interface
 will just point to the external function. All such interfaces follow this template:  

@@ -239,7 +239,7 @@ module la_lapack_solve_ldl
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_sspsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
+     pure subroutine la_sspsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
                berr,work,iwork,info)
         use la_constants_sp
         ! -- lapack driver routine --
@@ -317,7 +317,7 @@ module la_lapack_solve_ldl
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_dspsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
+     pure subroutine la_dspsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
                berr,work,iwork,info)
         use la_constants_dp
         ! -- lapack driver routine --
@@ -395,7 +395,7 @@ module la_lapack_solve_ldl
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_qspsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
+     pure subroutine la_qspsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
                berr,work,iwork,info)
         use la_constants_qp
         ! -- lapack driver routine --
@@ -1170,7 +1170,7 @@ module la_lapack_solve_ldl
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_ssysvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
+     pure subroutine la_ssysvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
                ferr,berr,work,lwork,iwork,info)
         use la_constants_sp
         ! -- lapack driver routine --
@@ -1364,7 +1364,7 @@ module la_lapack_solve_ldl
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_qsysvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
+     pure subroutine la_qsysvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
                ferr,berr,work,lwork,iwork,info)
         use la_constants_qp
         ! -- lapack driver routine --
@@ -1827,7 +1827,7 @@ module la_lapack_solve_ldl
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_cspsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
+     pure subroutine la_cspsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
                berr,work,rwork,info)
         use la_constants_sp
         ! -- lapack driver routine --
@@ -1905,7 +1905,7 @@ module la_lapack_solve_ldl
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_zspsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
+     pure subroutine la_zspsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
                berr,work,rwork,info)
         use la_constants_dp
         ! -- lapack driver routine --
@@ -1983,7 +1983,7 @@ module la_lapack_solve_ldl
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_wspsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
+     pure subroutine la_wspsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
                berr,work,rwork,info)
         use la_constants_qp
         ! -- lapack driver routine --
@@ -2757,7 +2757,7 @@ module la_lapack_solve_ldl
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_csysvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
+     pure subroutine la_csysvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
                ferr,berr,work,lwork,rwork,info)
         use la_constants_sp
         ! -- lapack driver routine --
@@ -2854,7 +2854,7 @@ module la_lapack_solve_ldl
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_zsysvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
+     pure subroutine la_zsysvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
                ferr,berr,work,lwork,rwork,info)
         use la_constants_dp
         ! -- lapack driver routine --
@@ -2951,7 +2951,7 @@ module la_lapack_solve_ldl
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_wsysvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
+     pure subroutine la_wsysvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
                ferr,berr,work,lwork,rwork,info)
         use la_constants_qp
         ! -- lapack driver routine --
@@ -3744,7 +3744,7 @@ module la_lapack_solve_ldl
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_chesvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
+     pure subroutine la_chesvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
                ferr,berr,work,lwork,rwork,info)
         use la_constants_sp
         ! -- lapack driver routine --
@@ -3841,7 +3841,7 @@ module la_lapack_solve_ldl
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_zhesvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
+     pure subroutine la_zhesvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
                ferr,berr,work,lwork,rwork,info)
         use la_constants_dp
         ! -- lapack driver routine --
@@ -3938,7 +3938,7 @@ module la_lapack_solve_ldl
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_whesvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
+     pure subroutine la_whesvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
                ferr,berr,work,lwork,rwork,info)
         use la_constants_qp
         ! -- lapack driver routine --
@@ -4187,7 +4187,7 @@ module la_lapack_solve_ldl
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_chpsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
+     pure subroutine la_chpsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
                berr,work,rwork,info)
         use la_constants_sp
         ! -- lapack driver routine --
@@ -4265,7 +4265,7 @@ module la_lapack_solve_ldl
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_zhpsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
+     pure subroutine la_zhpsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
                berr,work,rwork,info)
         use la_constants_dp
         ! -- lapack driver routine --
@@ -4343,7 +4343,7 @@ module la_lapack_solve_ldl
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_whpsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
+     pure subroutine la_whpsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
                berr,work,rwork,info)
         use la_constants_qp
         ! -- lapack driver routine --

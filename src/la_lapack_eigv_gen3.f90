@@ -2789,7 +2789,7 @@ module la_lapack_eigv_gen3
      !> This subroutine is designed for the condition number estimation
      !> in routine STRSNA.
 
-     subroutine la_slaqtr(ltran,lreal,n,t,ldt,b,w,scale,x,work,info)
+     pure subroutine la_slaqtr(ltran,lreal,n,t,ldt,b,w,scale,x,work,info)
         use la_constants_sp,only:zero,one
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3681,7 +3681,7 @@ module la_lapack_eigv_gen3
      !> This subroutine is designed for the condition number estimation
      !> in routine QTRSNA.
 
-     subroutine la_qlaqtr(ltran,lreal,n,t,ldt,b,w,scale,x,work,info)
+     pure subroutine la_qlaqtr(ltran,lreal,n,t,ldt,b,w,scale,x,work,info)
         use la_constants_qp,only:zero,one
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5043,7 +5043,7 @@ module la_lapack_eigv_gen3
      !> hoped that the final version of H has many zero subdiagonal
      !> entries.
 
-     subroutine la_slaqr2(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
+     pure subroutine la_slaqr2(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
                 sr,si,v,ldv,nh,t,ldt,nv,wv,ldwv,work,lwork)
         use la_constants_sp,only:zero,one
         ! -- lapack auxiliary routine --
@@ -5649,7 +5649,7 @@ module la_lapack_eigv_gen3
      !> hoped that the final version of H has many zero subdiagonal
      !> entries.
 
-     subroutine la_qlaqr2(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
+     pure subroutine la_qlaqr2(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
                 sr,si,v,ldv,nh,t,ldt,nv,wv,ldwv,work,lwork)
         use la_constants_qp,only:zero,one
         ! -- lapack auxiliary routine --
@@ -5950,7 +5950,7 @@ module la_lapack_eigv_gen3
      !> of a matrix A which has been reduced to the Hessenberg form H
      !> by the orthogonal matrix Q:  A = Q*H*Q**T = (QZ)*T*(QZ)**T.
 
-     subroutine la_slaqr0(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz,work, &
+     pure subroutine la_slaqr0(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz,work, &
                 lwork,info)
         use la_constants_sp
         ! -- lapack auxiliary routine --
@@ -6688,7 +6688,7 @@ module la_lapack_eigv_gen3
      !> of a matrix A which has been reduced to the Hessenberg form H
      !> by the orthogonal matrix Q:  A = Q*H*Q**T = (QZ)*T*(QZ)**T.
 
-     subroutine la_qlaqr0(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz,work, &
+     pure subroutine la_qlaqr0(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz,work, &
                 lwork,info)
         use la_constants_qp
         ! -- lapack auxiliary routine --
@@ -7059,7 +7059,7 @@ module la_lapack_eigv_gen3
      !> hoped that the final version of H has many zero subdiagonal
      !> entries.
 
-     subroutine la_slaqr3(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
+     pure subroutine la_slaqr3(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
                 sr,si,v,ldv,nh,t,ldt,nv,wv,ldwv,work,lwork)
         use la_constants_sp,only:zero,one
         ! -- lapack auxiliary routine --
@@ -7681,7 +7681,7 @@ module la_lapack_eigv_gen3
      !> hoped that the final version of H has many zero subdiagonal
      !> entries.
 
-     subroutine la_qlaqr3(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
+     pure subroutine la_qlaqr3(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
                 sr,si,v,ldv,nh,t,ldt,nv,wv,ldwv,work,lwork)
         use la_constants_qp,only:zero,one
         ! -- lapack auxiliary routine --
@@ -7998,7 +7998,7 @@ module la_lapack_eigv_gen3
      !> of a matrix A which has been reduced to the Hessenberg form H
      !> by the orthogonal matrix Q:  A = Q*H*Q**T = (QZ)*T*(QZ)**T.
 
-     subroutine la_slaqr4(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz,work, &
+     pure subroutine la_slaqr4(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz,work, &
                 lwork,info)
         use la_constants_sp
         ! -- lapack auxiliary routine --
@@ -8738,7 +8738,7 @@ module la_lapack_eigv_gen3
      !> of a matrix A which has been reduced to the Hessenberg form H
      !> by the orthogonal matrix Q:  A = Q*H*Q**T = (QZ)*T*(QZ)**T.
 
-     subroutine la_qlaqr4(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz,work, &
+     pure subroutine la_qlaqr4(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz,work, &
                 lwork,info)
         use la_constants_qp
         ! -- lapack auxiliary routine --
@@ -9143,7 +9143,7 @@ module la_lapack_eigv_gen3
      !> Ref: T. Steel, D. Camps, K. Meerbergen, R. Vandebril "A multishift,
      !> multipole rational QZ method with agressive early deflation"
 
-     recursive subroutine la_slaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb,alphar, &
+     pure recursive subroutine la_slaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb,alphar, &
                alphai,beta,q,ldq,z,ldz,work,lwork,rec,info)
         use la_constants_sp,only:zero,one
            ! arguments
@@ -9535,7 +9535,7 @@ module la_lapack_eigv_gen3
      !> Ref: T. Steel, D. Camps, K. Meerbergen, R. Vandebril "A multishift,
      !> multipole rational QZ method with agressive early deflation"
 
-     recursive subroutine la_dlaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb,alphar, &
+     pure recursive subroutine la_dlaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb,alphar, &
                alphai,beta,q,ldq,z,ldz,work,lwork,rec,info)
         use la_constants_dp,only:zero,one
            ! arguments
@@ -9927,7 +9927,7 @@ module la_lapack_eigv_gen3
      !> Ref: T. Steel, D. Camps, K. Meerbergen, R. Vandebril "A multishift,
      !> multipole rational QZ method with agressive early deflation"
 
-     recursive subroutine la_qlaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb,alphar, &
+     pure recursive subroutine la_qlaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb,alphar, &
                alphai,beta,q,ldq,z,ldz,work,lwork,rec,info)
         use la_constants_qp,only:zero,one
            ! arguments
@@ -10273,7 +10273,7 @@ module la_lapack_eigv_gen3
 
      !> SLAQZ3: performs AED
 
-     recursive subroutine la_slaqz3(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
+     pure recursive subroutine la_slaqz3(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
                ldq,z,ldz,ns,nd,alphar,alphai,beta,qc,ldqc,zc,ldzc,work,lwork,rec,info)
         use la_constants_sp,only:zero,one
            ! arguments
@@ -10545,7 +10545,7 @@ module la_lapack_eigv_gen3
      end subroutine la_slaqz3
      !> DLAQZ3: performs AED
 
-     recursive subroutine la_dlaqz3(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
+     pure recursive subroutine la_dlaqz3(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
                ldq,z,ldz,ns,nd,alphar,alphai,beta,qc,ldqc,zc,ldzc,work,lwork,rec,info)
         use la_constants_dp,only:zero,one
            ! arguments
@@ -10817,7 +10817,7 @@ module la_lapack_eigv_gen3
      end subroutine la_dlaqz3
      !> QLAQZ3: performs AED
 
-     recursive subroutine la_qlaqz3(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
+     pure recursive subroutine la_qlaqz3(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
                ldq,z,ldz,ns,nd,alphar,alphai,beta,qc,ldqc,zc,ldzc,work,lwork,rec,info)
         use la_constants_qp,only:zero,one
            ! arguments
@@ -17615,7 +17615,7 @@ module la_lapack_eigv_gen3
      !> Ref: T. Steel, D. Camps, K. Meerbergen, R. Vandebril "A multishift,
      !> multipole rational QZ method with agressive early deflation"
 
-     recursive subroutine la_claqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb,alpha, &
+     pure recursive subroutine la_claqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb,alpha, &
                beta,q,ldq,z,ldz,work,lwork,rwork,rec,info)
         use la_constants_sp,only:zero,one,czero,cone
            ! arguments
@@ -17967,7 +17967,7 @@ module la_lapack_eigv_gen3
      !> Ref: T. Steel, D. Camps, K. Meerbergen, R. Vandebril "A multishift,
      !> multipole rational QZ method with agressive early deflation"
 
-     recursive subroutine la_zlaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb,alpha, &
+     pure recursive subroutine la_zlaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb,alpha, &
                beta,q,ldq,z,ldz,work,lwork,rwork,rec,info)
         use la_constants_dp,only:zero,one,czero,cone
            ! arguments
@@ -18319,7 +18319,7 @@ module la_lapack_eigv_gen3
      !> Ref: T. Steel, D. Camps, K. Meerbergen, R. Vandebril "A multishift,
      !> multipole rational QZ method with agressive early deflation"
 
-     recursive subroutine la_wlaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb,alpha, &
+     pure recursive subroutine la_wlaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb,alpha, &
                beta,q,ldq,z,ldz,work,lwork,rwork,rec,info)
         use la_constants_qp,only:zero,one,czero,cone
            ! arguments
@@ -18633,7 +18633,7 @@ module la_lapack_eigv_gen3
 
      !> CLAQZ2: performs AED
 
-     recursive subroutine la_claqz2(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
+     pure recursive subroutine la_claqz2(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
                ldq,z,ldz,ns,nd,alpha,beta,qc,ldqc,zc,ldzc,work,lwork,rwork,rec,info)
         use la_constants_sp,only:zero,one,czero,cone
            ! arguments
@@ -18821,7 +18821,7 @@ module la_lapack_eigv_gen3
      end subroutine la_claqz2
      !> ZLAQZ2: performs AED
 
-     recursive subroutine la_zlaqz2(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
+     pure recursive subroutine la_zlaqz2(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
                ldq,z,ldz,ns,nd,alpha,beta,qc,ldqc,zc,ldzc,work,lwork,rwork,rec,info)
         use la_constants_dp,only:zero,one,czero,cone
            ! arguments
@@ -19009,7 +19009,7 @@ module la_lapack_eigv_gen3
      end subroutine la_zlaqz2
      !> WLAQZ2: performs AED
 
-     recursive subroutine la_wlaqz2(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
+     pure recursive subroutine la_wlaqz2(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
                ldq,z,ldz,ns,nd,alpha,beta,qc,ldqc,zc,ldzc,work,lwork,rwork,rec,info)
         use la_constants_qp,only:zero,one,czero,cone
            ! arguments

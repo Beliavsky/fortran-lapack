@@ -512,7 +512,7 @@ module la_least_squares
      end function la_slstsq_one
 
      !> Compute the least-squares solution to a real(sp) system of linear equations Ax = B into x
-     subroutine la_ssolve_lstsq_one(a,b,x,real_storage,int_storage, &
+     pure subroutine la_ssolve_lstsq_one(a,b,x,real_storage,int_storage, &
                 cond,singvals,overwrite_a,rank,err)
          !> Input matrix a[n,n]
          real(sp),intent(inout),target :: a(:,:)
@@ -737,7 +737,7 @@ module la_least_squares
      end function la_dlstsq_one
 
      !> Compute the least-squares solution to a real(dp) system of linear equations Ax = B into x
-     subroutine la_dsolve_lstsq_one(a,b,x,real_storage,int_storage, &
+     pure subroutine la_dsolve_lstsq_one(a,b,x,real_storage,int_storage, &
                 cond,singvals,overwrite_a,rank,err)
          !> Input matrix a[n,n]
          real(dp),intent(inout),target :: a(:,:)
@@ -962,7 +962,7 @@ module la_least_squares
      end function la_qlstsq_one
 
      !> Compute the least-squares solution to a real(qp) system of linear equations Ax = B into x
-     subroutine la_qsolve_lstsq_one(a,b,x,real_storage,int_storage, &
+     pure subroutine la_qsolve_lstsq_one(a,b,x,real_storage,int_storage, &
                 cond,singvals,overwrite_a,rank,err)
          !> Input matrix a[n,n]
          real(qp),intent(inout),target :: a(:,:)
@@ -1188,7 +1188,7 @@ module la_least_squares
      end function la_clstsq_one
 
      !> Compute the least-squares solution to a complex(sp) system of linear equations Ax = B into x
-     subroutine la_csolve_lstsq_one(a,b,x,real_storage,int_storage, &
+     pure subroutine la_csolve_lstsq_one(a,b,x,real_storage,int_storage, &
                 cmpl_storage,cond,singvals,overwrite_a,rank,err)
          !> Input matrix a[n,n]
          complex(sp),intent(inout),target :: a(:,:)
@@ -1428,7 +1428,7 @@ module la_least_squares
      end function la_zlstsq_one
 
      !> Compute the least-squares solution to a complex(dp) system of linear equations Ax = B into x
-     subroutine la_zsolve_lstsq_one(a,b,x,real_storage,int_storage, &
+     pure subroutine la_zsolve_lstsq_one(a,b,x,real_storage,int_storage, &
                 cmpl_storage,cond,singvals,overwrite_a,rank,err)
          !> Input matrix a[n,n]
          complex(dp),intent(inout),target :: a(:,:)
@@ -1668,7 +1668,7 @@ module la_least_squares
      end function la_wlstsq_one
 
      !> Compute the least-squares solution to a complex(qp) system of linear equations Ax = B into x
-     subroutine la_wsolve_lstsq_one(a,b,x,real_storage,int_storage, &
+     pure subroutine la_wsolve_lstsq_one(a,b,x,real_storage,int_storage, &
                 cmpl_storage,cond,singvals,overwrite_a,rank,err)
          !> Input matrix a[n,n]
          complex(qp),intent(inout),target :: a(:,:)
@@ -1907,7 +1907,7 @@ module la_least_squares
      end function la_slstsq_multiple
 
      !> Compute the least-squares solution to a real(sp) system of linear equations Ax = B into x
-     subroutine la_ssolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
+     pure subroutine la_ssolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
                 cond,singvals,overwrite_a,rank,err)
          !> Input matrix a[n,n]
          real(sp),intent(inout),target :: a(:,:)
@@ -2132,7 +2132,7 @@ module la_least_squares
      end function la_dlstsq_multiple
 
      !> Compute the least-squares solution to a real(dp) system of linear equations Ax = B into x
-     subroutine la_dsolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
+     pure subroutine la_dsolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
                 cond,singvals,overwrite_a,rank,err)
          !> Input matrix a[n,n]
          real(dp),intent(inout),target :: a(:,:)
@@ -2357,7 +2357,7 @@ module la_least_squares
      end function la_qlstsq_multiple
 
      !> Compute the least-squares solution to a real(qp) system of linear equations Ax = B into x
-     subroutine la_qsolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
+     pure subroutine la_qsolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
                 cond,singvals,overwrite_a,rank,err)
          !> Input matrix a[n,n]
          real(qp),intent(inout),target :: a(:,:)
@@ -2583,7 +2583,7 @@ module la_least_squares
      end function la_clstsq_multiple
 
      !> Compute the least-squares solution to a complex(sp) system of linear equations Ax = B into x
-     subroutine la_csolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
+     pure subroutine la_csolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
                 cmpl_storage,cond,singvals,overwrite_a,rank,err)
          !> Input matrix a[n,n]
          complex(sp),intent(inout),target :: a(:,:)
@@ -2823,7 +2823,7 @@ module la_least_squares
      end function la_zlstsq_multiple
 
      !> Compute the least-squares solution to a complex(dp) system of linear equations Ax = B into x
-     subroutine la_zsolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
+     pure subroutine la_zsolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
                 cmpl_storage,cond,singvals,overwrite_a,rank,err)
          !> Input matrix a[n,n]
          complex(dp),intent(inout),target :: a(:,:)
@@ -3063,7 +3063,7 @@ module la_least_squares
      end function la_wlstsq_multiple
 
      !> Compute the least-squares solution to a complex(qp) system of linear equations Ax = B into x
-     subroutine la_wsolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
+     pure subroutine la_wsolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
                 cmpl_storage,cond,singvals,overwrite_a,rank,err)
          !> Input matrix a[n,n]
          complex(qp),intent(inout),target :: a(:,:)
@@ -3307,7 +3307,7 @@ module la_least_squares
      end subroutine la_handle_gglse
 
      !> Working space needed by the real(sp) equality-constrained least-squares solver
-     subroutine la_sconstrained_lstsq_space(A,C,lwork,err)
+     pure subroutine la_sconstrained_lstsq_space(A,C,lwork,err)
          !> Least-squares matrix a[m,n]
          real(sp),intent(in) :: A(:,:)
          !> Equality constraint matrix c[p,n]
@@ -3339,7 +3339,7 @@ module la_least_squares
      end subroutine la_sconstrained_lstsq_space
 
      !> Solve the real(sp) equality-constrained least-squares problem into x
-     subroutine la_ssolve_constrained_lstsq(A,b,C,d,x,storage,overwrite_matrices,err)
+     pure subroutine la_ssolve_constrained_lstsq(A,b,C,d,x,storage,overwrite_matrices,err)
          !> Least-squares matrix a[m,n] and right hand side b[m]
          real(sp),intent(inout),target :: A(:,:),b(:)
          !> Equality constraint matrix c[p,n] and right hand side d[p]
@@ -3475,7 +3475,7 @@ module la_least_squares
      end function la_sweighted_lstsq
 
      !> Compute the real(sp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))
-     subroutine la_ssolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
+     pure subroutine la_ssolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
          !> Weight vector w[m]. It is always real, and all its entries must be positive
          real(sp),intent(in) :: w(:)
          !> Input matrix a[m,n]
@@ -3557,7 +3557,7 @@ module la_least_squares
      end subroutine la_ssolve_weighted_lstsq
 
      !> Working space needed by the real(dp) equality-constrained least-squares solver
-     subroutine la_dconstrained_lstsq_space(A,C,lwork,err)
+     pure subroutine la_dconstrained_lstsq_space(A,C,lwork,err)
          !> Least-squares matrix a[m,n]
          real(dp),intent(in) :: A(:,:)
          !> Equality constraint matrix c[p,n]
@@ -3589,7 +3589,7 @@ module la_least_squares
      end subroutine la_dconstrained_lstsq_space
 
      !> Solve the real(dp) equality-constrained least-squares problem into x
-     subroutine la_dsolve_constrained_lstsq(A,b,C,d,x,storage,overwrite_matrices,err)
+     pure subroutine la_dsolve_constrained_lstsq(A,b,C,d,x,storage,overwrite_matrices,err)
          !> Least-squares matrix a[m,n] and right hand side b[m]
          real(dp),intent(inout),target :: A(:,:),b(:)
          !> Equality constraint matrix c[p,n] and right hand side d[p]
@@ -3725,7 +3725,7 @@ module la_least_squares
      end function la_dweighted_lstsq
 
      !> Compute the real(dp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))
-     subroutine la_dsolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
+     pure subroutine la_dsolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
          !> Weight vector w[m]. It is always real, and all its entries must be positive
          real(dp),intent(in) :: w(:)
          !> Input matrix a[m,n]
@@ -3807,7 +3807,7 @@ module la_least_squares
      end subroutine la_dsolve_weighted_lstsq
 
      !> Working space needed by the real(qp) equality-constrained least-squares solver
-     subroutine la_qconstrained_lstsq_space(A,C,lwork,err)
+     pure subroutine la_qconstrained_lstsq_space(A,C,lwork,err)
          !> Least-squares matrix a[m,n]
          real(qp),intent(in) :: A(:,:)
          !> Equality constraint matrix c[p,n]
@@ -3839,7 +3839,7 @@ module la_least_squares
      end subroutine la_qconstrained_lstsq_space
 
      !> Solve the real(qp) equality-constrained least-squares problem into x
-     subroutine la_qsolve_constrained_lstsq(A,b,C,d,x,storage,overwrite_matrices,err)
+     pure subroutine la_qsolve_constrained_lstsq(A,b,C,d,x,storage,overwrite_matrices,err)
          !> Least-squares matrix a[m,n] and right hand side b[m]
          real(qp),intent(inout),target :: A(:,:),b(:)
          !> Equality constraint matrix c[p,n] and right hand side d[p]
@@ -3975,7 +3975,7 @@ module la_least_squares
      end function la_qweighted_lstsq
 
      !> Compute the real(qp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))
-     subroutine la_qsolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
+     pure subroutine la_qsolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
          !> Weight vector w[m]. It is always real, and all its entries must be positive
          real(qp),intent(in) :: w(:)
          !> Input matrix a[m,n]
@@ -4057,7 +4057,7 @@ module la_least_squares
      end subroutine la_qsolve_weighted_lstsq
 
      !> Working space needed by the complex(sp) equality-constrained least-squares solver
-     subroutine la_cconstrained_lstsq_space(A,C,lwork,err)
+     pure subroutine la_cconstrained_lstsq_space(A,C,lwork,err)
          !> Least-squares matrix a[m,n]
          complex(sp),intent(in) :: A(:,:)
          !> Equality constraint matrix c[p,n]
@@ -4089,7 +4089,7 @@ module la_least_squares
      end subroutine la_cconstrained_lstsq_space
 
      !> Solve the complex(sp) equality-constrained least-squares problem into x
-     subroutine la_csolve_constrained_lstsq(A,b,C,d,x,storage,overwrite_matrices,err)
+     pure subroutine la_csolve_constrained_lstsq(A,b,C,d,x,storage,overwrite_matrices,err)
          !> Least-squares matrix a[m,n] and right hand side b[m]
          complex(sp),intent(inout),target :: A(:,:),b(:)
          !> Equality constraint matrix c[p,n] and right hand side d[p]
@@ -4225,7 +4225,7 @@ module la_least_squares
      end function la_cweighted_lstsq
 
      !> Compute the complex(sp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))
-     subroutine la_csolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
+     pure subroutine la_csolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
          !> Weight vector w[m]. It is always real, and all its entries must be positive
          real(sp),intent(in) :: w(:)
          !> Input matrix a[m,n]
@@ -4307,7 +4307,7 @@ module la_least_squares
      end subroutine la_csolve_weighted_lstsq
 
      !> Working space needed by the complex(dp) equality-constrained least-squares solver
-     subroutine la_zconstrained_lstsq_space(A,C,lwork,err)
+     pure subroutine la_zconstrained_lstsq_space(A,C,lwork,err)
          !> Least-squares matrix a[m,n]
          complex(dp),intent(in) :: A(:,:)
          !> Equality constraint matrix c[p,n]
@@ -4339,7 +4339,7 @@ module la_least_squares
      end subroutine la_zconstrained_lstsq_space
 
      !> Solve the complex(dp) equality-constrained least-squares problem into x
-     subroutine la_zsolve_constrained_lstsq(A,b,C,d,x,storage,overwrite_matrices,err)
+     pure subroutine la_zsolve_constrained_lstsq(A,b,C,d,x,storage,overwrite_matrices,err)
          !> Least-squares matrix a[m,n] and right hand side b[m]
          complex(dp),intent(inout),target :: A(:,:),b(:)
          !> Equality constraint matrix c[p,n] and right hand side d[p]
@@ -4475,7 +4475,7 @@ module la_least_squares
      end function la_zweighted_lstsq
 
      !> Compute the complex(dp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))
-     subroutine la_zsolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
+     pure subroutine la_zsolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
          !> Weight vector w[m]. It is always real, and all its entries must be positive
          real(dp),intent(in) :: w(:)
          !> Input matrix a[m,n]
@@ -4557,7 +4557,7 @@ module la_least_squares
      end subroutine la_zsolve_weighted_lstsq
 
      !> Working space needed by the complex(qp) equality-constrained least-squares solver
-     subroutine la_wconstrained_lstsq_space(A,C,lwork,err)
+     pure subroutine la_wconstrained_lstsq_space(A,C,lwork,err)
          !> Least-squares matrix a[m,n]
          complex(qp),intent(in) :: A(:,:)
          !> Equality constraint matrix c[p,n]
@@ -4589,7 +4589,7 @@ module la_least_squares
      end subroutine la_wconstrained_lstsq_space
 
      !> Solve the complex(qp) equality-constrained least-squares problem into x
-     subroutine la_wsolve_constrained_lstsq(A,b,C,d,x,storage,overwrite_matrices,err)
+     pure subroutine la_wsolve_constrained_lstsq(A,b,C,d,x,storage,overwrite_matrices,err)
          !> Least-squares matrix a[m,n] and right hand side b[m]
          complex(qp),intent(inout),target :: A(:,:),b(:)
          !> Equality constraint matrix c[p,n] and right hand side d[p]
@@ -4725,7 +4725,7 @@ module la_least_squares
      end function la_wweighted_lstsq
 
      !> Compute the complex(qp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))
-     subroutine la_wsolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
+     pure subroutine la_wsolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
          !> Weight vector w[m]. It is always real, and all its entries must be positive
          real(qp),intent(in) :: w(:)
          !> Input matrix a[m,n]

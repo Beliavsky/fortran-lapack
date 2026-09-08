@@ -425,7 +425,7 @@ module la_eig
 
      end function la_eigvals_standard_s
 
-     function la_eigvals_noerr_standard_s(a) result(lambda)
+     pure function la_eigvals_noerr_standard_s(a) result(lambda)
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
          real(sp),intent(in),dimension(:,:),target :: a
@@ -433,11 +433,11 @@ module la_eig
          complex(sp),allocatable :: lambda(:)
 
          !> Create
-         real(sp),pointer,dimension(:,:) :: amat
+         real(sp),allocatable :: amat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
+         !> Work on local copies so this convenience function does not modify its inputs.
+         allocate (amat,source=a)
          
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -447,11 +447,11 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eig_standard_s(amat,lambda,overwrite_a=.false.)
+         call la_eig_standard_s(amat,lambda,overwrite_a=.true.)
 
      end function la_eigvals_noerr_standard_s
 
-     subroutine la_eig_standard_s(a,lambda,right,left, &
+     pure subroutine la_eig_standard_s(a,lambda,right,left, &
                                                        overwrite_a,err)
      !! Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !! and optionally right or left eigenvectors.
@@ -638,12 +638,12 @@ module la_eig
          complex(sp),allocatable :: lambda(:)
 
          !> Create
-         real(sp),pointer,dimension(:,:) :: amat,bmat
+         real(sp),allocatable :: amat(:,:),bmat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
-         bmat => b
+         !> Work on local copies so this convenience function does not modify its inputs.
+         allocate (amat,source=a)
+         allocate (bmat,source=b)
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -653,11 +653,11 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eig_generalized_s(amat,bmat,lambda,overwrite_a=.false.)
+         call la_eig_generalized_s(amat,bmat,lambda,overwrite_a=.true.,overwrite_b=.true.)
 
      end function la_eigvals_noerr_generalized_s
 
-     subroutine la_eig_generalized_s(a,b,lambda,right,left, &
+     pure subroutine la_eig_generalized_s(a,b,lambda,right,left, &
                                                        overwrite_a,overwrite_b,err)
      !! Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !! and optionally right or left eigenvectors.
@@ -867,7 +867,7 @@ module la_eig
      end function la_eigvalsh_s
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function la_eigvalsh_noerr_s(a,upper_a) result(lambda)
+     pure function la_eigvalsh_noerr_s(a,upper_a) result(lambda)
          !> Input matrix A[m,n]
          real(sp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -875,11 +875,11 @@ module la_eig
          !> Array of singular values
          real(sp),allocatable :: lambda(:)
 
-         real(sp),pointer :: amat(:,:)
+         real(sp),allocatable :: amat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
+         !> Work on a local copy so this convenience function does not modify its input.
+         allocate (amat,source=a)
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -889,13 +889,13 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eigh_s(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
+         call la_eigh_s(amat,lambda,upper_a=upper_a,overwrite_a=.true.)
 
      end function la_eigvalsh_noerr_s
 
      !> Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array `lambda`
      !> of eigenvalues, and optionally right or left eigenvectors.
-     subroutine la_eigh_s(a,lambda,vectors,upper_a,overwrite_a,err)
+     pure subroutine la_eigh_s(a,lambda,vectors,upper_a,overwrite_a,err)
          !> Input matrix A[m,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -1035,7 +1035,7 @@ module la_eig
 
      end function la_eigvals_standard_d
 
-     function la_eigvals_noerr_standard_d(a) result(lambda)
+     pure function la_eigvals_noerr_standard_d(a) result(lambda)
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
          real(dp),intent(in),dimension(:,:),target :: a
@@ -1043,11 +1043,11 @@ module la_eig
          complex(dp),allocatable :: lambda(:)
 
          !> Create
-         real(dp),pointer,dimension(:,:) :: amat
+         real(dp),allocatable :: amat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
+         !> Work on local copies so this convenience function does not modify its inputs.
+         allocate (amat,source=a)
          
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -1057,11 +1057,11 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eig_standard_d(amat,lambda,overwrite_a=.false.)
+         call la_eig_standard_d(amat,lambda,overwrite_a=.true.)
 
      end function la_eigvals_noerr_standard_d
 
-     subroutine la_eig_standard_d(a,lambda,right,left, &
+     pure subroutine la_eig_standard_d(a,lambda,right,left, &
                                                        overwrite_a,err)
      !! Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !! and optionally right or left eigenvectors.
@@ -1248,12 +1248,12 @@ module la_eig
          complex(dp),allocatable :: lambda(:)
 
          !> Create
-         real(dp),pointer,dimension(:,:) :: amat,bmat
+         real(dp),allocatable :: amat(:,:),bmat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
-         bmat => b
+         !> Work on local copies so this convenience function does not modify its inputs.
+         allocate (amat,source=a)
+         allocate (bmat,source=b)
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -1263,11 +1263,11 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eig_generalized_d(amat,bmat,lambda,overwrite_a=.false.)
+         call la_eig_generalized_d(amat,bmat,lambda,overwrite_a=.true.,overwrite_b=.true.)
 
      end function la_eigvals_noerr_generalized_d
 
-     subroutine la_eig_generalized_d(a,b,lambda,right,left, &
+     pure subroutine la_eig_generalized_d(a,b,lambda,right,left, &
                                                        overwrite_a,overwrite_b,err)
      !! Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !! and optionally right or left eigenvectors.
@@ -1477,7 +1477,7 @@ module la_eig
      end function la_eigvalsh_d
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function la_eigvalsh_noerr_d(a,upper_a) result(lambda)
+     pure function la_eigvalsh_noerr_d(a,upper_a) result(lambda)
          !> Input matrix A[m,n]
          real(dp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -1485,11 +1485,11 @@ module la_eig
          !> Array of singular values
          real(dp),allocatable :: lambda(:)
 
-         real(dp),pointer :: amat(:,:)
+         real(dp),allocatable :: amat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
+         !> Work on a local copy so this convenience function does not modify its input.
+         allocate (amat,source=a)
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -1499,13 +1499,13 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eigh_d(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
+         call la_eigh_d(amat,lambda,upper_a=upper_a,overwrite_a=.true.)
 
      end function la_eigvalsh_noerr_d
 
      !> Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array `lambda`
      !> of eigenvalues, and optionally right or left eigenvectors.
-     subroutine la_eigh_d(a,lambda,vectors,upper_a,overwrite_a,err)
+     pure subroutine la_eigh_d(a,lambda,vectors,upper_a,overwrite_a,err)
          !> Input matrix A[m,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -1645,7 +1645,7 @@ module la_eig
 
      end function la_eigvals_standard_q
 
-     function la_eigvals_noerr_standard_q(a) result(lambda)
+     pure function la_eigvals_noerr_standard_q(a) result(lambda)
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
          real(qp),intent(in),dimension(:,:),target :: a
@@ -1653,11 +1653,11 @@ module la_eig
          complex(qp),allocatable :: lambda(:)
 
          !> Create
-         real(qp),pointer,dimension(:,:) :: amat
+         real(qp),allocatable :: amat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
+         !> Work on local copies so this convenience function does not modify its inputs.
+         allocate (amat,source=a)
          
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -1667,11 +1667,11 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eig_standard_q(amat,lambda,overwrite_a=.false.)
+         call la_eig_standard_q(amat,lambda,overwrite_a=.true.)
 
      end function la_eigvals_noerr_standard_q
 
-     subroutine la_eig_standard_q(a,lambda,right,left, &
+     pure subroutine la_eig_standard_q(a,lambda,right,left, &
                                                        overwrite_a,err)
      !! Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !! and optionally right or left eigenvectors.
@@ -1858,12 +1858,12 @@ module la_eig
          complex(qp),allocatable :: lambda(:)
 
          !> Create
-         real(qp),pointer,dimension(:,:) :: amat,bmat
+         real(qp),allocatable :: amat(:,:),bmat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
-         bmat => b
+         !> Work on local copies so this convenience function does not modify its inputs.
+         allocate (amat,source=a)
+         allocate (bmat,source=b)
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -1873,11 +1873,11 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eig_generalized_q(amat,bmat,lambda,overwrite_a=.false.)
+         call la_eig_generalized_q(amat,bmat,lambda,overwrite_a=.true.,overwrite_b=.true.)
 
      end function la_eigvals_noerr_generalized_q
 
-     subroutine la_eig_generalized_q(a,b,lambda,right,left, &
+     pure subroutine la_eig_generalized_q(a,b,lambda,right,left, &
                                                        overwrite_a,overwrite_b,err)
      !! Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !! and optionally right or left eigenvectors.
@@ -2087,7 +2087,7 @@ module la_eig
      end function la_eigvalsh_q
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function la_eigvalsh_noerr_q(a,upper_a) result(lambda)
+     pure function la_eigvalsh_noerr_q(a,upper_a) result(lambda)
          !> Input matrix A[m,n]
          real(qp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -2095,11 +2095,11 @@ module la_eig
          !> Array of singular values
          real(qp),allocatable :: lambda(:)
 
-         real(qp),pointer :: amat(:,:)
+         real(qp),allocatable :: amat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
+         !> Work on a local copy so this convenience function does not modify its input.
+         allocate (amat,source=a)
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -2109,13 +2109,13 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eigh_q(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
+         call la_eigh_q(amat,lambda,upper_a=upper_a,overwrite_a=.true.)
 
      end function la_eigvalsh_noerr_q
 
      !> Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array `lambda`
      !> of eigenvalues, and optionally right or left eigenvectors.
-     subroutine la_eigh_q(a,lambda,vectors,upper_a,overwrite_a,err)
+     pure subroutine la_eigh_q(a,lambda,vectors,upper_a,overwrite_a,err)
          !> Input matrix A[m,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -2255,7 +2255,7 @@ module la_eig
 
      end function la_eigvals_standard_c
 
-     function la_eigvals_noerr_standard_c(a) result(lambda)
+     pure function la_eigvals_noerr_standard_c(a) result(lambda)
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
          complex(sp),intent(in),dimension(:,:),target :: a
@@ -2263,11 +2263,11 @@ module la_eig
          complex(sp),allocatable :: lambda(:)
 
          !> Create
-         complex(sp),pointer,dimension(:,:) :: amat
+         complex(sp),allocatable :: amat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
+         !> Work on local copies so this convenience function does not modify its inputs.
+         allocate (amat,source=a)
          
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -2277,11 +2277,11 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eig_standard_c(amat,lambda,overwrite_a=.false.)
+         call la_eig_standard_c(amat,lambda,overwrite_a=.true.)
 
      end function la_eigvals_noerr_standard_c
 
-     subroutine la_eig_standard_c(a,lambda,right,left, &
+     pure subroutine la_eig_standard_c(a,lambda,right,left, &
                                                        overwrite_a,err)
      !! Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !! and optionally right or left eigenvectors.
@@ -2457,12 +2457,12 @@ module la_eig
          complex(sp),allocatable :: lambda(:)
 
          !> Create
-         complex(sp),pointer,dimension(:,:) :: amat,bmat
+         complex(sp),allocatable :: amat(:,:),bmat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
-         bmat => b
+         !> Work on local copies so this convenience function does not modify its inputs.
+         allocate (amat,source=a)
+         allocate (bmat,source=b)
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -2472,11 +2472,11 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eig_generalized_c(amat,bmat,lambda,overwrite_a=.false.)
+         call la_eig_generalized_c(amat,bmat,lambda,overwrite_a=.true.,overwrite_b=.true.)
 
      end function la_eigvals_noerr_generalized_c
 
-     subroutine la_eig_generalized_c(a,b,lambda,right,left, &
+     pure subroutine la_eig_generalized_c(a,b,lambda,right,left, &
                                                        overwrite_a,overwrite_b,err)
      !! Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !! and optionally right or left eigenvectors.
@@ -2675,7 +2675,7 @@ module la_eig
      end function la_eigvalsh_c
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function la_eigvalsh_noerr_c(a,upper_a) result(lambda)
+     pure function la_eigvalsh_noerr_c(a,upper_a) result(lambda)
          !> Input matrix A[m,n]
          complex(sp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -2683,11 +2683,11 @@ module la_eig
          !> Array of singular values
          real(sp),allocatable :: lambda(:)
 
-         complex(sp),pointer :: amat(:,:)
+         complex(sp),allocatable :: amat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
+         !> Work on a local copy so this convenience function does not modify its input.
+         allocate (amat,source=a)
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -2697,13 +2697,13 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eigh_c(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
+         call la_eigh_c(amat,lambda,upper_a=upper_a,overwrite_a=.true.)
 
      end function la_eigvalsh_noerr_c
 
      !> Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array `lambda`
      !> of eigenvalues, and optionally right or left eigenvectors.
-     subroutine la_eigh_c(a,lambda,vectors,upper_a,overwrite_a,err)
+     pure subroutine la_eigh_c(a,lambda,vectors,upper_a,overwrite_a,err)
          !> Input matrix A[m,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -2844,7 +2844,7 @@ module la_eig
 
      end function la_eigvals_standard_z
 
-     function la_eigvals_noerr_standard_z(a) result(lambda)
+     pure function la_eigvals_noerr_standard_z(a) result(lambda)
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
          complex(dp),intent(in),dimension(:,:),target :: a
@@ -2852,11 +2852,11 @@ module la_eig
          complex(dp),allocatable :: lambda(:)
 
          !> Create
-         complex(dp),pointer,dimension(:,:) :: amat
+         complex(dp),allocatable :: amat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
+         !> Work on local copies so this convenience function does not modify its inputs.
+         allocate (amat,source=a)
          
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -2866,11 +2866,11 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eig_standard_z(amat,lambda,overwrite_a=.false.)
+         call la_eig_standard_z(amat,lambda,overwrite_a=.true.)
 
      end function la_eigvals_noerr_standard_z
 
-     subroutine la_eig_standard_z(a,lambda,right,left, &
+     pure subroutine la_eig_standard_z(a,lambda,right,left, &
                                                        overwrite_a,err)
      !! Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !! and optionally right or left eigenvectors.
@@ -3046,12 +3046,12 @@ module la_eig
          complex(dp),allocatable :: lambda(:)
 
          !> Create
-         complex(dp),pointer,dimension(:,:) :: amat,bmat
+         complex(dp),allocatable :: amat(:,:),bmat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
-         bmat => b
+         !> Work on local copies so this convenience function does not modify its inputs.
+         allocate (amat,source=a)
+         allocate (bmat,source=b)
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -3061,11 +3061,11 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eig_generalized_z(amat,bmat,lambda,overwrite_a=.false.)
+         call la_eig_generalized_z(amat,bmat,lambda,overwrite_a=.true.,overwrite_b=.true.)
 
      end function la_eigvals_noerr_generalized_z
 
-     subroutine la_eig_generalized_z(a,b,lambda,right,left, &
+     pure subroutine la_eig_generalized_z(a,b,lambda,right,left, &
                                                        overwrite_a,overwrite_b,err)
      !! Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !! and optionally right or left eigenvectors.
@@ -3264,7 +3264,7 @@ module la_eig
      end function la_eigvalsh_z
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function la_eigvalsh_noerr_z(a,upper_a) result(lambda)
+     pure function la_eigvalsh_noerr_z(a,upper_a) result(lambda)
          !> Input matrix A[m,n]
          complex(dp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -3272,11 +3272,11 @@ module la_eig
          !> Array of singular values
          real(dp),allocatable :: lambda(:)
 
-         complex(dp),pointer :: amat(:,:)
+         complex(dp),allocatable :: amat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
+         !> Work on a local copy so this convenience function does not modify its input.
+         allocate (amat,source=a)
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -3286,13 +3286,13 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eigh_z(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
+         call la_eigh_z(amat,lambda,upper_a=upper_a,overwrite_a=.true.)
 
      end function la_eigvalsh_noerr_z
 
      !> Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array `lambda`
      !> of eigenvalues, and optionally right or left eigenvectors.
-     subroutine la_eigh_z(a,lambda,vectors,upper_a,overwrite_a,err)
+     pure subroutine la_eigh_z(a,lambda,vectors,upper_a,overwrite_a,err)
          !> Input matrix A[m,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -3433,7 +3433,7 @@ module la_eig
 
      end function la_eigvals_standard_w
 
-     function la_eigvals_noerr_standard_w(a) result(lambda)
+     pure function la_eigvals_noerr_standard_w(a) result(lambda)
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
          complex(qp),intent(in),dimension(:,:),target :: a
@@ -3441,11 +3441,11 @@ module la_eig
          complex(qp),allocatable :: lambda(:)
 
          !> Create
-         complex(qp),pointer,dimension(:,:) :: amat
+         complex(qp),allocatable :: amat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
+         !> Work on local copies so this convenience function does not modify its inputs.
+         allocate (amat,source=a)
          
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -3455,11 +3455,11 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eig_standard_w(amat,lambda,overwrite_a=.false.)
+         call la_eig_standard_w(amat,lambda,overwrite_a=.true.)
 
      end function la_eigvals_noerr_standard_w
 
-     subroutine la_eig_standard_w(a,lambda,right,left, &
+     pure subroutine la_eig_standard_w(a,lambda,right,left, &
                                                        overwrite_a,err)
      !! Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !! and optionally right or left eigenvectors.
@@ -3635,12 +3635,12 @@ module la_eig
          complex(qp),allocatable :: lambda(:)
 
          !> Create
-         complex(qp),pointer,dimension(:,:) :: amat,bmat
+         complex(qp),allocatable :: amat(:,:),bmat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
-         bmat => b
+         !> Work on local copies so this convenience function does not modify its inputs.
+         allocate (amat,source=a)
+         allocate (bmat,source=b)
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -3650,11 +3650,11 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eig_generalized_w(amat,bmat,lambda,overwrite_a=.false.)
+         call la_eig_generalized_w(amat,bmat,lambda,overwrite_a=.true.,overwrite_b=.true.)
 
      end function la_eigvals_noerr_generalized_w
 
-     subroutine la_eig_generalized_w(a,b,lambda,right,left, &
+     pure subroutine la_eig_generalized_w(a,b,lambda,right,left, &
                                                        overwrite_a,overwrite_b,err)
      !! Eigendecomposition of matrix A returning an array `lambda` of eigenvalues,
      !! and optionally right or left eigenvectors.
@@ -3853,7 +3853,7 @@ module la_eig
      end function la_eigvalsh_w
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function la_eigvalsh_noerr_w(a,upper_a) result(lambda)
+     pure function la_eigvalsh_noerr_w(a,upper_a) result(lambda)
          !> Input matrix A[m,n]
          complex(qp),intent(in),target :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
@@ -3861,11 +3861,11 @@ module la_eig
          !> Array of singular values
          real(qp),allocatable :: lambda(:)
 
-         complex(qp),pointer :: amat(:,:)
+         complex(qp),allocatable :: amat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
+         !> Work on a local copy so this convenience function does not modify its input.
+         allocate (amat,source=a)
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -3875,13 +3875,13 @@ module la_eig
          allocate (lambda(k))
 
          !> Compute eigenvalues only
-         call la_eigh_w(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
+         call la_eigh_w(amat,lambda,upper_a=upper_a,overwrite_a=.true.)
 
      end function la_eigvalsh_noerr_w
 
      !> Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array `lambda`
      !> of eigenvalues, and optionally right or left eigenvectors.
-     subroutine la_eigh_w(a,lambda,vectors,upper_a,overwrite_a,err)
+     pure subroutine la_eigh_w(a,lambda,vectors,upper_a,overwrite_a,err)
          !> Input matrix A[m,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Array of eigenvalues
@@ -4027,7 +4027,7 @@ module la_eig
         
      end subroutine assign_real_eigenvectors_sp
      
-     subroutine la_real_eig_standard_s(a,lambda,right,left, &
+     pure subroutine la_real_eig_standard_s(a,lambda,right,left, &
                                                             overwrite_a,err)
       !! Eigendecomposition of matrix A returning an array `lambda` of real eigenvalues,
       !! and optionally right or left eigenvectors. Returns an error if the eigenvalues had
@@ -4070,7 +4070,7 @@ module la_eig
           
      end subroutine la_real_eig_standard_s
      
-     subroutine la_real_eig_generalized_s(a,b,lambda,right,left, &
+     pure subroutine la_real_eig_generalized_s(a,b,lambda,right,left, &
                                                             overwrite_a,overwrite_b,err)
       !! Eigendecomposition of matrix A returning an array `lambda` of real eigenvalues,
       !! and optionally right or left eigenvectors. Returns an error if the eigenvalues had
@@ -4150,7 +4150,7 @@ module la_eig
         
      end subroutine assign_real_eigenvectors_dp
      
-     subroutine la_real_eig_standard_d(a,lambda,right,left, &
+     pure subroutine la_real_eig_standard_d(a,lambda,right,left, &
                                                             overwrite_a,err)
       !! Eigendecomposition of matrix A returning an array `lambda` of real eigenvalues,
       !! and optionally right or left eigenvectors. Returns an error if the eigenvalues had
@@ -4193,7 +4193,7 @@ module la_eig
           
      end subroutine la_real_eig_standard_d
      
-     subroutine la_real_eig_generalized_d(a,b,lambda,right,left, &
+     pure subroutine la_real_eig_generalized_d(a,b,lambda,right,left, &
                                                             overwrite_a,overwrite_b,err)
       !! Eigendecomposition of matrix A returning an array `lambda` of real eigenvalues,
       !! and optionally right or left eigenvectors. Returns an error if the eigenvalues had
@@ -4273,7 +4273,7 @@ module la_eig
         
      end subroutine assign_real_eigenvectors_qp
      
-     subroutine la_real_eig_standard_q(a,lambda,right,left, &
+     pure subroutine la_real_eig_standard_q(a,lambda,right,left, &
                                                             overwrite_a,err)
       !! Eigendecomposition of matrix A returning an array `lambda` of real eigenvalues,
       !! and optionally right or left eigenvectors. Returns an error if the eigenvalues had
@@ -4316,7 +4316,7 @@ module la_eig
           
      end subroutine la_real_eig_standard_q
      
-     subroutine la_real_eig_generalized_q(a,b,lambda,right,left, &
+     pure subroutine la_real_eig_generalized_q(a,b,lambda,right,left, &
                                                             overwrite_a,overwrite_b,err)
       !! Eigendecomposition of matrix A returning an array `lambda` of real eigenvalues,
       !! and optionally right or left eigenvectors. Returns an error if the eigenvalues had
