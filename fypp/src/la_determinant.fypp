@@ -9,7 +9,7 @@ module la_determinant
      implicit none(type,external)
      private
 
-     public :: det
+     public :: det, determinant_into
 
      character(*),parameter :: this = 'determinant'
 
@@ -36,6 +36,16 @@ module la_determinant
         module procedure la_${ri}$determinant
         #:endfor
      end interface det
+
+     !> @brief Compute a determinant through a pure subroutine interface.
+     !!
+     !! This interface leaves the input matrix unchanged, returns the determinant
+     !! through `value`, and reports failures through the optional state argument.
+     interface determinant_into
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_${ri}$determinant_into
+        #:endfor
+     end interface determinant_into
 
      !> @brief Compute the determinant of a square matrix using the `.det.` operator.
      !!
@@ -64,7 +74,71 @@ module la_determinant
      contains
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
-     ! Compute determinant of a square matrix A
+     !> Compute a determinant without modifying the input matrix.
+     pure subroutine la_${ri}$determinant_into(a,value,err)
+         ${rt}$, intent(in) :: a(:,:)                  !! Input square matrix.
+         ${rt}$, intent(out) :: value                  !! Computed determinant.
+         type(la_state), optional, intent(out) :: err  !! Error status.
+
+         ${rt}$, allocatable :: work(:,:)
+
+         allocate(work,source=a)
+         call la_${ri}$determinant_inplace(work,value,err)
+
+     end subroutine la_${ri}$determinant_into
+
+     !> Compute a determinant while using the input matrix as workspace.
+     pure subroutine la_${ri}$determinant_inplace(a,value,err)
+         ${rt}$, intent(inout) :: a(:,:)               !! Input matrix, overwritten during factorization.
+         ${rt}$, intent(out) :: value                  !! Computed determinant.
+         type(la_state), optional, intent(out) :: err  !! Error status.
+
+         type(la_state) :: err0
+         integer(ilp) :: m,n,info,perm,k
+         integer(ilp), allocatable :: ipiv(:)
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         value = 0.0_${rk}$
+
+         if (m/=n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
+            call err0%handle(err)
+            return
+         end if
+
+         select case (m)
+            case (0)
+                value = 1.0_${rk}$
+            case (1)
+                value = a(1,1)
+            case default
+                allocate(ipiv(n))
+                call getrf(m,n,a,m,ipiv,info)
+
+                select case (info)
+                   case (0)
+                       value = 1.0_${rk}$
+                       perm = 0
+                       do k=1,n
+                          if (ipiv(k)/=k) perm = perm+1
+                          value = value*a(k,k)
+                       end do
+                       if (mod(perm,2)/=0) value = -value
+                   case (:-1)
+                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
+                   case (1:)
+                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
+                   case default
+                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                end select
+         end select
+
+         call err0%handle(err)
+
+     end subroutine la_${ri}$determinant_inplace
+
+     !> Compute determinant of a square matrix A.
      function la_${ri}$determinant(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          ${rt}$, intent(inout), target :: a(:,:)
@@ -75,23 +149,7 @@ module la_determinant
          !> Result: matrix determinant
          ${rt}$ :: det
 
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: m,n,info,perm,k
-         integer(ilp), allocatable :: ipiv(:)
          logical(lk) :: copy_a
-         ${rt}$, pointer :: amat(:,:)
-
-         !> Matrix determinant size
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-
-         if (m/=n .or. .not.min(m,n)>=0) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
-            det  = 0.0_${rk}$
-            call err0%handle(err)
-            return
-         end if
 
          ! Can A be overwritten? By default, do not overwrite
          if (present(overwrite_a)) then
@@ -100,60 +158,11 @@ module la_determinant
             copy_a = .true._lk
          endif
 
-         select case (m)
-            case (0)
-                ! Empty array has determinant 1 because math
-                det = 1.0_${rk}$
-
-            case (1)
-                ! Scalar
-                det = a(1,1)
-
-            case default
-
-                ! Find determinant from LU decomposition
-
-                ! Initialize a matrix temporary
-                if (copy_a) then
-                   allocate(amat(m,n),source=a)
-                else
-                   amat => a
-                endif
-
-                ! Pivot indices
-                allocate(ipiv(n))
-
-                ! Compute determinant from LU factorization, then calculate the product of
-                ! all diagonal entries of the U factor.
-                call getrf(m,n,amat,m,ipiv,info)
-
-                select case (info)
-                   case (0)
-                       ! Success: compute determinant
-
-                       ! Start with real 1.0
-                       det = 1.0_${rk}$
-                       perm = 0
-                       do k=1,n
-                          if (ipiv(k)/=k) perm = perm+1
-                          det = det*amat(k,k)
-                       end do
-                       if (mod(perm,2)/=0) det = -det
-
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
-                   case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-                end select
-
-                if (copy_a) deallocate(amat)
-
-         end select
-
-         ! Process output and return
-         call err0%handle(err)
+         if (copy_a) then
+            call la_${ri}$determinant_into(a,det,err)
+         else
+            call la_${ri}$determinant_inplace(a,det,err)
+         end if
 
      end function la_${ri}$determinant
 
@@ -164,70 +173,9 @@ module la_determinant
          !> Result: matrix determinant
          ${rt}$ :: det
 
-         !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: m,n,info,perm,k
-         integer(ilp), allocatable :: ipiv(:)
-         ${rt}$, allocatable :: amat(:,:)
 
-         !> Matrix determinant size
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-
-         if (m/=n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
-            det  = 0.0_${rk}$
-            call err0%handle()
-            return
-         end if
-
-         select case (m)
-            case (0)
-                ! Empty array has determinant 1 because math
-                det = 1.0_${rk}$
-
-            case (1)
-                ! Scalar
-                det = a(1,1)
-
-            case default
-
-                ! Find determinant from LU decomposition
-                allocate(amat(m,n),source=a)
-
-                ! Pivot indices
-                allocate(ipiv(n))
-
-                ! Compute determinant from LU factorization, then calculate the product of
-                ! all diagonal entries of the U factor.
-                call getrf(m,n,amat,m,ipiv,info)
-
-                select case (info)
-                   case (0)
-                       ! Success: compute determinant
-
-                       ! Start with real 1.0
-                       det = 1.0_${rk}$
-                       perm = 0
-                       do k=1,n
-                          if (ipiv(k)/=k) perm = perm+1
-                          det = det*amat(k,k)
-                       end do
-                       if (mod(perm,2)/=0) det = -det
-
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
-                   case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-                end select
-
-                deallocate(amat)
-
-         end select
-
-         ! Process output and return
+         call la_${ri}$determinant_into(a,det,err0)
          call err0%handle()
 
      end function la_${ri}$pure_determinant

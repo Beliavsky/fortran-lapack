@@ -46,13 +46,27 @@ module test_la_determinant
         integer(ilp) :: i
         integer(ilp), parameter :: n = 128_ilp
 
-        ${rt}$ :: a(n,n),deta
+        ${rt}$ :: a(n,n),a_before(n,n),nonsquare(2,3),deta,deta_subroutine
 
         a = eye(n)
 
         !> Determinant function
         deta = det(a,err=state)
         error = state%error() .or. .not.abs(deta-1.0_${rk}$)<tiny(0.0_${rk}$)
+        if (error) return
+
+        !> Pure subroutine interface
+        a_before = a
+        call determinant_into(a,deta_subroutine,state)
+        error = state%error() .or. abs(deta_subroutine-deta)>=tiny(0.0_${rk}$)
+        if (error) return
+        error = any(a/=a_before)
+        if (error) return
+
+        !> Error status from the pure subroutine interface
+        nonsquare = 0.0_${rk}$
+        call determinant_into(nonsquare,deta_subroutine,state)
+        error = .not.state%error()
         if (error) return
 
     end subroutine test_${ri}$_eye_determinant

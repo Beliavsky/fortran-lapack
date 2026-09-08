@@ -69,13 +69,27 @@ module test_la_determinant
         integer(ilp) :: i
         integer(ilp),parameter :: n = 128_ilp
 
-        real(sp) :: a(n,n),deta
+        real(sp) :: a(n,n),a_before(n,n),nonsquare(2,3),deta,deta_subroutine
 
         a = eye(n)
 
         !> Determinant function
         deta = det(a,err=state)
         error = state%error() .or. .not. abs(deta - 1.0_sp) < tiny(0.0_sp)
+        if (error) return
+
+        !> Pure subroutine interface
+        a_before = a
+        call determinant_into(a,deta_subroutine,state)
+        error = state%error() .or. abs(deta_subroutine - deta) >= tiny(0.0_sp)
+        if (error) return
+        error = any(a /= a_before)
+        if (error) return
+
+        !> Error status from the pure subroutine interface
+        nonsquare = 0.0_sp
+        call determinant_into(nonsquare,deta_subroutine,state)
+        error = .not. state%error()
         if (error) return
 
     end subroutine test_s_eye_determinant
@@ -112,13 +126,27 @@ module test_la_determinant
         integer(ilp) :: i
         integer(ilp),parameter :: n = 128_ilp
 
-        real(dp) :: a(n,n),deta
+        real(dp) :: a(n,n),a_before(n,n),nonsquare(2,3),deta,deta_subroutine
 
         a = eye(n)
 
         !> Determinant function
         deta = det(a,err=state)
         error = state%error() .or. .not. abs(deta - 1.0_dp) < tiny(0.0_dp)
+        if (error) return
+
+        !> Pure subroutine interface
+        a_before = a
+        call determinant_into(a,deta_subroutine,state)
+        error = state%error() .or. abs(deta_subroutine - deta) >= tiny(0.0_dp)
+        if (error) return
+        error = any(a /= a_before)
+        if (error) return
+
+        !> Error status from the pure subroutine interface
+        nonsquare = 0.0_dp
+        call determinant_into(nonsquare,deta_subroutine,state)
+        error = .not. state%error()
         if (error) return
 
     end subroutine test_d_eye_determinant
@@ -155,13 +183,27 @@ module test_la_determinant
         integer(ilp) :: i
         integer(ilp),parameter :: n = 128_ilp
 
-        real(qp) :: a(n,n),deta
+        real(qp) :: a(n,n),a_before(n,n),nonsquare(2,3),deta,deta_subroutine
 
         a = eye(n)
 
         !> Determinant function
         deta = det(a,err=state)
         error = state%error() .or. .not. abs(deta - 1.0_qp) < tiny(0.0_qp)
+        if (error) return
+
+        !> Pure subroutine interface
+        a_before = a
+        call determinant_into(a,deta_subroutine,state)
+        error = state%error() .or. abs(deta_subroutine - deta) >= tiny(0.0_qp)
+        if (error) return
+        error = any(a /= a_before)
+        if (error) return
+
+        !> Error status from the pure subroutine interface
+        nonsquare = 0.0_qp
+        call determinant_into(nonsquare,deta_subroutine,state)
+        error = .not. state%error()
         if (error) return
 
     end subroutine test_q_eye_determinant
@@ -198,13 +240,27 @@ module test_la_determinant
         integer(ilp) :: i
         integer(ilp),parameter :: n = 128_ilp
 
-        complex(sp) :: a(n,n),deta
+        complex(sp) :: a(n,n),a_before(n,n),nonsquare(2,3),deta,deta_subroutine
 
         a = eye(n)
 
         !> Determinant function
         deta = det(a,err=state)
         error = state%error() .or. .not. abs(deta - 1.0_sp) < tiny(0.0_sp)
+        if (error) return
+
+        !> Pure subroutine interface
+        a_before = a
+        call determinant_into(a,deta_subroutine,state)
+        error = state%error() .or. abs(deta_subroutine - deta) >= tiny(0.0_sp)
+        if (error) return
+        error = any(a /= a_before)
+        if (error) return
+
+        !> Error status from the pure subroutine interface
+        nonsquare = 0.0_sp
+        call determinant_into(nonsquare,deta_subroutine,state)
+        error = .not. state%error()
         if (error) return
 
     end subroutine test_c_eye_determinant
@@ -241,13 +297,27 @@ module test_la_determinant
         integer(ilp) :: i
         integer(ilp),parameter :: n = 128_ilp
 
-        complex(dp) :: a(n,n),deta
+        complex(dp) :: a(n,n),a_before(n,n),nonsquare(2,3),deta,deta_subroutine
 
         a = eye(n)
 
         !> Determinant function
         deta = det(a,err=state)
         error = state%error() .or. .not. abs(deta - 1.0_dp) < tiny(0.0_dp)
+        if (error) return
+
+        !> Pure subroutine interface
+        a_before = a
+        call determinant_into(a,deta_subroutine,state)
+        error = state%error() .or. abs(deta_subroutine - deta) >= tiny(0.0_dp)
+        if (error) return
+        error = any(a /= a_before)
+        if (error) return
+
+        !> Error status from the pure subroutine interface
+        nonsquare = 0.0_dp
+        call determinant_into(nonsquare,deta_subroutine,state)
+        error = .not. state%error()
         if (error) return
 
     end subroutine test_z_eye_determinant
@@ -284,13 +354,27 @@ module test_la_determinant
         integer(ilp) :: i
         integer(ilp),parameter :: n = 128_ilp
 
-        complex(qp) :: a(n,n),deta
+        complex(qp) :: a(n,n),a_before(n,n),nonsquare(2,3),deta,deta_subroutine
 
         a = eye(n)
 
         !> Determinant function
         deta = det(a,err=state)
         error = state%error() .or. .not. abs(deta - 1.0_qp) < tiny(0.0_qp)
+        if (error) return
+
+        !> Pure subroutine interface
+        a_before = a
+        call determinant_into(a,deta_subroutine,state)
+        error = state%error() .or. abs(deta_subroutine - deta) >= tiny(0.0_qp)
+        if (error) return
+        error = any(a /= a_before)
+        if (error) return
+
+        !> Error status from the pure subroutine interface
+        nonsquare = 0.0_qp
+        call determinant_into(nonsquare,deta_subroutine,state)
+        error = .not. state%error()
         if (error) return
 
     end subroutine test_w_eye_determinant
