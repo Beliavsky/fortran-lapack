@@ -2,7 +2,7 @@
 
 This audit records the pure APIs available in place of the 390 function implementations that cannot themselves be declared `pure`. Each of those functions has an `intent(out)` or `intent(inout)` dummy argument, which is prohibited for a pure Fortran function.
 
-The audit is based on revision `c75fbb4bb3d5` plus the uncommitted `determinant_into` addition. Procedure counts include all six supported real and complex kinds.
+The audit reflects the current fork, including the `determinant_into` API introduced in commit `82a21b77`. Procedure counts include all six supported real and complex kinds.
 
 ## High-level APIs
 
